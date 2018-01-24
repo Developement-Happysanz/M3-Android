@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_dashboard"
+            android:icon="@drawable/ic_dashboard"
+            android:title="Dashboard" />
+
+        <item
+            android:id="@+id/nav_add_candidate"
+            android:icon="@drawable/ic_add_candidate"
+            android:title="Add Candidate" />
+
+        <item
+            android:id="@+id/nav_center_information"
+            android:icon="@drawable/ic_center_information"
+            android:title="Center Information" />
+
+        <!--<item
+            android:id="@+id/nav_batch_details"
+            android:icon="@drawable/ic_catch_details"
+            android:title="Batch Details" />-->
+
+        <item
+            android:id="@+id/nav_trade"
+            android:icon="@drawable/ic_trade"
+            android:title="Trade" />
+
+        <item
+            android:id="@+id/nav_task"
+            android:icon="@drawable/ic_task"
+            android:title="Task" />
+
+        <item
+            android:id="@+id/nav_change_password"
+            android:icon="@drawable/ic_change_password"
+            android:title="Change Password" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
+    </group>
+
+    <!--<item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_info"
+                android:icon="@drawable/ic_info_black_24dp"
+                android:title="Info" />
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="Settings" />
+        </menu>
+    </item>-->
+
+</menu>

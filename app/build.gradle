@@ -1,0 +1,135 @@
+apply plugin: 'com.android.application'
+
+android {
+
+    signingConfigs {
+        config {
+            keyAlias 'm3_alias'
+            keyPassword 'M3@123'
+            storeFile file('m3.jks')
+            storePassword 'M3@123'
+            flavorDimensions "default"
+        }
+    }
+
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
+
+    defaultConfig {
+        applicationId "com.happysanztech.mmm"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 3
+        versionName "1.0.2"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
+    }
+
+    afterEvaluate {
+        tasks.matching {
+            it.name.startsWith('dex')
+        }.each { dx ->
+            if (dx.additionalParameters == null) {
+                dx.additionalParameters = []
+            }
+            dx.additionalParameters += "--set-max-idx-number=55000"
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            jniDebuggable false
+            zipAlignEnabled true
+            signingConfig signingConfigs.config
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+
+        variant.outputs.all { output ->
+//            output.outputFile = file("$project.buildDir/apk/MQube.apk")
+            outputFileName = "${variant.name}-${variant.versionName}.apk"
+        }
+    }
+    productFlavors {
+        flavor {
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations.all {
+    resolutionStrategy {
+        //force 'com.android.support:design:23.4.0'
+        force 'com.android.support:support-v4:26+'
+        force 'com.android.support:appcompat-v7:26+'
+    }
+}
+
+dependencies {
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile "com.android.support:appcompat-v7:26+"
+
+//    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+
+
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.journeyapps:zxing-android-embedded:3.4.0'
+//    compile 'com.journeyapps:zxing-android-legacy:2.0.1@aar'
+//    compile 'com.journeyapps:zxing-android-integration:2.0.1@aar'
+    compile 'com.google.zxing:core:3.0.1'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.makeramen:roundedimageview:2.1.0'
+
+    compile files('libs/apache-mime4j-0.6.jar')
+    compile files('libs/httpclient-4.3.6.jar')
+    compile files('libs/httpcore-4.3.3.jar')
+    compile files('libs/httpmime-4.3.6.jar')
+    compile files('libs/universal-image-loader-1.9.3.jar')
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
+
+    compile "com.android.support:design:26+"
+    compile "com.android.support:percent:26+"
+    compile "com.android.support:cardview-v7:26+"
+    compile "com.android.support:gridlayout-v7:26+"
+    compile 'com.google.android.gms:play-services-auth:11.0.4'
+    compile 'com.google.android.gms:play-services-gcm:11.0.4'
+    compile 'com.google.android.gms:play-services-location:11.0.4'
+    compile 'com.google.android.gms:play-services:11.0.4'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.google.firebase:firebase-messaging:11.0.4'
+}
+
+apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "447103445726",
+    "firebase_url": "https://mobilizermonitoring.firebaseio.com",
+    "project_id": "mobilizermonitoring",
+    "storage_bucket": "mobilizermonitoring.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:447103445726:android:dc11eb791a7f3e72",
+        "android_client_info": {
+          "package_name": "com.happysanztech.mmm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "447103445726-3o1c5njimddp8qui423qubqf778di28n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.happysanztech.mmm",
+            "certificate_hash": "58fbbfc8257dbb1f3b9452ebc5613ddfc41c838e"
+          }
+        },
+        {
+          "client_id": "447103445726-itpmbste1affospcrbsmg1khompbqvu5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.happysanztech.mmm",
+            "certificate_hash": "0359e7dc48fefeb14bc7b8d941c6ca08301ad167"
+          }
+        },
+        {
+          "client_id": "447103445726-vetotgc0uamr5uohs86qior1gvopiro4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXfjl783QE_I5uqzot4fJXHc3dUO_Z2mc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "447103445726-vetotgc0uamr5uohs86qior1gvopiro4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

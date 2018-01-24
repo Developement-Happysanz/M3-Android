@@ -1,0 +1,16 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/round_btn_color"
+        android:state_focused="true"
+        android:state_pressed="false" />
+    <item
+        android:drawable="@drawable/round_btn_nocolor"
+        android:state_focused="true"
+        android:state_pressed="true" />
+    <item
+        android:drawable="@drawable/round_btn_nocolor"
+        android:state_focused="false"
+        android:state_pressed="true" />
+    <item
+        android:drawable="@drawable/round_btn_color" />
+</selector>
