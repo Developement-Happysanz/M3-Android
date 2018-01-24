@@ -40,7 +40,7 @@ import static android.util.Log.d;
 public class LocationService extends Service implements IServiceListener {
 
     public static final String BROADCAST_ACTION = "Hello World";
-    private static final int ONE_MINUTES = 1000 * 6 * 2;
+    private static final int ONE_MINUTES = 500 * 20 * 2;
     public LocationManager locationManager;
     public MyLocationListener listener;
     public Location previousBestLoc = null;
@@ -67,7 +67,7 @@ public class LocationService extends Service implements IServiceListener {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         listener = new MyLocationListener();
 //        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 10, listener);
     }
 
     @Override
