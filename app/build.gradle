@@ -18,7 +18,6 @@ android {
     defaultConfig {
         applicationId "com.happysanztech.mmm"
         minSdkVersion 15
-        targetSdkVersion 26
         versionCode 3
         versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
