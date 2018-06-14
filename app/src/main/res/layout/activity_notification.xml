@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -34,9 +35,9 @@
         android:minHeight="?attr/actionBarSize"
         android:padding="5dp"
         android:text="Notification"
-        android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:fontFamily="@font/open_sans_semi_bold"
+        android:textSize="20sp"/>
 
     <ListView
         android:id="@+id/listView_batch"
@@ -48,7 +49,7 @@
         android:layout_marginRight="2dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:divider="@color/black"
+        android:divider="@color/grey"
         android:dividerHeight="1dp" />
 
 </RelativeLayout>

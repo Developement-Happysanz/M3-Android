@@ -33,9 +33,9 @@
         android:minHeight="?attr/actionBarSize"
         android:padding="5dp"
         android:text="View Task Photos"
-        android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:fontFamily="@font/open_sans_semi_bold"
+        android:textSize="20sp" />
 
     <ListView
         android:id="@+id/listView_events"
