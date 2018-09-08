@@ -33,9 +33,9 @@
         android:minHeight="?attr/actionBarSize"
         android:padding="5dp"
         android:text="Batches"
-        android:textAllCaps="true"
+        android:fontFamily="@font/open_sans_semi_bold"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <ListView
         android:id="@+id/listView_batch"
@@ -45,9 +45,8 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:divider="@color/black"
+        android:layout_weight="0.5"
+        android:divider="@color/grey"
         android:dividerHeight="1dp" />
 
 </RelativeLayout>

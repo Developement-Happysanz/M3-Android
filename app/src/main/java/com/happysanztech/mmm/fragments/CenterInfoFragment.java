@@ -236,6 +236,8 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
                             ViewGroup.LayoutParams.MATCH_PARENT));
                     TextView viewDateFormat = new TextView(getActivity());
                     final TextView trainerName = new TextView(getActivity());
+                    Typeface font=Typeface.createFromAsset(getActivity().getAssets(), "fonts/open_sans_regular.ttf");
+                    trainerName.setTypeface(font);
 
                     JSONObject jsonobj = getTrainer.getJSONObject(i);
 
@@ -247,7 +249,7 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
 
                     /*try {
                         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
-                        Date date = (Date) formatter.parse(showDates);
+      `                  Date date = (Date) formatter.parse(showDates);
                         SimpleDateFormat month_date = new SimpleDateFormat("MMM");
                         String month_name = month_date.format(date.getTime());
                         SimpleDateFormat event_date = new SimpleDateFormat("dd");
@@ -368,6 +370,8 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
                             ViewGroup.LayoutParams.MATCH_PARENT));
                     TextView viewDateFormat = new TextView(getActivity());
                     final TextView trainerName = new TextView(getActivity());
+                    Typeface font=Typeface.createFromAsset(getActivity().getAssets(), "fonts/open_sans_regular.ttf");
+                    trainerName.setTypeface(font);
 
                     JSONObject jsonobj = getSuccessStories.getJSONObject(i);
 

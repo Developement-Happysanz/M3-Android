@@ -7,17 +7,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.50"
-        android:background="@drawable/dashboardimage">
+        android:layout_weight="0.750"
+        android:background="@drawable/dashboard_bg">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
             android:gravity="center"
             android:text="@string/login_title_banner"
+            android:fontFamily="@font/minion_pro_bold"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textAllCaps="true"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -39,7 +40,7 @@
             <LinearLayout
                 android:id="@+id/add_candidates"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="match_parent"
                 android:layout_marginRight="1dp"
                 android:layout_weight="0.50"
                 android:background="@color/white"
@@ -58,13 +59,16 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Add Candidates"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/open_sans_bold"
                     android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/center_information"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0.50"
                 android:background="@color/white"
                 android:gravity="center"
@@ -81,6 +85,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="Center Informations"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -97,7 +104,7 @@
             <LinearLayout
                 android:id="@+id/trades"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="match_parent"
                 android:layout_marginRight="1dp"
                 android:layout_weight="0.50"
                 android:background="@color/white"
@@ -117,6 +124,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="Trades"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -124,7 +134,7 @@
             <LinearLayout
                 android:id="@+id/task"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0.50"
                 android:background="@color/white"
                 android:gravity="center"
@@ -141,6 +151,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="Task"
                     android:textSize="14sp" />
             </LinearLayout>

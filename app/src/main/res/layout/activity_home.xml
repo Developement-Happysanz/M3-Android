@@ -35,9 +35,9 @@
         android:minHeight="?attr/actionBarSize"
         android:padding="5dp"
         android:text="Scan Card"
-        android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:fontFamily="@font/open_sans_semi_bold"
+        android:textSize="20sp" />
 
     <LinearLayout
         android:id="@+id/ll_top_bar_wrapper"

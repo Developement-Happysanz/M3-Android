@@ -32,9 +32,9 @@
         android:minHeight="?attr/actionBarSize"
         android:padding="5dp"
         android:text="Add Candidate"
-        android:textAllCaps="true"
+        android:fontFamily="@font/open_sans_semi_bold"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
 
     <ScrollView
@@ -71,6 +71,7 @@
                     android:hint="Name*"
                     android:inputType="text"
                     android:singleLine="true"
+                    android:fontFamily="@font/open_sans_regular"
                     android:textSize="14sp" />
 
                 <LinearLayout
@@ -85,6 +86,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
                         android:hint="Sex*"
+                        android:fontFamily="@font/open_sans_regular"
                         android:spinnerMode="dropdown"
                         android:textSize="14sp" />
 
@@ -93,6 +95,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
+                        android:fontFamily="@font/open_sans_regular"
                         android:hint="Date of bitrh*"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -109,6 +112,7 @@
                         android:layout_weight="0.50"
                         android:digits="0123456789"
                         android:hint="Age"
+                        android:fontFamily="@font/open_sans_regular"
                         android:inputType="number"
                         android:maxLength="2"
                         android:singleLine="true"
@@ -120,6 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
                         android:hint="Nationality*"
+                        android:fontFamily="@font/open_sans_regular"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textSize="14sp" />
@@ -136,6 +141,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
                         android:hint="Religion*"
+                        android:fontFamily="@font/open_sans_regular"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textSize="14sp" />
@@ -146,6 +152,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
                         android:hint="Community Class*"
+                        android:fontFamily="@font/open_sans_regular"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textSize="14sp" />
@@ -162,6 +169,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
                         android:hint="Community*"
+                        android:fontFamily="@font/open_sans_regular"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textSize="14sp" />
@@ -172,6 +180,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
+                        android:fontFamily="@font/open_sans_regular"
                         android:hint="Blood group*"
                         android:spinnerMode="dropdown"
                         android:textSize="14sp" />
@@ -189,6 +198,7 @@
                         android:layout_weight="0.50"
                         android:hint="Father name*"
                         android:inputType="text"
+                        android:fontFamily="@font/open_sans_regular"
                         android:singleLine="true"
                         android:textSize="14sp" />
 
@@ -199,6 +209,7 @@
                         android:layout_weight="0.50"
                         android:hint="Mother name*"
                         android:inputType="text"
+                        android:fontFamily="@font/open_sans_regular"
                         android:singleLine="true"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -210,6 +221,7 @@
                     android:digits="0123456789"
                     android:hint="Mobile number*"
                     android:inputType="number"
+                    android:fontFamily="@font/open_sans_regular"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -219,6 +231,7 @@
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
                     android:hint="Alternative Mobile number"
+                    android:fontFamily="@font/open_sans_regular"
                     android:inputType="number"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -227,6 +240,7 @@
                     android:id="@+id/et_candidate_email_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_regular"
                     android:hint="Email id"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
@@ -237,6 +251,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="State*"
+                    android:fontFamily="@font/open_sans_regular"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -247,6 +262,7 @@
                     android:layout_height="wrap_content"
                     android:hint="City*"
                     android:inputType="text"
+                    android:fontFamily="@font/open_sans_regular"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -255,6 +271,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Address line 1*"
+                    android:fontFamily="@font/open_sans_regular"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -264,6 +281,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Address line 2"
+                    android:fontFamily="@font/open_sans_regular"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -273,6 +291,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.50"
+                    android:fontFamily="@font/open_sans_regular"
                     android:hint="Mother tongue*"
                     android:inputType="text"
                     android:singleLine="true"
@@ -282,6 +301,7 @@
                     android:id="@+id/cb_candidate_disability"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_regular"
                     android:layout_weight="0.50"
                     android:text="Any Disability ?" />
 
@@ -291,6 +311,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Disability"
                     android:inputType="text"
+                    android:fontFamily="@font/open_sans_regular"
                     android:singleLine="true"
                     android:textSize="14sp"
                     android:visibility="gone" />
@@ -300,6 +321,7 @@
                     style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_regular"
                     android:hint="Preferred trade*"
                     android:spinnerMode="dropdown"
                     android:textSize="14sp" />
@@ -316,6 +338,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.40"
                         android:visibility="gone"
+                        android:fontFamily="@font/open_sans_regular"
                         android:hint="Preferred timings*"
                         android:spinnerMode="dropdown"
                         android:textSize="14sp" />
@@ -325,6 +348,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.60"
+                        android:fontFamily="@font/open_sans_regular"
                         android:hint="Qualification"
                         android:inputType="text"
                         android:singleLine="true"
@@ -337,6 +361,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Last institute"
+                    android:fontFamily="@font/open_sans_regular"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -346,6 +371,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Qualified promotion"
+                    android:fontFamily="@font/open_sans_regular"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -355,6 +381,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Transfer certificate"
+                    android:fontFamily="@font/open_sans_regular"
                     android:visibility="gone"
                     android:inputType="text"
                     android:singleLine="true"
@@ -363,6 +390,7 @@
                 <CheckBox
                     android:id="@+id/cb_candidate_tc"
                     android:layout_width="match_parent"
+                    android:fontFamily="@font/open_sans_regular"
                     android:layout_height="wrap_content"
                     android:text="Have transfer certificate ?" />
 
@@ -370,6 +398,7 @@
                     android:id="@+id/cb_candidate_have_aadhaar_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_regular"
                     android:checked="true"
                     android:enabled="false"
                     android:text="Have aadhaar card ?" />
@@ -378,6 +407,7 @@
                     android:id="@+id/et_candidate_aadhaar_card_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_regular"
                     android:digits="0123456789"
                     android:hint="Aadhaar number*"
                     android:inputType="number"
@@ -396,7 +426,8 @@
                     android:background="@drawable/btn_square_login"
                     android:text="Submit"
                     android:textColor="@color/white"
-                    android:textSize="18dp" />
+                    android:fontFamily="@font/open_sans_bold"
+                    android:textSize="14sp"/>
 
             </LinearLayout>
         </LinearLayout>
