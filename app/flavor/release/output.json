@@ -1,1 +1,1 @@
-[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":5},"path":"flavorRelease-1.0.6.apk","properties":{"packageId":"com.happysanztech.mmm","split":"","minSdkVersion":"15"}}]
+[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":6,"versionName":"1.0.7","enabled":true,"outputFile":"flavorRelease-1.0.7.apk","fullName":"flavorRelease","baseName":"flavor-release"},"path":"flavorRelease-1.0.7.apk","properties":{}}]

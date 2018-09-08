@@ -13,13 +13,13 @@ android {
     }
 
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.happysanztech.mmm"
         minSdkVersion 15
-        versionCode 5
-        versionName "1.0.6"
+        versionCode 6
+        versionName "1.0.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
