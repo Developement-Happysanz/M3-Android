@@ -6,12 +6,12 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:contentDescription="@string/app_name"
-        android:padding="40dp"
-        android:src="@drawable/splash_logo" />
+        android:text="M3"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:gravity="center"/>
 
 </LinearLayout>

@@ -16,7 +16,7 @@
                 android:id="@+id/event_detail_img"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
-                android:background="@drawable/center_informatio_image"
+                android:background="@color/colorPrimary"
                 android:contentDescription="@string/app_name" />
 
             <LinearLayout
