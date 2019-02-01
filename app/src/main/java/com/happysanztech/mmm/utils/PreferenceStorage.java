@@ -152,6 +152,24 @@ public class PreferenceStorage {
     }
     /*End*/
 
+    // PIA Id
+    public static void savePIAId(Context context, String staffId) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MobilizerConstants.KEY_PIA_ID, staffId);
+        editor.apply();
+    }
+
+    public static String getPIAId(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String userType;
+        userType = sharedPreferences.getString(MobilizerConstants.KEY_PIA_ID, "");
+        return userType;
+    }
+    /*End*/
+
     // Staff Full Name
     public static void saveStaffFullName(Context context, String staffFullName) {
         SharedPreferences sharedPreferences = PreferenceManager

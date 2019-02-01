@@ -14,17 +14,30 @@
 
         <ImageView
             android:id="@+id/im_banner"
-            android:layout_width="100dp"
+            android:layout_width="200dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_weight="0.50"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_login_logo" />
+            android:src="@drawable/ic_logo_hst" />
+
+        <TextView
+            android:id="@+id/im_banner1"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.50"
+            android:gravity="center"
+            android:text="HAPPY SANZ ACADEMY"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/im_banner"
+            android:layout_below="@+id/im_banner1"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:layout_weight="0.50"
@@ -56,10 +69,10 @@
                 android:id="@+id/edtUsername"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:fontFamily="@font/open_sans_regular"
                 android:hint="Username"
                 android:inputType="text"
                 android:singleLine="true"
-                android:fontFamily="@font/open_sans_regular"
                 android:text=""
                 android:textSize="14sp" />
 
@@ -78,9 +91,9 @@
                 android:id="@+id/edtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:fontFamily="@font/open_sans_regular"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:fontFamily="@font/open_sans_regular"
                 android:singleLine="true"
                 android:text=""
                 android:textSize="14sp" />
@@ -92,12 +105,12 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/btn_square_login"
-            android:text="Login"
             android:fontFamily="@font/open_sans_bold"
+            android:text="Login"
             android:textColor="@color/white"
             android:textSize="16sp" />
 

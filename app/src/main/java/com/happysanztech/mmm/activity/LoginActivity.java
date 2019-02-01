@@ -295,6 +295,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Log.d(TAG, "staffProfile dictionary" + staffProfile.toString());
 
         String staffId = "";
+        String piaId = "";
         String fullName = "";
         String sex = "";
         String age = "";
@@ -315,6 +316,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 staffId = staffProfile.getString("staff_id");
                 if ((staffId != null) && !(staffId.isEmpty()) && !staffId.equalsIgnoreCase("null")) {
                     PreferenceStorage.saveStaffId(this, staffId);
+                }
+
+                // User Preference - PIA Id
+                piaId = staffProfile.getString("pia_id");
+                if ((piaId != null) && !(piaId.isEmpty()) && !piaId.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savePIAId(this, piaId);
                 }
 
                 // User Preference - Staff Full Name

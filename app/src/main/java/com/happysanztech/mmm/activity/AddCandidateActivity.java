@@ -922,6 +922,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             jsonObject.put(MobilizerConstants.PARAMS_STATUS, "Active");
             jsonObject.put(MobilizerConstants.PARAMS_CREATED_BY, PreferenceStorage.getUserId(getApplicationContext()));
             jsonObject.put(MobilizerConstants.PARAMS_CREATED_AT, currentDateandTime);
+            jsonObject.put(MobilizerConstants.PARAMS_PIA_ID, PreferenceStorage.getPIAId(getApplicationContext()));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1361,6 +1362,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
+                jsonObject.put(MobilizerConstants.KEY_PIA_ID, PreferenceStorage.getPIAId(getApplicationContext()));
 
             } catch (JSONException e) {
                 e.printStackTrace();

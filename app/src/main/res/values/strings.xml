@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">M3</string>
+    <string name="app_name">M3 Mobilizer</string>
     <string name="app_name_actual">Mobilization Monitoring Management</string>
     <string name="error_occurred">Failed to connect to the server. Please try again.</string>
     <string name="empty" />

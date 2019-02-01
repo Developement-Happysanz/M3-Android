@@ -13,16 +13,20 @@ public class MobilizerConstants {
 
     // BUILD URL
 //    public static final String BUILD_URL = BASE_URL + "uitensyfi/";
-    public static final String BUILD_URL = BASE_URL + "demo/m3/";
+//    public static final String BUILD_URL = BASE_URL + "M3TNSRLM/";
+    public static final String BUILD_URL = BASE_URL + "m3test/";
 
     // GENERAL URL
     // USERS URL
     public static final String USER_LOGIN_API = "apimain/login/";
 
+    //Mobilizer URL
+    private static final String MOBILIZER_API = "apimobilizer/";
+
     //    SignIn params
-    public static final String PARAMS_USERNAME = "username";
+    public static final String PARAMS_USERNAME = "user_name";
     public static final String PARAMS_PASSWORD = "password";
-    public static final String PARAMS_GCM_KEY = "gcm_key";
+    public static final String PARAMS_GCM_KEY = "device_id";
     public static final String PARAMS_MOBILE_TYPE = "mobile_type";
 
     // User Login Preferences
@@ -35,6 +39,7 @@ public class MobilizerConstants {
     public static final String KEY_USER_TYPE_NAME = "user_type_name";
     // Staff profile
     public static final String KEY_STAFF_ID = "staff_id";
+    public static final String KEY_PIA_ID = "pia_id";
     public static final String KEY_SEX = "sex";
     public static final String KEY_AGE = "age";
     public static final String KEY_NATIONALITY = "nationality";
@@ -68,22 +73,22 @@ public class MobilizerConstants {
     public static String ALERT_DIALOG_NEG_BUTTON = "alert_dialog_neg_button";
 
     //    Trade list
-    public static final String BLOOD_GROUP_LIST = "apimain/select_bloodgroup/";
+    public static final String BLOOD_GROUP_LIST = MOBILIZER_API + "select_bloodgroup/";
 
     //    Trade list
-    public static final String TRADE_LIST = "apimain/select_trade/";
+    public static final String TRADE_LIST = MOBILIZER_API + "select_trade/";
 
     //    Trade list
-    public static final String TIMINGS_LIST = "apimain/select_timings/";
+    public static final String TIMINGS_LIST = MOBILIZER_API + "select_timings/";
 
     //    Upload candidate pic
-    public static final String UPLOAD_CANDIDATE_PIC = "apimain/student_picupload/";
+    public static final String UPLOAD_CANDIDATE_PIC = MOBILIZER_API + "student_picupload/";
 
     //    Upload candidate pic
-    public static final String UPLOAD_USER_PIC = "apimain/user_profilepic/";
+    public static final String UPLOAD_USER_PIC = MOBILIZER_API + "user_profilepic/";
 
     //    Add candidate
-    public static final String ADD_CANDIDATE = "apimain/add_student/";
+    public static final String ADD_CANDIDATE = MOBILIZER_API + "add_student/";
 
     //    Add candidate params
     public static final String PARAMS_HAVE_AADHAAR_CARD = "have_aadhaar_card";
@@ -120,21 +125,22 @@ public class MobilizerConstants {
     public static final String PARAMS_STATUS = "status";
     public static final String PARAMS_CREATED_BY = "created_by";
     public static final String PARAMS_CREATED_AT = "created_at";
+    public static final String PARAMS_PIA_ID = "pia_id";
 
     //    Center details
-    public static final String CENTER_INFO = "apimain/view_centerdetails/";
+    public static final String CENTER_INFO = MOBILIZER_API + "view_centerdetails/";
 
     //    Trade details
-    public static final String TRADES = "apimain/select_trade/";
+    public static final String TRADES = MOBILIZER_API + "select_trade/";
 
     //    Batch details
-    public static final String BATCH = "apimain/select_batch/";
+    public static final String BATCH = MOBILIZER_API + "select_batch/";
 
     //    Batch details params
     public static final String PARAMS_TRADE_ID = "trade_id";
 
     //    MTS
-    public static final String MTS = "apimain/add_mobilocation/";
+    public static final String MTS = MOBILIZER_API + "add_mobilocation/";
 
     //    MTS params
     public static final String PARAMS_LATITUDE = "latitude";
@@ -144,17 +150,17 @@ public class MobilizerConstants {
     public static final String PARAMS_DATETIME = "location_datetime";
 
     //    Change password
-    public static final String CHANGE_PASSWORD = "apimain/change_password/";
+    public static final String CHANGE_PASSWORD = MOBILIZER_API + "change_password/";
 
     //    Change password params
     public static final String PARAMS_OLD_PASSWORD = "old_password";
     public static final String PARAMS_NEW_PASSWORD = "new_password";
 
     //    Task list
-    public static final String TASK_LIST = "apimain/list_task/";
+    public static final String TASK_LIST = MOBILIZER_API + "list_task/";
 
     //    Task add
-    public static final String TASK_ADD = "apimain/add_task/";
+    public static final String TASK_ADD = MOBILIZER_API + "add_task/";
 
     //    Task add params
     public static final String PARAMS_TASK_TITLE = "task_title";
@@ -163,27 +169,27 @@ public class MobilizerConstants {
     public static final String PARAMS_TASK_STATUS = "status";
 
     //    Task photo upload
-    public static final String TASK_PHOTOS = "apimain/task_picupload/";
+    public static final String TASK_PHOTOS = MOBILIZER_API + "task_picupload/";
 
     //    Task photo params
     public static final String PARAMS_TASK_ID = "task_id";
 
     //    Task update
-    public static final String TASK_UPDATE = "apimain/update_task/";
+    public static final String TASK_UPDATE = MOBILIZER_API + "update_task/";
 
     //    Task image list
-    public static final String TASK_IMAGE_LIST = "apimain/list_taskpic/";
+    public static final String TASK_IMAGE_LIST = MOBILIZER_API + "list_taskpic/";
 
     //    Center image list
-    public static final String CENTER_IMAGE_LIST = "apimain/view_centerimages/";
+    public static final String CENTER_IMAGE_LIST = MOBILIZER_API + "view_centerimages/";
 
     //    Center photo params
     public static final String PARAMS_CENTER_ID = "center_id";
 
     //    Center image list
-    public static final String CENTER_VIDEO_LIST = "apimain/view_centervideos/";
+    public static final String CENTER_VIDEO_LIST = MOBILIZER_API + "view_centervideos/";
 
     //    Center image list
-    public static final String NOTIFICATION_LIST = "apimain/disp_circular/";
+    public static final String NOTIFICATION_LIST = MOBILIZER_API + "disp_circular/";
 
 }

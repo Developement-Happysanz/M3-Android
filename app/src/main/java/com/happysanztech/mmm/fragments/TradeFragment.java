@@ -158,6 +158,7 @@ public class TradeFragment extends Fragment implements View.OnClickListener, ISe
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(getActivity()));
+            jsonObject.put(MobilizerConstants.KEY_PIA_ID, PreferenceStorage.getPIAId(getActivity()));
 
         } catch (JSONException e) {
             e.printStackTrace();

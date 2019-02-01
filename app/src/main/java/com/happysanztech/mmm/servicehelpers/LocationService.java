@@ -347,6 +347,7 @@ public class LocationService extends Service implements IServiceListener {
             jsonObject.put(MobilizerConstants.PARAMS_DATETIME, currentDateandTime);
             jsonObject.put(MobilizerConstants.PARAMS_LOCATION, locationAddress);
             jsonObject.put(MobilizerConstants.PARAMS_DISTANCE, distance);
+            jsonObject.put(MobilizerConstants.PARAMS_PIA_ID, PreferenceStorage.getPIAId(getApplicationContext()));
         } catch (JSONException e) {
             e.printStackTrace();
         }
