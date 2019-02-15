@@ -1,8 +1,10 @@
 package com.happysanztech.mmm.servicehelpers;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
@@ -11,6 +13,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -67,7 +70,8 @@ public class LocationService extends Service implements IServiceListener {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         listener = new MyLocationListener();
 //        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, listener);
+
     }
 
     @Override
@@ -157,15 +161,15 @@ public class LocationService extends Service implements IServiceListener {
                     }
                 } else {
 //                    if (distance == 0.00) {
-                        if (!checkUserId.equalsIgnoreCase("") || checkUserId != null) {
-                            if (isFirstTimeRecordUpdateToServer) {
-                                Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
-                                isFirstTimeRecordUpdateToServer = false;
-                                database.deleteAllPreviousBestLocation();
-                                long l = database.previous_best_location_insert("" + currentBestlocation.getLatitude(), "" + currentBestlocation.getLongitude());
+                    if (!checkUserId.equalsIgnoreCase("") || checkUserId != null) {
+                        if (isFirstTimeRecordUpdateToServer) {
+                            Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
+                            isFirstTimeRecordUpdateToServer = false;
+                            database.deleteAllPreviousBestLocation();
+                            long l = database.previous_best_location_insert("" + currentBestlocation.getLatitude(), "" + currentBestlocation.getLongitude());
 //                            previousBestLoc = currentBestlocation;
-                                callService(distance, currentBestlocation);
-                            }
+                            callService(distance, currentBestlocation);
+                        }
 //                        }
                     }
                 }
@@ -176,15 +180,15 @@ public class LocationService extends Service implements IServiceListener {
         } else if (isSignificantlyOlder) {
             if (isGPSEnabled) {
 //                if (distance == 0.00) {
-                    if (!checkUserId.equalsIgnoreCase("") || checkUserId != null) {
-                        if (isFirstTimeRecordUpdateToServer) {
-                            Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
-                            isFirstTimeRecordUpdateToServer = false;
-                            database.deleteAllPreviousBestLocation();
-                            long l = database.previous_best_location_insert("" + currentBestlocation.getLatitude(), "" + currentBestlocation.getLongitude());
-                            previousBestLoc = currentBestlocation;
-                            callService(distance, currentBestlocation);
-                        }
+                if (!checkUserId.equalsIgnoreCase("") || checkUserId != null) {
+                    if (isFirstTimeRecordUpdateToServer) {
+                        Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
+                        isFirstTimeRecordUpdateToServer = false;
+                        database.deleteAllPreviousBestLocation();
+                        long l = database.previous_best_location_insert("" + currentBestlocation.getLatitude(), "" + currentBestlocation.getLongitude());
+                        previousBestLoc = currentBestlocation;
+                        callService(distance, currentBestlocation);
+                    }
 //                    }
                 }
                 return false;

@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
+
         startService(new Intent(MainActivity.this, LocationService.class));
 
         loadDashboard();
@@ -176,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+
     }
 
     @Override
