@@ -150,7 +150,7 @@ public class MobilizerConstants {
     public static final String PARAMS_DATETIME = "location_datetime";
 
     //    Change password
-    public static final String CHANGE_PASSWORD = MOBILIZER_API + "change_password/";
+    public static final String CHANGE_PASSWORD = "apimain/change_password/";
 
     //    Change password params
     public static final String PARAMS_OLD_PASSWORD = "old_password";

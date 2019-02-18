@@ -50,7 +50,7 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
     private static final String TAG = "CenterInfoFragment";
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
-    private TextView txtDescriptionDetails;
+    private TextView txtDescriptionDetails, txtBannerName;
     private Button btnTrades;
     private Button btnPhotos;
     private Button btnVideos;
@@ -68,6 +68,7 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
         serviceHelper = new ServiceHelper(getActivity());
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(getActivity());
+        txtBannerName = rootView.findViewById(R.id.im_banner1);
         txtDescriptionDetails = rootView.findViewById(R.id.txt_description_details);
         btnTrades = rootView.findViewById(R.id.btn_trades);
         btnTrades.setOnClickListener(this);
@@ -158,7 +159,9 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
 
                 PreferenceStorage.saveCenterId(getActivity(), centerId);
 
+                txtBannerName.setText(centerName);
                 txtDescriptionDetails.setText(centerInfo);
+
 
                 JSONArray getTrainer = response.getJSONArray("trainer");
                 loadTrainerUI(getTrainer);
@@ -237,7 +240,7 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
                             ViewGroup.LayoutParams.MATCH_PARENT));
                     TextView viewDateFormat = new TextView(getActivity());
                     final TextView trainerName = new TextView(getActivity());
-                    Typeface font=Typeface.createFromAsset(getActivity().getAssets(), "fonts/open_sans_regular.ttf");
+                    Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/open_sans_regular.ttf");
                     trainerName.setTypeface(font);
 
                     JSONObject jsonobj = getTrainer.getJSONObject(i);
@@ -371,7 +374,7 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
                             ViewGroup.LayoutParams.MATCH_PARENT));
                     TextView viewDateFormat = new TextView(getActivity());
                     final TextView trainerName = new TextView(getActivity());
-                    Typeface font=Typeface.createFromAsset(getActivity().getAssets(), "fonts/open_sans_regular.ttf");
+                    Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/open_sans_regular.ttf");
                     trainerName.setTypeface(font);
 
                     JSONObject jsonobj = getSuccessStories.getJSONObject(i);

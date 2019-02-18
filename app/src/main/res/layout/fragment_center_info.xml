@@ -27,7 +27,7 @@
                 android:layout_weight="0.50"
                 android:gravity="center"
                 android:layout_centerHorizontal="true"
-                android:text="HAPPY SANZ ACADEMY"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />

@@ -181,8 +181,8 @@ public class TradeFragment extends Fragment implements View.OnClickListener, ISe
         } else {
             tradeData = tradeDataArrayList.get(position);
         }
-        Intent intent = new Intent(getActivity(), BatchDetailsActivity.class);
+        /*Intent intent = new Intent(getActivity(), BatchDetailsActivity.class);
         intent.putExtra("eventObj", tradeData);
-        startActivity(intent);
+        startActivity(intent);*/
     }
 }

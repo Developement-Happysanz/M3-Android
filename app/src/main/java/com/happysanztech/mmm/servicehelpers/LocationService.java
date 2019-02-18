@@ -70,7 +70,7 @@ public class LocationService extends Service implements IServiceListener {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         listener = new MyLocationListener();
 //        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 5, listener);
 
     }
 
