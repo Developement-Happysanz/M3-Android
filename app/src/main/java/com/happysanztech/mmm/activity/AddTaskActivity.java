@@ -228,6 +228,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                 jsonObject.put(MobilizerConstants.PARAMS_TASK_DESCRIPTION, taskDetails);
                 jsonObject.put(MobilizerConstants.PARAMS_TASK_DATE, serverFormatDate);
                 jsonObject.put(MobilizerConstants.PARAMS_TASK_STATUS, "Active");
+                jsonObject.put(MobilizerConstants.PARAMS_PIA_ID,PreferenceStorage.getPIAId(getApplicationContext()));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

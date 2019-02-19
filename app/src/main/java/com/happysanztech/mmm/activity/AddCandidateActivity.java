@@ -919,7 +919,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             jsonObject.put(MobilizerConstants.PARAMS_LAST_STUDIED, CandidatesQualification);
             jsonObject.put(MobilizerConstants.PARAMS_QUALIFIED_PROMOTION, CandidatesQualifiedPromotion);
             jsonObject.put(MobilizerConstants.PARAMS_TRANSFER_CERTIFICATE, CandidatesTC);
-            jsonObject.put(MobilizerConstants.PARAMS_STATUS, "Active");
+            jsonObject.put(MobilizerConstants.PARAMS_STATUS, "Pending");
             jsonObject.put(MobilizerConstants.PARAMS_CREATED_BY, PreferenceStorage.getUserId(getApplicationContext()));
             jsonObject.put(MobilizerConstants.PARAMS_CREATED_AT, currentDateandTime);
             jsonObject.put(MobilizerConstants.PARAMS_PIA_ID, PreferenceStorage.getPIAId(getApplicationContext()));
