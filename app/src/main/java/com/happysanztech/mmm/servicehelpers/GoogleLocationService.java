@@ -1,12 +1,10 @@
 package com.happysanztech.mmm.servicehelpers;
 
-import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
@@ -14,14 +12,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.v4.app.ActivityCompat;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-
-import com.happysanztech.mmm.activity.MainActivity;
 import com.happysanztech.mmm.bean.database.SQLiteHelper;
 import com.happysanztech.mmm.helper.AlertDialogHelper;
 import com.happysanztech.mmm.serviceinterfaces.IServiceListener;
@@ -35,69 +32,74 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.util.Log.d;
 
+public class GoogleLocationService extends Service implements LocationListener, IServiceListener {
 
-/**
- * Created by Admin on 07-01-2018.
- */
 
-public class LocationService extends Service implements IServiceListener {
+    boolean isGPSEnable = false;
+    boolean isNetworkEnable = false;
+    double latitude, longitude;
+    LocationManager locationManager;
+    Location location;
+    private Handler mHandler = new Handler();
+    private Timer mTimer = null;
+    long notify_interval = 4000;
+    public static String str_receiver = "servicetutorial.service.receiver";
+    Intent intent;
 
-    public static final String BROADCAST_ACTION = "Hello World";
-    private static final int ONE_MINUTES = 500 * 5 * 2;
-    public LocationManager locationManager;
-    public MyLocationListener listener;
     public Location previousBestLoc = null;
     private ServiceHelper serviceHelper;
+    SQLiteHelper database;
+    private static final int ONE_MINUTES = 500 * 5 * 2;
     private boolean isFirstTimePreviousBest = true;
     private boolean isFirstTimeRecordUpdateToServer = true;
-    private boolean isGPSEnabled = false;
-    SQLiteHelper database;
-    private boolean isNetworkEnable = false;
 
-    Intent intent;
-    int counter = 0;
+    private String LOG_TAG = null;
+    public int counter = 0;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        intent = new Intent(BROADCAST_ACTION);
-        serviceHelper = new ServiceHelper(this);
-        serviceHelper.setServiceListener(this);
-        database = new SQLiteHelper(getApplicationContext());
+    public GoogleLocationService(Context applicationContext) {
+        super();
+        Log.i("HERE", "here I am!");
     }
 
-    @Override
-    public void onStart(Intent intent, int startId) {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        listener = new MyLocationListener();
-//        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 10, listener);
+    public GoogleLocationService() {
 
     }
 
+    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
-   /* @Override
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        mTimer = new Timer();
+        mTimer.schedule(new TimerTaskToGetLocation(), 5, notify_interval);
+        intent = new Intent(str_receiver);
+        serviceHelper = new ServiceHelper(this);
+        serviceHelper.setServiceListener(this);
+        database = new SQLiteHelper(getApplicationContext());
+//        fn_getlocation();
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // Let it continue running until it is stopped.
+        /*Log.i(LOG_TAG, "In onStartCommand");
+        //ur actual code
+        return START_STICKY;*/
         super.onStartCommand(intent, flags, startId);
-        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
-
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        listener = new MyLocationListener();
-//        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, listener);
-
+        startTimer();
         return START_STICKY;
-    }*/
+    }
 
-    /*@Override
+    @Override
     public void onTaskRemoved(Intent rootIntent) {
         Intent restartServiceIntent = new Intent(getApplicationContext(), this.getClass());
         restartServiceIntent.setPackage(getPackageName());
@@ -113,7 +115,165 @@ public class LocationService extends Service implements IServiceListener {
 
 //        Intent intent = new Intent("com.android.ServiceStopped");
 //        sendBroadcast(intent);
-    }*/
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("EXIT", "ondestroy!");
+//        super.onDestroy();
+        startService(new Intent(this, GoogleLocationService.class)); // add this line
+    }
+
+    @Override
+    public void onLocationChanged(Location loc) {
+        Log.i("***********************", "Location changed");
+        if (isBetterLocation(location, previousBestLoc)) {
+            loc.getLatitude();
+            loc.getLongitude();
+            String latitude = "";
+            String longitude = "";
+            latitude = String.valueOf(loc.getLatitude());
+            longitude = String.valueOf(loc.getLongitude());
+
+            database.deleteAllCurrentBestLocation();
+
+            long l = database.current_best_location_insert(latitude, longitude);
+            //If everything went fine lets get latitude and longitude
+            intent.putExtra("Latitude", loc.getLatitude());
+            intent.putExtra("Longitude", loc.getLongitude());
+            intent.putExtra("Provider", loc.getProvider());
+            sendBroadcast(intent);
+            if (isFirstTimePreviousBest) {
+                database.deleteAllPreviousBestLocation();
+                long l1 = database.previous_best_location_insert(latitude, longitude);
+                previousBestLoc = loc;
+                isFirstTimePreviousBest = false;
+            }
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+    private void fn_getlocation() {
+        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if (!isGPSEnable && !isNetworkEnable) {
+
+        } else {
+
+            /*if (isNetworkEnable) {
+                location = null;
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
+                if (locationManager != null) {
+                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    if (location != null) {
+
+                        Log.e("latitude", location.getLatitude() + "");
+                        Log.e("longitude", location.getLongitude() + "");
+
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                        fn_update(location);
+//                        if (isBetterLocation(location, previousBestLoc)) {}
+                    }
+                }
+            }*/
+
+
+            if (isGPSEnable) {
+                location = null;
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
+                if (locationManager != null) {
+                    location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    if (location != null) {
+                        Log.e("latitude", location.getLatitude() + "");
+                        Log.e("longitude", location.getLongitude() + "");
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                        fn_update(location);
+//                        if (isBetterLocation(location, previousBestLoc)) {}
+                    }
+                }
+            }
+        }
+    }
+
+    private class TimerTaskToGetLocation extends TimerTask {
+        @Override
+        public void run() {
+
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    fn_getlocation();
+                }
+            });
+
+        }
+    }
+
+    private void fn_update(Location location) {
+
+        intent.putExtra("latutide", location.getLatitude() + "");
+        intent.putExtra("longitude", location.getLongitude() + "");
+
+        sendBroadcast(intent);
+
+        Toast.makeText(getApplicationContext(), "" + location.getLatitude() + " & " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+    }
+
+    private Timer timer;
+    private TimerTask timerTask;
+    long oldTime = 0;
+
+    public void startTimer() {
+        //set a new Timer
+        timer = new Timer();
+
+        //initialize the TimerTask's job
+        initializeTimerTask();
+
+        //schedule the timer, to wake up every 1 second
+        timer.schedule(timerTask, 1000, 1000); //
+    }
+
+    /**
+     * it sets the timer to print the counter every x seconds
+     */
+    public void initializeTimerTask() {
+        timerTask = new TimerTask() {
+            public void run() {
+                Log.i("in timer", "in timer ++++  " + (counter++));
+            }
+        };
+    }
+
+    /**
+     * not needed
+     */
+    public void stoptimertask() {
+        //stop the timer, if it's not already null
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
 
     protected boolean isBetterLocation(Location currentBestlocation, Location previousBestLocation) {
         if (previousBestLocation == null) {
@@ -178,7 +338,7 @@ public class LocationService extends Service implements IServiceListener {
         // If it's been more than two minutes since the current location, use the new location
         // because the user has likely moved
         if (isSignificantlyNewer) {
-            if (isGPSEnabled) {
+            if (isGPSEnable) {
                 if (distance > 0.01) {
                     if (!checkUserId.equalsIgnoreCase("") || checkUserId != null) {
                         Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
@@ -207,7 +367,7 @@ public class LocationService extends Service implements IServiceListener {
                 // If the new location is more than two minutes older, it must be worse
             }
         } else if (isSignificantlyOlder) {
-            if (isGPSEnabled) {
+            if (isGPSEnable) {
 //                if (distance == 0.00) {
                 if (!checkUserId.equalsIgnoreCase("") || checkUserId != null) {
                     if (isFirstTimeRecordUpdateToServer) {
@@ -255,115 +415,35 @@ public class LocationService extends Service implements IServiceListener {
         return provider1.equals(provider2);
     }
 
+    private double distance(double lat1, double lng1, double lat2, double lng2) {
 
-    @Override
-    public void onDestroy() {
-        // handler.removeCallbacks(sendUpdatesToUI);
-        super.onDestroy();
-        Log.v("STOP_SERVICE", "DONE");
-        Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-        locationManager.removeUpdates(listener);
-        startService(new Intent(this, LocationService.class));
+        double earthRadius = 6371; // in miles, change to 6371 for kilometer output
+
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
+
+        double sindLat = Math.sin(dLat / 2);
+        double sindLng = Math.sin(dLng / 2);
+
+        double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
+                * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        double dist = earthRadius * c;
+
+        double roundDist = round(dist, 6);
+
+        return roundDist;  // output distance, in MILES
     }
 
-    public static Thread performOnBackgroundThread(final Runnable runnable) {
-        final Thread t = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    runnable.run();
-                } finally {
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
 
-                }
-            }
-        };
-        t.start();
-        return t;
-    }
-
-    public class MyLocationListener implements LocationListener {
-
-        public void onLocationChanged(final Location loc) {
-            Log.i("***********************", "Location changed");
-            if (isBetterLocation(loc, previousBestLoc)) {
-                loc.getLatitude();
-                loc.getLongitude();
-                String latitude = "";
-                String longitude = "";
-                latitude = String.valueOf(loc.getLatitude());
-                longitude = String.valueOf(loc.getLongitude());
-
-                database.deleteAllCurrentBestLocation();
-
-                long l = database.current_best_location_insert(latitude, longitude);
-                //If everything went fine lets get latitude and longitude
-                intent.putExtra("Latitude", loc.getLatitude());
-                intent.putExtra("Longitude", loc.getLongitude());
-                intent.putExtra("Provider", loc.getProvider());
-                sendBroadcast(intent);
-                if (isFirstTimePreviousBest) {
-                    database.deleteAllPreviousBestLocation();
-                    long l1 = database.previous_best_location_insert(latitude, longitude);
-                    previousBestLoc = loc;
-                    isFirstTimePreviousBest = false;
-                }
-            }
-        }
-
-        public void onProviderDisabled(String provider) {
-
-            Toast.makeText(getApplicationContext(), "Gps Disabled", Toast.LENGTH_SHORT).show();
-            isGPSEnabled = false;
-
-        }
-
-        public void onProviderEnabled(String provider) {
-
-            Toast.makeText(getApplicationContext(), "Gps Enabled", Toast.LENGTH_SHORT).show();
-            isGPSEnabled = true;
-        }
-
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        if (validateSignInResponse(response)) {
-
-        }
-    }
-
-    @Override
-    public void onError(String error) {
-
-    }
-
-    private boolean validateSignInResponse(JSONObject response) {
-        boolean signInSuccess = false;
-        if ((response != null)) {
-            try {
-                String status = response.getString("status");
-                String msg = response.getString(MobilizerConstants.PARAM_MESSAGE);
-                d("HI", "status val" + status + "msg" + msg);
-
-                if ((status != null)) {
-                    if (((status.equalsIgnoreCase("activationError")) || (status.equalsIgnoreCase("alreadyRegistered")) ||
-                            (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
-                        signInSuccess = false;
-                        d("HI", "Show error dialog");
-                        AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), msg);
-
-                    } else {
-                        signInSuccess = true;
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return signInSuccess;
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 
     private void callService(double distance, Location location) {
@@ -412,34 +492,41 @@ public class LocationService extends Service implements IServiceListener {
         return strAdd;
     }
 
-    private double distance(double lat1, double lng1, double lat2, double lng2) {
+    private boolean validateSignInResponse(JSONObject response) {
+        boolean signInSuccess = false;
+        if ((response != null)) {
+            try {
+                String status = response.getString("status");
+                String msg = response.getString(MobilizerConstants.PARAM_MESSAGE);
+                d("HI", "status val" + status + "msg" + msg);
 
-        double earthRadius = 6371; // in miles, change to 6371 for kilometer output
+                if ((status != null)) {
+                    if (((status.equalsIgnoreCase("activationError")) || (status.equalsIgnoreCase("alreadyRegistered")) ||
+                            (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
+                        signInSuccess = false;
+                        d("HI", "Show error dialog");
+                        AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), msg);
 
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLng = Math.toRadians(lng2 - lng1);
-
-        double sindLat = Math.sin(dLat / 2);
-        double sindLng = Math.sin(dLng / 2);
-
-        double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
-                * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
-
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        double dist = earthRadius * c;
-
-        double roundDist = round(dist, 6);
-
-        return roundDist;  // output distance, in MILES
+                    } else {
+                        signInSuccess = true;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return signInSuccess;
     }
 
-    public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
+    @Override
+    public void onResponse(JSONObject response) {
+        if (validateSignInResponse(response)) {
 
-        long factor = (long) Math.pow(10, places);
-        value = value * factor;
-        long tmp = Math.round(value);
-        return (double) tmp / factor;
+        }
+    }
+
+    @Override
+    public void onError(String error) {
+
     }
 }

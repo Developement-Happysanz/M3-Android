@@ -51,6 +51,7 @@ import com.happysanztech.mmm.fragments.DashboardFragment;
 import com.happysanztech.mmm.fragments.TaskFragment;
 import com.happysanztech.mmm.fragments.TradeFragment;
 import com.happysanztech.mmm.interfaces.DialogClickListener;
+import com.happysanztech.mmm.servicehelpers.GoogleLocationService;
 import com.happysanztech.mmm.servicehelpers.LocationService;
 import com.happysanztech.mmm.utils.AndroidMultiPartEntity;
 import com.happysanztech.mmm.utils.MobilizerConstants;
@@ -160,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ex.printStackTrace();
         }
 
-        startService(new Intent(MainActivity.this, LocationService.class));
+        startService(new Intent(MainActivity.this, GoogleLocationService.class));
 
         loadDashboard();
 
@@ -303,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         database.deleteAllCurrentBestLocation();
         database.deleteAllPreviousBestLocation();
 //        deleteTableRecords.deleteAllRecords();
-        stopService(new Intent(MainActivity.this, LocationService.class));
+        stopService(new Intent(MainActivity.this, GoogleLocationService.class));
 //        stopService(new Intent(MainActivity.this, GPSTracker.class));
 
 
