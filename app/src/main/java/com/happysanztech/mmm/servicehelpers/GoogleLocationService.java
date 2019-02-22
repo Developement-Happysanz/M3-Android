@@ -47,7 +47,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
     Location location;
     private Handler mHandler = new Handler();
     private Timer mTimer = null;
-    long notify_interval = 4000;
+    long notify_interval = 2000;
     public static String str_receiver = "servicetutorial.service.receiver";
     Intent intent;
 
@@ -198,7 +198,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
 
             if (isGPSEnable) {
                 location = null;
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
                 if (locationManager != null) {
                     location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     if (location != null) {
@@ -249,8 +249,8 @@ public class GoogleLocationService extends Service implements LocationListener, 
         //initialize the TimerTask's job
         initializeTimerTask();
 
-        //schedule the timer, to wake up every 4 second
-        timer.schedule(timerTask, 4000, 4000); //
+        //schedule the timer, to wake up every 2 second
+        timer.schedule(timerTask, 2000, 2000); //
     }
 
     /**
@@ -341,7 +341,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
             if (isGPSEnable) {
                 if (distance > 0.01) {
                     if (!checkUserId.equalsIgnoreCase("") || checkUserId != null) {
-//                        Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
                         isFirstTimePreviousBest = false;
                         database.deleteAllPreviousBestLocation();
                         long l = database.previous_best_location_insert("" + currentBestlocation.getLatitude(), "" + currentBestlocation.getLongitude());
@@ -352,7 +352,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
 //                    if (distance == 0.00) {
                     if (!checkUserId.equalsIgnoreCase("") || checkUserId != null) {
                         if (isFirstTimeRecordUpdateToServer) {
-//                            Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
                             isFirstTimeRecordUpdateToServer = false;
                             database.deleteAllPreviousBestLocation();
                             long l = database.previous_best_location_insert("" + currentBestlocation.getLatitude(), "" + currentBestlocation.getLongitude());
