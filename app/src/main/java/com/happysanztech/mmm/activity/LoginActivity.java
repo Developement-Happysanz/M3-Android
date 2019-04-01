@@ -1,10 +1,16 @@
 package com.happysanztech.mmm.activity;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +21,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 import com.happysanztech.mmm.R;
@@ -33,6 +40,8 @@ import com.happysanztech.mmm.utils.PreferenceStorage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import static android.util.Log.d;
 
@@ -56,6 +65,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
     private static final int REQUEST_PERMISSION_All = 111;
 
+    private static final int IGNORE_BATTERY_OPTIMIZATION_REQUEST = 1002;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +87,49 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (prefFirstTime.runTheFirstTime("FirstTimePermit")) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 requestAllPermissions();
+            }
+        }
+
+        addAutoStartup();
+
+        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (pm != null && !pm.isIgnoringBatteryOptimizations(getPackageName())) {
+                askIgnoreOptimization();
+            } else {
+//                accepted;
+            }
+        } else {
+//            accepted;
+        }*/
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            boolean isIgnoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(getPackageName());
+            if (!isIgnoringBatteryOptimizations) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, IGNORE_BATTERY_OPTIMIZATION_REQUEST);
+
+                /*intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(intent);*/
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (requestCode == IGNORE_BATTERY_OPTIMIZATION_REQUEST) {
+                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                boolean isIgnoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(getPackageName());
+                if (isIgnoringBatteryOptimizations) {
+                    // Ignoring battery optimization
+                    Toast.makeText(getApplicationContext(), "Ignoring battery optimization", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Not ignoring battery optimization
+                    Toast.makeText(getApplicationContext(), "Not ignoring battery optimization", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -393,6 +447,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private void addAutoStartup() {
+
+        try {
+            Intent intent = new Intent();
+            String manufacturer = android.os.Build.MANUFACTURER;
+            if ("xiaomi".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
+            } else if ("oppo".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity"));
+            } else if ("vivo".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+            } else if ("Letv".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity"));
+            } else if ("Honor".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
+            }
+
+            List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            if  (list.size() > 0) {
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            Log.e("exc" , String.valueOf(e));
         }
     }
 }

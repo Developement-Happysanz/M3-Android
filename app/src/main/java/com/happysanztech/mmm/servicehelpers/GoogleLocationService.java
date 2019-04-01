@@ -224,7 +224,6 @@ public class GoogleLocationService extends Service implements LocationListener, 
                     fn_getlocation();
                 }
             });
-
         }
     }
 
@@ -341,7 +340,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
             if (isGPSEnable) {
                 if (distance > 0.01) {
                     if (!checkUserId.equalsIgnoreCase("") || checkUserId != null) {
-                        Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
                         isFirstTimePreviousBest = false;
                         database.deleteAllPreviousBestLocation();
                         long l = database.previous_best_location_insert("" + currentBestlocation.getLatitude(), "" + currentBestlocation.getLongitude());
@@ -352,7 +351,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
 //                    if (distance == 0.00) {
                     if (!checkUserId.equalsIgnoreCase("") || checkUserId != null) {
                         if (isFirstTimeRecordUpdateToServer) {
-                            Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
                             isFirstTimeRecordUpdateToServer = false;
                             database.deleteAllPreviousBestLocation();
                             long l = database.previous_best_location_insert("" + currentBestlocation.getLatitude(), "" + currentBestlocation.getLongitude());
@@ -371,7 +370,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
 //                if (distance == 0.00) {
                 if (!checkUserId.equalsIgnoreCase("") || checkUserId != null) {
                     if (isFirstTimeRecordUpdateToServer) {
-                        Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
                         isFirstTimeRecordUpdateToServer = false;
                         database.deleteAllPreviousBestLocation();
                         long l = database.previous_best_location_insert("" + currentBestlocation.getLatitude(), "" + currentBestlocation.getLongitude());
