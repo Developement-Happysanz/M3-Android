@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -17,11 +18,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -94,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     AlarmManager am;
     PendingIntent pi;
     SQLiteHelper database;
+    boolean firstLaunch = true;
+    private static final int IGNORE_BATTERY_OPTIMIZATION_REQUEST = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             pi = PendingIntent.getBroadcast(this, 123456789, intent, 0);
 
             int type = AlarmManager.RTC_WAKEUP;
-            long interval = 500 * 50;
+            long interval = 50 * 50;
 
             am.setInexactRepeating(type, System.currentTimeMillis(), interval, pi);
         } catch (NullPointerException ex) {
@@ -162,6 +168,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         startService(new Intent(MainActivity.this, GoogleLocationService.class));
+
+        if(PreferenceStorage.getLocationCheck(this)) {
+            PreferenceStorage.saveLocationCheck(this, false);
+            android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(MainActivity.this);
+            alertDialogBuilder.setTitle("Auto Start");
+            alertDialogBuilder.setMessage("Enable auto start for the app to function properly");
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    addAutoStartup();
+                }
+            });
+            alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alertDialogBuilder.show();
+
+        }
+
+        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (pm != null && !pm.isIgnoringBatteryOptimizations(getPackageName())) {
+                askIgnoreOptimization();
+            } else {
+//                accepted;
+            }
+        } else {
+//            accepted;
+        }*/
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            boolean isIgnoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(getPackageName());
+            if (!isIgnoringBatteryOptimizations) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, IGNORE_BATTERY_OPTIMIZATION_REQUEST);
+
+                /*intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(intent);*/
+            }
+        }
 
         loadDashboard();
 
@@ -415,6 +466,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     setPic(selectedImageUri);
                 }
             }
+        } else if (requestCode == IGNORE_BATTERY_OPTIMIZATION_REQUEST) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                boolean isIgnoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(getPackageName());
+                if (isIgnoringBatteryOptimizations) {
+                    // Ignoring battery optimization
+                    Toast.makeText(getApplicationContext(), "Ignoring battery optimization", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Not ignoring battery optimization
+                    Toast.makeText(getApplicationContext(), "Not ignoring battery optimization", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 
@@ -628,14 +692,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if ("xiaomi".equalsIgnoreCase(manufacturer)) {
                 intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
             } else if ("oppo".equalsIgnoreCase(manufacturer)) {
-                intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity"));
+                intent.setComponent(new ComponentName("com.oppo.safe", "com.oppo.safe.permission.startup.StartupAppListActivity"));
             } else if ("vivo".equalsIgnoreCase(manufacturer)) {
                 intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
             } else if ("Letv".equalsIgnoreCase(manufacturer)) {
                 intent.setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity"));
             } else if ("Honor".equalsIgnoreCase(manufacturer)) {
                 intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
-            }
+            } else if ("oneplus".equalsIgnoreCase(manufacturer)) {
+            intent.setComponent(new ComponentName("com.oneplus.security", "com.oneplus.security.chainlaunch.view.ChainLaunchAppListAct‌​ivity"));
+        }
+//            intent.setComponent(new ComponentName("com.samsung.android.lool",
+//                    "com.samsung.android.sm.ui.battery.BatteryActivity"));
+//                    new Intent("miui.intent.action.OP_AUTO_START").addCategory(Intent.CATEGORY_DEFAULT);
+//                    intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
+//                    intent.setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity"));
+//                    intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
+//                    intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity"));
+//                    intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.startupapp.StartupAppListActivity"));
+//                    intent.setComponent(new ComponentName("com.oppo.safe", "com.oppo.safe.permission.startup.StartupAppListActivity"));
+//                    intent.setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity"));
+//                    intent.setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager"));
+//                    intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+//                    intent.setComponent(new ComponentName("com.asus.mobilemanager", "com.asus.mobilemanager.entry.FunctionActivity")).setData(
+//                            Uri.parse("mobilemanager://function/entry/AutoStart"));
 
             List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
             if  (list.size() > 0) {

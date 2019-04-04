@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }
 
-        addAutoStartup();
+//        addAutoStartup();
 
         PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -102,37 +102,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
 //            accepted;
         }*/
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            boolean isIgnoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(getPackageName());
-            if (!isIgnoringBatteryOptimizations) {
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, IGNORE_BATTERY_OPTIMIZATION_REQUEST);
-
-                /*intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivity(intent);*/
-            }
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            boolean isIgnoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(getPackageName());
+//            if (!isIgnoringBatteryOptimizations) {
+//                Intent intent = new Intent();
+//                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+//                intent.setData(Uri.parse("package:" + getPackageName()));
+//                startActivityForResult(intent, IGNORE_BATTERY_OPTIMIZATION_REQUEST);
+//
+//                /*intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+//                intent.setData(Uri.parse("package:" + getPackageName()));
+//                startActivity(intent);*/
+//            }
+//        }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (requestCode == IGNORE_BATTERY_OPTIMIZATION_REQUEST) {
-                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                boolean isIgnoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(getPackageName());
-                if (isIgnoringBatteryOptimizations) {
-                    // Ignoring battery optimization
-                    Toast.makeText(getApplicationContext(), "Ignoring battery optimization", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Not ignoring battery optimization
-                    Toast.makeText(getApplicationContext(), "Not ignoring battery optimization", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
+//    @Override
+////    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+////        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+////            if (requestCode == IGNORE_BATTERY_OPTIMIZATION_REQUEST) {
+////                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+////                boolean isIgnoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(getPackageName());
+////                if (isIgnoringBatteryOptimizations) {
+////                    // Ignoring battery optimization
+////                    Toast.makeText(getApplicationContext(), "Ignoring battery optimization", Toast.LENGTH_SHORT).show();
+////                } else {
+////                    // Not ignoring battery optimization
+////                    Toast.makeText(getApplicationContext(), "Not ignoring battery optimization", Toast.LENGTH_SHORT).show();
+////                }
+////            }
+////        }
+////    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

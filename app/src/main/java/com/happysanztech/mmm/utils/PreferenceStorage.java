@@ -404,5 +404,23 @@ public class PreferenceStorage {
     }
     /*End*/
 
+    // Center Id
+    public static void saveLocationCheck(Context context, Boolean check) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("tnsrl_check", check);
+        editor.apply();
+    }
+
+    public static Boolean getLocationCheck(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        Boolean check = true;
+        check = sharedPreferences.getBoolean("tnsrl_check",check);
+        return check;
+    }
+    /*End*/
+
 
 }

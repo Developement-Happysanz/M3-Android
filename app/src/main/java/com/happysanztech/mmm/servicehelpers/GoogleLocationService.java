@@ -1,10 +1,12 @@
 package com.happysanztech.mmm.servicehelpers;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
@@ -16,6 +18,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -54,7 +57,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
     public Location previousBestLoc = null;
     private ServiceHelper serviceHelper;
     SQLiteHelper database;
-    private static final int ONE_MINUTES = 500 * 5 * 2;
+    private static final int ONE_MINUTES = 500 * 5;
     private boolean isFirstTimePreviousBest = true;
     private boolean isFirstTimeRecordUpdateToServer = true;
 
@@ -81,7 +84,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
         super.onCreate();
 
         mTimer = new Timer();
-        mTimer.schedule(new TimerTaskToGetLocation(), 5, notify_interval);
+        mTimer.schedule(new TimerTaskToGetLocation(), 2, notify_interval);
         intent = new Intent(str_receiver);
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
@@ -338,7 +341,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
         // because the user has likely moved
         if (isSignificantlyNewer) {
             if (isGPSEnable) {
-                if (distance > 0.01) {
+                if (distance > 0.001) {
                     if (!checkUserId.equalsIgnoreCase("") || checkUserId != null) {
 //                        Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
                         isFirstTimePreviousBest = false;
