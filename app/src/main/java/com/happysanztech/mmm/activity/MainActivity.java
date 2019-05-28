@@ -54,9 +54,13 @@ import com.happysanztech.mmm.fragments.ChangePasswordFragment;
 import com.happysanztech.mmm.fragments.DashboardFragment;
 import com.happysanztech.mmm.fragments.TaskFragment;
 import com.happysanztech.mmm.fragments.TradeFragment;
+import com.happysanztech.mmm.helper.AlertDialogHelper;
+import com.happysanztech.mmm.helper.ProgressDialogHelper;
 import com.happysanztech.mmm.interfaces.DialogClickListener;
 import com.happysanztech.mmm.servicehelpers.GoogleLocationService;
 import com.happysanztech.mmm.servicehelpers.LocationService;
+import com.happysanztech.mmm.servicehelpers.ServiceHelper;
+import com.happysanztech.mmm.serviceinterfaces.IServiceListener;
 import com.happysanztech.mmm.utils.AndroidMultiPartEntity;
 import com.happysanztech.mmm.utils.MobilizerConstants;
 import com.happysanztech.mmm.utils.PreferenceStorage;
@@ -82,7 +86,7 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        DialogClickListener {
+        DialogClickListener, IServiceListener {
 
     private int count = 0;
     private static final String TAG = AddCandidateActivity.class.getName();
@@ -100,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SQLiteHelper database;
     boolean firstLaunch = true;
     private static final int IGNORE_BATTERY_OPTIMIZATION_REQUEST = 1002;
+    private ServiceHelper serviceHelper;
+    private ProgressDialogHelper progressDialogHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +130,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             item.setVisible(false);
         }
 */
-
+        serviceHelper = new ServiceHelper(this);
+        serviceHelper.setServiceListener(this);
+        progressDialogHelper = new ProgressDialogHelper(this);
 
         View hView = navigationView.getHeaderView(0);
 
@@ -213,8 +221,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);*/
             }
         }
-
+        dailyLoginActivity();
         loadDashboard();
+
 
     }
 
@@ -230,6 +239,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
 
+    }
+
+    private void dailyLoginActivity() {
+        
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+            jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(MobilizerConstants.DAILY_ACTIVITY, "login");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String url = MobilizerConstants.BUILD_URL + MobilizerConstants.USER_DAILY_ACTIVITY;
+        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 
     @Override
@@ -562,6 +587,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mUpdatedImageUrl = null;
 
         new UploadFileToServer().execute();
+    }
+
+    private boolean validateSignInResponse(JSONObject response) {
+        boolean signInSuccess = false;
+        if ((response != null)) {
+            try {
+                String status = response.getString("status");
+                String msg = response.getString(MobilizerConstants.PARAM_MESSAGE);
+                Log.d(TAG, "status val" + status + "msg" + msg);
+
+                if ((status != null)) {
+                    if (((status.equalsIgnoreCase("activationError")) || (status.equalsIgnoreCase("alreadyRegistered")) ||
+                            (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
+                        signInSuccess = false;
+                        Log.d(TAG, "Show error dialog");
+                        AlertDialogHelper.showSimpleAlertDialog(this, msg);
+
+                    } else {
+                        signInSuccess = true;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return signInSuccess;
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        if (validateSignInResponse(response)) {
+        }
+    }
+
+    @Override
+    public void onError(String error) {
+
     }
 
     /**

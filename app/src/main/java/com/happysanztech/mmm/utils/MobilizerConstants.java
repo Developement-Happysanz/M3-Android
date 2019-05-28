@@ -192,4 +192,8 @@ public class MobilizerConstants {
     //    Center image list
     public static final String NOTIFICATION_LIST = MOBILIZER_API + "disp_circular/";
 
+    //    Center image list
+    public static final String USER_DAILY_ACTIVITY = "apimain/user_activity";
+    public static final String DAILY_ACTIVITY = "activity_detail";
+
 }

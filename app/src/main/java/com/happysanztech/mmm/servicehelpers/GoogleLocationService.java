@@ -50,14 +50,14 @@ public class GoogleLocationService extends Service implements LocationListener, 
     Location location;
     private Handler mHandler = new Handler();
     private Timer mTimer = null;
-    long notify_interval = 2000;
+    long notify_interval = 200;
     public static String str_receiver = "servicetutorial.service.receiver";
     Intent intent;
 
     public Location previousBestLoc = null;
     private ServiceHelper serviceHelper;
     SQLiteHelper database;
-    private static final int ONE_MINUTES = 500 * 5;
+    private static final int ONE_MINUTES = 1000;
     private boolean isFirstTimePreviousBest = true;
     private boolean isFirstTimeRecordUpdateToServer = true;
 
@@ -84,7 +84,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
         super.onCreate();
 
         mTimer = new Timer();
-        mTimer.schedule(new TimerTaskToGetLocation(), 2, notify_interval);
+        mTimer.schedule(new TimerTaskToGetLocation(), 0, notify_interval);
         intent = new Intent(str_receiver);
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
@@ -201,7 +201,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
 
             if (isGPSEnable) {
                 location = null;
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
                 if (locationManager != null) {
                     location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     if (location != null) {
@@ -252,7 +252,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
         initializeTimerTask();
 
         //schedule the timer, to wake up every 2 second
-        timer.schedule(timerTask, 2000, 2000); //
+        timer.schedule(timerTask, 1000, 1000); //
     }
 
     /**
@@ -341,7 +341,7 @@ public class GoogleLocationService extends Service implements LocationListener, 
         // because the user has likely moved
         if (isSignificantlyNewer) {
             if (isGPSEnable) {
-                if (distance > 0.001) {
+                if (distance > 0.01) {
                     if (!checkUserId.equalsIgnoreCase("") || checkUserId != null) {
 //                        Toast.makeText(this, "Location sent", Toast.LENGTH_LONG).show();
                         isFirstTimePreviousBest = false;
