@@ -18,8 +18,8 @@ android {
     defaultConfig {
         applicationId "com.happysanztech.mmm"
         minSdkVersion 15
-        versionCode 15
-        versionName "1.0.16"
+        versionCode 16
+        versionName "1.0.17"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
