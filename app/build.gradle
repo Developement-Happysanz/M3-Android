@@ -12,14 +12,15 @@ android {
         }
     }
 
-    compileSdkVersion 26
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 27
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.happysanztech.mmm"
         minSdkVersion 15
-        versionCode 16
-        versionName "1.0.17"
+        versionCode 17
+        targetSdkVersion 27
+        versionName "1.0.18"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -97,7 +98,7 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation "com.android.support:appcompat-v7:25+"
+    implementation "com.android.support:appcompat-v7:27+"
 
 //    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
@@ -119,10 +120,10 @@ dependencies {
     implementation files('libs/universal-image-loader-1.9.3.jar')
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
 
-    implementation "com.android.support:design:26+"
-    implementation "com.android.support:percent:26+"
-    implementation "com.android.support:cardview-v7:26+"
-    implementation "com.android.support:gridlayout-v7:26+"
+    implementation "com.android.support:design:27+"
+    implementation "com.android.support:percent:27+"
+    implementation "com.android.support:cardview-v7:27+"
+    implementation "com.android.support:gridlayout-v7:27+"
     implementation 'com.google.android.gms:play-services-auth:11.0.4'
     implementation 'com.google.android.gms:play-services-gcm:11.0.4'
     implementation 'com.google.android.gms:play-services-location:11.0.4'
