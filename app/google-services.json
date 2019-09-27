@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "447103445726-4qk28tldgbgv48tengthj1hklkj6b1ot.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.happysanztech.mmm",
+            "certificate_hash": "d5f5f188ed8df203aa2b9b38dcb546e666af3623"
+          }
+        },
+        {
           "client_id": "447103445726-3o1c5njimddp8qui423qubqf778di28n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -41,20 +49,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "447103445726-vetotgc0uamr5uohs86qior1gvopiro4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

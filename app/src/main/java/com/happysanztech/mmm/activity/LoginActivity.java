@@ -57,11 +57,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText edtUsername, edtPassword;
     private Button signIn;
 
-    private static String[] PERMISSIONS_ALL = {Manifest.permission.READ_CONTACTS,
-            Manifest.permission.WRITE_CONTACTS, Manifest.permission.READ_CALENDAR,
-            Manifest.permission.WRITE_CALENDAR, Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CALL_PHONE,
-            Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    private static String[] PERMISSIONS_ALL = {Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
     private static final int REQUEST_PERMISSION_All = 111;
 

@@ -14,12 +14,12 @@
 
         <ImageView
             android:id="@+id/im_banner"
-            android:layout_width="200dp"
+            android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_weight="0.50"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_logo_hst" />
+            android:src="@drawable/ic_splash_logo" />
 
         <TextView
             android:id="@+id/im_banner1"
@@ -41,8 +41,8 @@
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:layout_weight="0.50"
-            android:fontFamily="@font/minion_pro_bold"
             android:gravity="center"
+            android:textStyle="bold"
             android:text="@string/login_title_banner"
             android:textAllCaps="true"
             android:textColor="@color/white"

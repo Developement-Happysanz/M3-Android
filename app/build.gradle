@@ -12,15 +12,15 @@ android {
         }
     }
 
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.happysanztech.mmm"
         minSdkVersion 15
-        versionCode 17
-        targetSdkVersion 27
-        versionName "1.0.18"
+        versionCode 20
+        targetSdkVersion 28
+        versionName "1.0.1813"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -84,13 +84,13 @@ repositories {
     mavenCentral()
 }
 
-configurations.all {
-    resolutionStrategy {
-        //force 'com.android.support:design:23.4.0'
-        force 'com.android.support:support-v4:26+'
-        force 'com.android.support:appcompat-v7:26+'
-    }
-}
+//configurations.all {
+//    resolutionStrategy {
+//        //force 'com.android.support:design:23.4.0'
+////        force 'com.android.support:support-v4:26+'
+//        force 'com.android.support:appcompat-v7:26+'
+//    }
+//}
 
 dependencies {
 
