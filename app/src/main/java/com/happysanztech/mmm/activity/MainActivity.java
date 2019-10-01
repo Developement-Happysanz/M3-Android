@@ -58,9 +58,9 @@ import com.happysanztech.mmm.helper.AlertDialogHelper;
 import com.happysanztech.mmm.helper.ProgressDialogHelper;
 import com.happysanztech.mmm.interfaces.DialogClickListener;
 import com.happysanztech.mmm.servicehelpers.GoogleLocationService;
-import com.happysanztech.mmm.servicehelpers.LocationService;
 import com.happysanztech.mmm.servicehelpers.ServiceHelper;
 import com.happysanztech.mmm.serviceinterfaces.IServiceListener;
+import com.happysanztech.mmm.syncadapter.UploadDataSyncAdapter;
 import com.happysanztech.mmm.utils.AndroidMultiPartEntity;
 import com.happysanztech.mmm.utils.MobilizerConstants;
 import com.happysanztech.mmm.utils.PreferenceStorage;
@@ -122,14 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         database = new SQLiteHelper(getApplicationContext());
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-       /* if (Department.contentEquals("31964e21-6996-4910-a936-12496e9f0559")) {
-            MenuItem item = navigationView.getMenu().getItem(2);
-            item.setVisible(false);
-        } else if (Department.contentEquals("13b65ba2-9c63-40f9-91b9-5c52d7209977")) {
-            MenuItem item = navigationView.getMenu().getItem(1);
-            item.setVisible(false);
-        }
-*/
+
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
@@ -140,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String url = PreferenceStorage.getUserPicture(this);
         if (((url != null) && !(url.isEmpty()))) {
-            Picasso.with(this).load(url).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(ivUserProfile);
+            Picasso.get().load(url).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(ivUserProfile);
         }
         String name = PreferenceStorage.getName(this);
         TextView headerName = (TextView) hView.findViewById(R.id.txtName);
@@ -177,25 +170,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         startService(new Intent(MainActivity.this, GoogleLocationService.class));
 
-        if(PreferenceStorage.getLocationCheck(this)) {
-            PreferenceStorage.saveLocationCheck(this, false);
-            android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(MainActivity.this);
-            alertDialogBuilder.setTitle("Auto Start");
-            alertDialogBuilder.setMessage("Enable auto start for the app to function properly");
-            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface arg0, int arg1) {
-                    addAutoStartup();
-                }
-            });
-            alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            alertDialogBuilder.show();
+        if (!checkPhoneModel()) {
+            if (PreferenceStorage.getLocationCheck(this)) {
+                PreferenceStorage.saveLocationCheck(this, false);
+                android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(MainActivity.this);
+                alertDialogBuilder.setTitle("Auto Start");
+                alertDialogBuilder.setMessage("Enable auto start for the app to function properly");
+                alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        addAutoStartup();
+                    }
+                });
+                alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialogBuilder.show();
 
+            }
         }
 
         PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
@@ -221,9 +216,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);*/
             }
         }
+
         dailyLoginActivity();
         loadDashboard();
 
+        UploadDataSyncAdapter.initializeSyncAdapter(getApplicationContext());
 
     }
 
@@ -242,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void dailyLoginActivity() {
-        
+
         JSONObject jsonObject = new JSONObject();
         try {
 
@@ -353,6 +350,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContent, fragment);
             ft.commit();
+        } else if (id == R.id.nav_sync) {
+            /*fragment = new SyncFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.flContent, fragment);
+            ft.commit();*/
+            Intent navigationIntent = new Intent(this, SyncRecordsActivity.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
         } else if (id == R.id.nav_change_password) {
             fragment = new ChangePasswordFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -379,6 +384,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         database.deleteAllCurrentBestLocation();
         database.deleteAllPreviousBestLocation();
+        database.deleteAllStoredLocationData();
 //        deleteTableRecords.deleteAllRecords();
         stopService(new Intent(MainActivity.this, GoogleLocationService.class));
 //        stopService(new Intent(MainActivity.this, GPSTracker.class));
@@ -746,6 +752,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    private boolean checkPhoneModel() {
+
+        String manufacturer = android.os.Build.MANUFACTURER;
+
+        if ("xiaomi".equalsIgnoreCase(manufacturer)) {
+            return false;
+        } else if ("oppo".equalsIgnoreCase(manufacturer)) {
+            return false;
+        } else if ("vivo".equalsIgnoreCase(manufacturer)) {
+            return false;
+        } else if ("Letv".equalsIgnoreCase(manufacturer)) {
+            return false;
+        } else if ("Honor".equalsIgnoreCase(manufacturer)) {
+            return false;
+        } else if ("oneplus".equalsIgnoreCase(manufacturer)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     private void addAutoStartup() {
 
         try {
@@ -762,8 +789,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else if ("Honor".equalsIgnoreCase(manufacturer)) {
                 intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
             } else if ("oneplus".equalsIgnoreCase(manufacturer)) {
-            intent.setComponent(new ComponentName("com.oneplus.security", "com.oneplus.security.chainlaunch.view.ChainLaunchAppListAct‌​ivity"));
-        }
+                intent.setComponent(new ComponentName("com.oneplus.security", "com.oneplus.security.chainlaunch.view.ChainLaunchAppListAct‌​ivity"));
+            }
 //            intent.setComponent(new ComponentName("com.samsung.android.lool",
 //                    "com.samsung.android.sm.ui.battery.BatteryActivity"));
 //                    new Intent("miui.intent.action.OP_AUTO_START").addCategory(Intent.CATEGORY_DEFAULT);
@@ -780,11 +807,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                            Uri.parse("mobilemanager://function/entry/AutoStart"));
 
             List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            if  (list.size() > 0) {
+            if (list.size() > 0) {
                 startActivity(intent);
             }
         } catch (Exception e) {
-            Log.e("exc" , String.valueOf(e));
+            Log.e("exc", String.valueOf(e));
         }
     }
 }

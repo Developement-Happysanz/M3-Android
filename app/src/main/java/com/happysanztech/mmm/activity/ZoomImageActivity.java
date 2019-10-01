@@ -30,7 +30,7 @@ public class ZoomImageActivity extends AppCompatActivity implements View.OnClick
         ivZoomImage = findViewById(R.id.zoom_image);
 
         if (MobilizerValidator.checkNullString(centerPhotosData.getCenterPhotos())) {
-            Picasso.with(this).load(centerPhotosData.getCenterPhotos()).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(ivZoomImage);
+            Picasso.get().load(centerPhotosData.getCenterPhotos()).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(ivZoomImage);
         } else {
             ivZoomImage.setImageResource(R.drawable.ic_profile);
         }

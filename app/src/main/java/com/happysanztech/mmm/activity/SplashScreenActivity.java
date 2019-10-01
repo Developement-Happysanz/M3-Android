@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.happysanztech.mmm.R;
 import com.happysanztech.mmm.utils.AppValidator;
 import com.happysanztech.mmm.utils.PreferenceStorage;
@@ -23,6 +27,20 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        String GCMKey = PreferenceStorage.getGCM(getApplicationContext());
+        if (GCMKey.equalsIgnoreCase("")) {
+//            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(SplashScreenActivity.this, new OnSuccessListener<InstanceIdResult>() {
+                @Override
+                public void onSuccess(InstanceIdResult instanceIdResult) {
+                    String newToken = instanceIdResult.getToken();
+                    Log.e("newToken", newToken);
+                    PreferenceStorage.saveGCM(getApplicationContext(), newToken);
+                }
+            });
+//            PreferenceStorage.saveGCM(getApplicationContext(), refreshedToken);
+        }
 
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -101,7 +101,7 @@ public class CenterPhotosListAdapter extends BaseAdapter {
 //        holder.txtId.setText(taskPictures.get(position).getId());
 
         if (MobilizerValidator.checkNullString(centerPhotosData.get(position).getCenterPhotos())) {
-            Picasso.with(this.context).load(centerPhotosData.get(position).getCenterPhotos()).fit().transform(this.transformation).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(holder.imageView);
+            Picasso.get().load(centerPhotosData.get(position).getCenterPhotos()).fit().transform(this.transformation).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(holder.imageView);
         } else {
             holder.imageView.setImageResource(R.drawable.ic_profile);
         }

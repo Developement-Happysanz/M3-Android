@@ -40,8 +40,7 @@ import java.util.TimerTask;
 
 import static android.util.Log.d;
 
-public class GoogleLocationService extends Service implements LocationListener, IServiceListener {
-
+public class GoogleLocationService extends Service implements LocationListener {
 
     boolean isGPSEnable = false;
     boolean isNetworkEnable = false;
@@ -55,11 +54,11 @@ public class GoogleLocationService extends Service implements LocationListener, 
     Intent intent;
 
     public Location previousBestLoc = null;
-    private ServiceHelper serviceHelper;
     SQLiteHelper database;
     private static final int ONE_MINUTES = 1000;
     private boolean isFirstTimePreviousBest = true;
     private boolean isFirstTimeRecordUpdateToServer = true;
+    private String gpsStatus = "N";
 
     private String LOG_TAG = null;
     public int counter = 0;
@@ -86,8 +85,6 @@ public class GoogleLocationService extends Service implements LocationListener, 
         mTimer = new Timer();
         mTimer.schedule(new TimerTaskToGetLocation(), 0, notify_interval);
         intent = new Intent(str_receiver);
-        serviceHelper = new ServiceHelper(this);
-        serviceHelper.setServiceListener(this);
         database = new SQLiteHelper(getApplicationContext());
 //        fn_getlocation();
     }
@@ -178,6 +175,8 @@ public class GoogleLocationService extends Service implements LocationListener, 
 
         if (!isGPSEnable && !isNetworkEnable) {
 
+            gpsStatus = "N";
+
         } else {
 
             /*if (isNetworkEnable) {
@@ -198,10 +197,10 @@ public class GoogleLocationService extends Service implements LocationListener, 
                 }
             }*/
 
-
+            gpsStatus = "Y";
             if (isGPSEnable) {
                 location = null;
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
                 if (locationManager != null) {
                     location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     if (location != null) {
@@ -450,24 +449,18 @@ public class GoogleLocationService extends Service implements LocationListener, 
 
     private void callService(double distance, Location location) {
         double currentLatitude = location.getLatitude();
+        String lat = Double.toString(currentLatitude);
         double currentLongitude = location.getLongitude();
+        String lon = Double.toString(currentLongitude);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
         String locationAddress = getCompleteAddressString(currentLatitude, currentLongitude);
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
-            jsonObject.put(MobilizerConstants.PARAMS_LATITUDE, currentLatitude);
-            jsonObject.put(MobilizerConstants.PARAMS_LONGITUDE, currentLongitude);
-            jsonObject.put(MobilizerConstants.PARAMS_DATETIME, currentDateandTime);
-            jsonObject.put(MobilizerConstants.PARAMS_LOCATION, locationAddress);
-            jsonObject.put(MobilizerConstants.PARAMS_DISTANCE, distance);
-            jsonObject.put(MobilizerConstants.PARAMS_PIA_ID, PreferenceStorage.getPIAId(getApplicationContext()));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        String url = MobilizerConstants.BUILD_URL + MobilizerConstants.MTS;
-        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+        String dist = Double.toString(distance);
+
+        long x = database.store_location_data_insert(PreferenceStorage.getUserId(getApplicationContext()), lat, lon, locationAddress,
+                currentDateandTime, dist, PreferenceStorage.getPIAId(getApplicationContext()), gpsStatus);
+
+        System.out.println("Stored Id : " + x);
     }
 
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
@@ -492,43 +485,5 @@ public class GoogleLocationService extends Service implements LocationListener, 
             Log.w("MyCurrentloctionaddress", "Canont get Address!");
         }
         return strAdd;
-    }
-
-    private boolean validateSignInResponse(JSONObject response) {
-        boolean signInSuccess = false;
-        if ((response != null)) {
-            try {
-                String status = response.getString("status");
-                String msg = response.getString(MobilizerConstants.PARAM_MESSAGE);
-                d("HI", "status val" + status + "msg" + msg);
-
-                if ((status != null)) {
-                    if (((status.equalsIgnoreCase("activationError")) || (status.equalsIgnoreCase("alreadyRegistered")) ||
-                            (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
-                        signInSuccess = false;
-                        d("HI", "Show error dialog");
-                        AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), msg);
-
-                    } else {
-                        signInSuccess = true;
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return signInSuccess;
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        if (validateSignInResponse(response)) {
-
-        }
-    }
-
-    @Override
-    public void onError(String error) {
-
     }
 }

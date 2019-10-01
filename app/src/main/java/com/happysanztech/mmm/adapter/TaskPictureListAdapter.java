@@ -96,7 +96,7 @@ public class TaskPictureListAdapter extends BaseAdapter {
         holder.txtId.setText(taskPictures.get(position).getId());
 
         if (MobilizerValidator.checkNullString(taskPictures.get(position).getTaskImage())) {
-            Picasso.with(this.context).load(taskPictures.get(position).getTaskImage()).fit().transform(this.transformation).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(holder.imageView);
+            Picasso.get().load(taskPictures.get(position).getTaskImage()).fit().transform(this.transformation).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(holder.imageView);
         } else {
             holder.imageView.setImageResource(R.drawable.ic_profile);
         }
