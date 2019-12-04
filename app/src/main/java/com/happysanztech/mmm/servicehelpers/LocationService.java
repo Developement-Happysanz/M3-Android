@@ -1,12 +1,8 @@
 package com.happysanztech.mmm.servicehelpers;
 
-import android.Manifest;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,13 +11,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.SystemClock;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 
-import com.happysanztech.mmm.activity.MainActivity;
 import com.happysanztech.mmm.bean.database.SQLiteHelper;
 import com.happysanztech.mmm.helper.AlertDialogHelper;
 import com.happysanztech.mmm.serviceinterfaces.IServiceListener;

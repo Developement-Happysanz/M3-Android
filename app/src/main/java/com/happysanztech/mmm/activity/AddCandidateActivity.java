@@ -25,11 +25,6 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -68,6 +63,13 @@ import com.happysanztech.mmm.utils.PreferenceStorage;
 import com.happysanztech.mmm.utils.aadhaar.DataAttributes;
 import com.happysanztech.mmm.utils.aadhaar.Storage;
 
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -401,7 +403,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         }
                     };
 
-                    GetTrade();
+//                    GetTrade();
                 } else if (checkInternalState.equalsIgnoreCase("addStudent")) {
                     if (mProgressDialog != null) {
                         mProgressDialog.cancel();
@@ -416,7 +418,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         saveUserImage();
                     } else {
 
-                        Toast.makeText(getApplicationContext(), "Student profile successfully...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Created a new prospect.", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 }

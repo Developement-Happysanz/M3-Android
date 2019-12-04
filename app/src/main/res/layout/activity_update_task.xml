@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,6 @@
         android:src="@drawable/ic_arrow_back_white_24dp" />
 
     <TextView
-        android:id="@+id/tvtitletext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -31,7 +30,7 @@
         android:gravity="center"
         android:minHeight="?attr/actionBarSize"
         android:padding="5dp"
-        android:text="View Task"
+        android:text="Task Details"
         android:textColor="@color/white"
         android:fontFamily="@font/open_sans_semi_bold"
         android:textSize="20sp"/>

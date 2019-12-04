@@ -2,8 +2,6 @@ package com.happysanztech.mmm.activity;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,10 +10,18 @@ import android.widget.TextView;
 import com.happysanztech.mmm.R;
 import com.happysanztech.mmm.bean.database.SQLiteHelper;
 import com.happysanztech.mmm.helper.AlertDialogHelper;
+import com.happysanztech.mmm.interfaces.DialogClickListener;
 import com.happysanztech.mmm.syncadapter.SyncLocationRecords;
 import com.happysanztech.mmm.utils.CommonUtils;
 
-public class SyncRecordsActivity extends AppCompatActivity implements View.OnClickListener {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+public class SyncRecordsActivity extends AppCompatActivity implements View.OnClickListener, DialogClickListener {
 
     private static final String TAG = SyncRecordsActivity.class.getName();
     private LinearLayout layLocationRecords;
@@ -72,6 +78,16 @@ public class SyncRecordsActivity extends AppCompatActivity implements View.OnCli
             }
 
         }
+
+    }
+
+    @Override
+    public void onAlertPositiveClicked(int tag) {
+
+    }
+
+    @Override
+    public void onAlertNegativeClicked(int tag) {
 
     }
 }

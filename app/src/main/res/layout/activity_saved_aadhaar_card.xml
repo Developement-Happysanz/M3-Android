@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.rajdeol.aadhaarreader.SavedAadhaarCardActivity">
+    tools:context=".activity.aadhaar.SavedAadhaarCardActivity">
     <LinearLayout
         android:id="@+id/ll_saved_card_message"
         android:layout_width="match_parent"

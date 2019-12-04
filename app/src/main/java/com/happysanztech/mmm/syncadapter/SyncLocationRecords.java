@@ -119,6 +119,7 @@ public class SyncLocationRecords implements IServiceListener {
             } else {
                 Toast.makeText(context, "All records synced", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(context, MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(i);
             }
         }

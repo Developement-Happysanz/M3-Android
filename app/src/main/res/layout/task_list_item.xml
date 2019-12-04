@@ -2,35 +2,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="5dp">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txtTaskId"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone" />
+        android:background="@drawable/shadow_round"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_margin="5dp">
 
-    <TextView
-        android:id="@+id/txtTaskTitle"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/white"
-        android:gravity="left"
-        android:text="Advanced Digital Signal Processing"
-        android:textColor="@color/black"
+        <TextView
+            android:id="@+id/txtTaskId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
-        android:textSize="16sp"
-        android:fontFamily="@font/open_sans_bold"/>
+        <TextView
+            android:id="@+id/txtTaskTitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="left"
+            android:text="Advanced Digital Signal Processing"
+            android:textColor="@color/black"
 
-    <TextView
-        android:id="@+id/txtTaskDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:text="Advanced Digital Signal Processing"
-        android:textColor="@color/black"
-        android:fontFamily="@font/open_sans_regular"
-        android:textSize="14sp" />
+            android:textSize="16sp"
+            android:fontFamily="@font/open_sans_bold"/>
+
+        <TextView
+            android:id="@+id/txtTaskDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="Advanced Digital Signal Processing"
+            android:textColor="@color/black"
+            android:fontFamily="@font/open_sans_regular"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
 
 </LinearLayout>

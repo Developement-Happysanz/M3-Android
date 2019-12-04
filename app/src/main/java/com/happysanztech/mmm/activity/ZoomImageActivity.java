@@ -1,8 +1,6 @@
 package com.happysanztech.mmm.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -10,6 +8,13 @@ import com.happysanztech.mmm.R;
 import com.happysanztech.mmm.bean.support.CenterPhotosData;
 import com.happysanztech.mmm.utils.MobilizerValidator;
 import com.squareup.picasso.Picasso;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 /**
  * Created by Admin on 18-01-2018.

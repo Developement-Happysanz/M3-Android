@@ -1,12 +1,10 @@
 package com.happysanztech.mmm.servicehelpers;
 
-import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
@@ -17,19 +15,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
+import androidx.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.happysanztech.mmm.bean.database.SQLiteHelper;
-import com.happysanztech.mmm.helper.AlertDialogHelper;
-import com.happysanztech.mmm.serviceinterfaces.IServiceListener;
-import com.happysanztech.mmm.utils.MobilizerConstants;
 import com.happysanztech.mmm.utils.PreferenceStorage;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

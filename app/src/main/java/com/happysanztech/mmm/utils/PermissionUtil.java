@@ -3,7 +3,7 @@ package com.happysanztech.mmm.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
+import androidx.core.app.ActivityCompat;
 
 public abstract class PermissionUtil {
 

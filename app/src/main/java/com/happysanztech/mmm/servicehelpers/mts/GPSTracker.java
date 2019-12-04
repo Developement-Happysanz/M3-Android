@@ -13,9 +13,10 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.happysanztech.mmm.helper.AlertDialogHelper;
 import com.happysanztech.mmm.servicehelpers.ServiceHelper;

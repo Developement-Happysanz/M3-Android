@@ -4,10 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.happysanztech.mmm.R;
-import com.happysanztech.mmm.activity.AddCandidateActivity;
 import com.happysanztech.mmm.activity.CenterPhotosActivity;
-import com.happysanztech.mmm.activity.CenterVideos;
-import com.happysanztech.mmm.activity.CenterVideosActivity;
 import com.happysanztech.mmm.activity.VideoListDemoActivity;
 import com.happysanztech.mmm.helper.AlertDialogHelper;
 import com.happysanztech.mmm.helper.ProgressDialogHelper;

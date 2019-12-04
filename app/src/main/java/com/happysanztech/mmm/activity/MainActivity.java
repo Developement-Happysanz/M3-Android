@@ -1,13 +1,17 @@
 package com.happysanztech.mmm.activity;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -16,25 +20,24 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.IBinder;
 import android.os.Parcelable;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
+import androidx.core.view.GravityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,10 +45,25 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.happysanztech.mmm.BuildConfig;
 import com.happysanztech.mmm.R;
 import com.happysanztech.mmm.bean.database.SQLiteHelper;
 import com.happysanztech.mmm.fragments.AddCandidateFragment;
@@ -58,13 +76,16 @@ import com.happysanztech.mmm.helper.AlertDialogHelper;
 import com.happysanztech.mmm.helper.ProgressDialogHelper;
 import com.happysanztech.mmm.interfaces.DialogClickListener;
 import com.happysanztech.mmm.servicehelpers.GoogleLocationService;
+import com.happysanztech.mmm.servicehelpers.LocationUpdatesService;
 import com.happysanztech.mmm.servicehelpers.ServiceHelper;
 import com.happysanztech.mmm.serviceinterfaces.IServiceListener;
 import com.happysanztech.mmm.syncadapter.UploadDataSyncAdapter;
 import com.happysanztech.mmm.utils.AndroidMultiPartEntity;
 import com.happysanztech.mmm.utils.MobilizerConstants;
 import com.happysanztech.mmm.utils.PreferenceStorage;
+import com.happysanztech.mmm.utils.Utils;
 import com.squareup.picasso.Picasso;
+import com.yalantis.ucrop.UCrop;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -79,14 +100,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        DialogClickListener, IServiceListener {
+        DialogClickListener, IServiceListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private int count = 0;
     private static final String TAG = AddCandidateActivity.class.getName();
@@ -106,10 +132,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int IGNORE_BATTERY_OPTIMIZATION_REQUEST = 1002;
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
+    File image = null;
+
+
+    // Used in checking for runtime permissions.
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+
+    // The BroadcastReceiver used to listen from broadcasts from the service.
+    private MyReceiver myReceiver;
+
+    // A reference to the service used to get location updates.
+    private LocationUpdatesService mService = null;
+
+    // Tracks the bound state of the service.
+    private boolean mBound = false;
+
+    // UI elements.
+    private Button mRequestLocationUpdatesButton;
+    private Button mRemoveLocationUpdatesButton;
+
+    // Monitors the state of the connection to the service.
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            LocationUpdatesService.LocalBinder binder = (LocationUpdatesService.LocalBinder) service;
+            mService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mService = null;
+            mBound = false;
+        }
+    };
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myReceiver = new MyReceiver();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -168,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ex.printStackTrace();
         }
 
-        startService(new Intent(MainActivity.this, GoogleLocationService.class));
+//        startService(new Intent(MainActivity.this, GoogleLocationService.class));
 
         if (!checkPhoneModel()) {
             if (PreferenceStorage.getLocationCheck(this)) {
@@ -386,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         database.deleteAllPreviousBestLocation();
         database.deleteAllStoredLocationData();
 //        deleteTableRecords.deleteAllRecords();
-        stopService(new Intent(MainActivity.this, GoogleLocationService.class));
+//        stopService(new Intent(MainActivity.this, GoogleLocationService.class));
 //        stopService(new Intent(MainActivity.this, GPSTracker.class));
 
 
@@ -412,180 +477,142 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void openImagesDocument() {
+        Intent pictureIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        pictureIntent.setType("image/*");
+        pictureIntent.addCategory(Intent.CATEGORY_OPENABLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            String[] mimeTypes = new String[]{"image/jpeg", "image/png"};
+            pictureIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        }
+        startActivityForResult(Intent.createChooser(pictureIntent, "Select Picture"), 2);
+    }
+
     private void openImageIntent() {
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Remove Photo", "Cancel"};
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Change Profile Picture");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Take Photo")) {
+//                    openCamera();
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+                    Uri f = FileProvider.getUriForFile(MainActivity.this,
+                            BuildConfig.APPLICATION_ID + ".provider",
+                            createImageFile());
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, f);
+                    startActivityForResult(intent, 1);
+                } else if (options[item].equals("Choose from Gallery")) {
+                    openImagesDocument();
+                } else if (options[item].equals("Remove Photo")) {
+                    PreferenceStorage.saveUserPicture(MainActivity.this, "");
+                    ivUserProfile.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_profile));
+                    mSelectedImageUri = Uri.parse("android.resource://com.palprotech.heylaapp/drawable/ic_default_profile");
+                    mActualFilePath = mSelectedImageUri.getPath();
+                    saveUserImage();
+                } else if (options[item].equals("Cancel")) {
 
-        // Determine Uri of camera image to save.
-        final File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyDir");
-
-        if (!root.exists()) {
-            if (!root.mkdirs()) {
-                Log.d(TAG, "Failed to create directory for storing images");
-                return;
+                    dialog.dismiss();
+                }
             }
-        }
-
-        final String fname = PreferenceStorage.getUserId(this) + ".png";
-        final File sdImageMainDirectory = new File(root.getPath() + File.separator + fname);
-        outputFileUri = Uri.fromFile(sdImageMainDirectory);
-        Log.d(TAG, "camera output Uri" + outputFileUri);
-
-        // Camera.
-        final List<Intent> cameraIntents = new ArrayList<Intent>();
-        final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        final PackageManager packageManager = getPackageManager();
-        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for (ResolveInfo res : listCam) {
-            final String packageName = res.activityInfo.packageName;
-            final Intent intent = new Intent(captureIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(packageName);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-            cameraIntents.add(intent);
-        }
-
-        // Filesystem.
-        final Intent galleryIntent = new Intent();
-        galleryIntent.setType("image/*");
-        galleryIntent.setAction(Intent.ACTION_PICK);
-
-        // Chooser of filesystem options.
-        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Profile Photo");
-
-        // Add the camera options.
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
-
-        startActivityForResult(chooserIntent, REQUEST_IMAGE_GET);
+        });
+        builder.show();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-
-            if (requestCode == REQUEST_IMAGE_GET) {
-                Log.d(TAG, "ONActivity Result");
-                final boolean isCamera;
-                if (data == null) {
-                    Log.d(TAG, "camera is true");
-                    isCamera = true;
-                } else {
-                    final String action = data.getAction();
-                    Log.d(TAG, "camera action is" + action);
-                    if (action == null) {
-                        isCamera = false;
-                    } else {
-                        isCamera = action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
-                    }
+            if (requestCode == 1) {
+//                Uri uri = Uri.parse(mActualFilePath);
+//                openCropActivity(uri, uri);
+                final File file = new File(mActualFilePath);
+                try {
+                    InputStream ims = new FileInputStream(file);
+                    ivUserProfile.setImageBitmap(BitmapFactory.decodeStream(ims));
+                } catch (FileNotFoundException e) {
+                    return;
                 }
 
-                Uri selectedImageUri;
-
-                if (isCamera) {
-                    Log.d(TAG, "Add to gallery");
-                    selectedImageUri = outputFileUri;
-                    mActualFilePath = outputFileUri.getPath();
-                    galleryAddPic(selectedImageUri);
-                } else {
-                    selectedImageUri = data == null ? null : data.getData();
-                    mActualFilePath = getRealPathFromURI(this, selectedImageUri);
-                    Log.d(TAG, "path to image is" + mActualFilePath);
-
+                // ScanFile so it will be appeared on Gallery
+                MediaScannerConnection.scanFile(MainActivity.this,
+                        new String[]{mActualFilePath}, null,
+                        new MediaScannerConnection.OnScanCompletedListener() {
+                            public void onScanCompleted(String path, Uri uri) {
+//                                performCrop(uri);
+                                Uri destinationUri = Uri.fromFile(file);  // 3
+                                openCropActivity(uri, destinationUri);
+                            }
+                        });
+            } else if (requestCode == 2) {
+                Uri sourceUri = data.getData(); // 1
+                File file = null; // 2
+                try {
+                    file = getImageFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                Log.d(TAG, "image Uri is" + selectedImageUri);
-                if (selectedImageUri != null) {
-                    Log.d(TAG, "image URI is" + selectedImageUri);
-                    setPic(selectedImageUri);
-                }
-            }
-        } else if (requestCode == IGNORE_BATTERY_OPTIMIZATION_REQUEST) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                boolean isIgnoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(getPackageName());
-                if (isIgnoringBatteryOptimizations) {
-                    // Ignoring battery optimization
-                    Toast.makeText(getApplicationContext(), "Ignoring battery optimization", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Not ignoring battery optimization
-                    Toast.makeText(getApplicationContext(), "Not ignoring battery optimization", Toast.LENGTH_SHORT).show();
+                Uri destinationUri = Uri.fromFile(file);  // 3
+                openCropActivity(sourceUri, destinationUri);  // 4
+            } else if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
+                if (data != null) {
+                    Uri uri = UCrop.getOutput(data);
+                    ivUserProfile.setImageURI(uri);
+//                    mActualFilePath = uri.getPath();
+                    saveUserImage();
                 }
             }
         }
     }
 
-    private void galleryAddPic(Uri urirequest) {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(urirequest.getPath());
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
+    private File getImageFile() throws IOException {
+        String timeStamp =
+                new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir =
+                getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".png",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        mActualFilePath = image.getAbsolutePath();
+        return image;
     }
 
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        String result = null;
+    private File createImageFile() {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "PNG_" + timeStamp + "_";
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM), "Camera");
         try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            CursorLoader loader = new CursorLoader(context, contentUri, proj, null, null, null);
-
-            Cursor cursor = loader.loadInBackground();
-            if (cursor != null) {
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
-                result = cursor.getString(column_index);
-                cursor.close();
-            } else {
-                Log.d(TAG, "cursor is null");
-            }
-        } catch (Exception e) {
-            result = null;
-            Toast.makeText(this, "Was unable to save  image", Toast.LENGTH_SHORT).show();
-
-        } finally {
-            return result;
-        }
-    }
-
-    private void setPic(Uri selectedImageUri) {
-        // Get the dimensions of the View
-        int targetW = ivUserProfile.getWidth();
-        int targetH = ivUserProfile.getHeight();
-
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        try {
-            BitmapFactory.decodeStream(this.getContentResolver().openInputStream(selectedImageUri), null, bmOptions);
-        } catch (FileNotFoundException e) {
+            image = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".png",         /* suffix */
+                    storageDir      /* directory */
+            );
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
 
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+        // Save a file: path for use with ACTION_VIEW intents
+        mActualFilePath = image.getAbsolutePath();
+        return image;
+    }
 
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-        mSelectedImageUri = selectedImageUri;
-
-        Bitmap bitmap = null;
-        try {
-            bitmap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(selectedImageUri), null, bmOptions);
-            ivUserProfile.setImageBitmap(bitmap);
-            mCurrentUserImageBitmap = bitmap;
-
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage("Updating Profile");
-            mProgressDialog.show();
-
-            saveUserImage();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    private void openCropActivity(Uri sourceUri, Uri destinationUri) {
+        UCrop.Options options = new UCrop.Options();
+        options.setCircleDimmedLayer(true);
+        options.setCropFrameColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        UCrop.of(sourceUri, destinationUri)
+                .withMaxResultSize(100, 100)
+                .withAspectRatio(5f, 5f)
+                .start(this);
     }
 
     private void saveUserImage() {
@@ -631,6 +658,186 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onError(String error) {
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
+
+        mRequestLocationUpdatesButton = (Button) findViewById(R.id.request_location_updates_button);
+        mRemoveLocationUpdatesButton = (Button) findViewById(R.id.remove_location_updates_button);
+
+        mRequestLocationUpdatesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!checkPermissions()) {
+                    requestPermissions();
+                } else {
+                    mService.requestLocationUpdates();
+                }
+            }
+        });
+
+        mRemoveLocationUpdatesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mService.removeLocationUpdates();
+            }
+        });
+
+        // Restore the state of the buttons when the activity (re)launches.
+        setButtonsState(Utils.requestingLocationUpdates(this));
+
+        // Bind to the service. If the service is in foreground mode, this signals to the service
+        // that since this activity is in the foreground, the service can exit foreground mode.
+        bindService(new Intent(this, LocationUpdatesService.class), mServiceConnection,
+                Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(myReceiver,
+                new IntentFilter(LocationUpdatesService.ACTION_BROADCAST));
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(myReceiver);
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        if (mBound) {
+            // Unbind from the service. This signals to the service that this activity is no longer
+            // in the foreground, and the service can respond by promoting itself to a foreground
+            // service.
+            unbindService(mServiceConnection);
+            mBound = false;
+        }
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
+        super.onStop();
+    }
+
+    /**
+     * Returns the current state of the permissions needed.
+     */
+    private boolean checkPermissions() {
+        return  PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+    }
+
+    private void requestPermissions() {
+        boolean shouldProvideRationale =
+                ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION);
+
+        // Provide an additional rationale to the user. This would happen if the user denied the
+        // request previously, but didn't check the "Don't ask again" checkbox.
+        if (shouldProvideRationale) {
+            Log.i(TAG, "Displaying permission rationale to provide additional context.");
+            Snackbar.make(
+                    findViewById(R.id.drawer_layout),
+                    R.string.permission_rationale,
+                    Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Ok", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // Request permission
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                    REQUEST_PERMISSIONS_REQUEST_CODE);
+                        }
+                    })
+                    .show();
+        } else {
+            Log.i(TAG, "Requesting permission");
+            // Request permission. It's possible this can be auto answered if device policy
+            // sets the permission in a given state or the user denied the permission
+            // previously and checked "Never ask again".
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_PERMISSIONS_REQUEST_CODE);
+        }
+    }
+
+    /**
+     * Callback received when a permissions request has been completed.
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        Log.i(TAG, "onRequestPermissionResult");
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length <= 0) {
+                // If user interaction was interrupted, the permission request is cancelled and you
+                // receive empty arrays.
+                Log.i(TAG, "User interaction was cancelled.");
+            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission was granted.
+                mService.requestLocationUpdates();
+            } else {
+                // Permission denied.
+                setButtonsState(false);
+                Snackbar.make(
+                        findViewById(R.id.drawer_layout),
+                        R.string.permission_denied_explanation,
+                        Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.settings, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                // Build intent that displays the App settings screen.
+                                Intent intent = new Intent();
+                                intent.setAction(
+                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package",
+                                        BuildConfig.APPLICATION_ID, null);
+                                intent.setData(uri);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        })
+                        .show();
+            }
+        }
+    }
+
+    /**
+     * Receiver for broadcasts sent by {@link LocationUpdatesService}.
+     */
+    private class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Location location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
+            if (location != null) {
+                Toast.makeText(MainActivity.this, Utils.getLocationText(location),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        // Update the buttons state depending on whether location updates are being requested.
+        if (s.equals(Utils.KEY_REQUESTING_LOCATION_UPDATES)) {
+            setButtonsState(sharedPreferences.getBoolean(Utils.KEY_REQUESTING_LOCATION_UPDATES,
+                    false));
+        }
+    }
+
+    private void setButtonsState(boolean requestingLocationUpdates) {
+        if (requestingLocationUpdates) {
+            mRequestLocationUpdatesButton.setEnabled(false);
+            mRemoveLocationUpdatesButton.setEnabled(true);
+        } else {
+            mRequestLocationUpdatesButton.setEnabled(true);
+            mRemoveLocationUpdatesButton.setEnabled(false);
+        }
+    }
+
 
     /**
      * Uploading the file to server
@@ -683,7 +890,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     // Extra parameters if you want to pass to server
                     entity.addPart("user_id", new StringBody(PreferenceStorage.getUserId(getApplicationContext())));
-//                    entity.addPart("user_type", new StringBody(PreferenceStorage.getUserType(ProfileActivity.this)));
+//                    entity.addPart("user_type", new StringBody(PreferenceStorage.getUserType(MainActivity.this)));
 
                     totalSize = entity.getContentLength();
                     httppost.setEntity(entity);

@@ -44,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="Description"
+                    android:text="About"
                     android:textColor="@color/black"
                     android:fontFamily="@font/open_sans_bold"
                     android:textSize="16sp" />
@@ -108,13 +108,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="Trainer"
+                    android:text="Trainers"
                     android:textColor="@color/black"
                     android:fontFamily="@font/open_sans_bold"
                     android:textSize="16sp" />
 
                 <HorizontalScrollView
-                    android:id="@+id/horizon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -150,7 +149,6 @@
                     android:textSize="16sp" />
 
                 <HorizontalScrollView
-                    android:id="@+id/horizon_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"

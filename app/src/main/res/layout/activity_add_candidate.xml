@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,6 @@
         android:src="@drawable/ic_arrow_back_white_24dp" />
 
     <TextView
-        android:id="@+id/tvtitletext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -31,7 +30,7 @@
         android:gravity="center"
         android:minHeight="?attr/actionBarSize"
         android:padding="5dp"
-        android:text="Add Candidate"
+        android:text="Collect Prospect\'s Details"
         android:fontFamily="@font/open_sans_semi_bold"
         android:textColor="@color/white"
         android:textSize="20sp" />
@@ -96,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
                         android:fontFamily="@font/open_sans_regular"
-                        android:hint="Date of bitrh*"
+                        android:hint="Date of Bitrh*"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -151,7 +150,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
-                        android:hint="Community Class*"
+                        android:hint="Communal Category*"
                         android:fontFamily="@font/open_sans_regular"
                         android:inputType="text"
                         android:singleLine="true"
@@ -181,7 +180,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
                         android:fontFamily="@font/open_sans_regular"
-                        android:hint="Blood group*"
+                        android:hint="Blood Group*"
                         android:spinnerMode="dropdown"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -196,7 +195,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
-                        android:hint="Father name*"
+                        android:hint="Father Name*"
                         android:inputType="text"
                         android:fontFamily="@font/open_sans_regular"
                         android:singleLine="true"
@@ -207,7 +206,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
-                        android:hint="Mother name*"
+                        android:hint="Mother Name*"
                         android:inputType="text"
                         android:fontFamily="@font/open_sans_regular"
                         android:singleLine="true"
@@ -219,7 +218,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="Mobile number*"
+                    android:hint="Mobile Number*"
                     android:inputType="number"
                     android:fontFamily="@font/open_sans_regular"
                     android:singleLine="true"
@@ -230,7 +229,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="Alternative Mobile number"
+                    android:hint="Alternative Mobile Number"
                     android:fontFamily="@font/open_sans_regular"
                     android:inputType="number"
                     android:singleLine="true"
@@ -241,7 +240,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_regular"
-                    android:hint="Email id"
+                    android:hint="Email ID"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -270,7 +269,7 @@
                     android:id="@+id/et_candidate_address_line_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Address line 1*"
+                    android:hint="Address Line 1*"
                     android:fontFamily="@font/open_sans_regular"
                     android:inputType="text"
                     android:singleLine="true"
@@ -280,7 +279,7 @@
                     android:id="@+id/et_candidate_address_line_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Address line 2"
+                    android:hint="Address Line 2"
                     android:fontFamily="@font/open_sans_regular"
                     android:inputType="text"
                     android:singleLine="true"
@@ -292,7 +291,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.50"
                     android:fontFamily="@font/open_sans_regular"
-                    android:hint="Mother tongue*"
+                    android:hint="Mother Tongue*"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -322,7 +321,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_regular"
-                    android:hint="Preferred trade*"
+                    android:hint="Preferred Trade*"
                     android:spinnerMode="dropdown"
                     android:textSize="14sp" />
 
@@ -339,7 +338,7 @@
                         android:layout_weight="0.40"
                         android:visibility="gone"
                         android:fontFamily="@font/open_sans_regular"
-                        android:hint="Preferred timings*"
+                        android:hint="Preferred Timings*"
                         android:spinnerMode="dropdown"
                         android:textSize="14sp" />
 
@@ -360,7 +359,7 @@
                     android:id="@+id/et_candidate_last_institute"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Last institute"
+                    android:hint="Last Institute"
                     android:fontFamily="@font/open_sans_regular"
                     android:inputType="text"
                     android:singleLine="true"
@@ -370,7 +369,7 @@
                     android:id="@+id/et_candidate_qualified_promotion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Qualified promotion"
+                    android:hint="Qualified Promotion"
                     android:fontFamily="@font/open_sans_regular"
                     android:inputType="text"
                     android:singleLine="true"
@@ -380,7 +379,7 @@
                     android:id="@+id/et_candidate_tc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Transfer certificate"
+                    android:hint="Transfer Certificate"
                     android:fontFamily="@font/open_sans_regular"
                     android:visibility="gone"
                     android:inputType="text"
@@ -392,7 +391,7 @@
                     android:layout_width="match_parent"
                     android:fontFamily="@font/open_sans_regular"
                     android:layout_height="wrap_content"
-                    android:text="Have transfer certificate ?" />
+                    android:text="Have Transfer Certificate ?" />
 
                 <CheckBox
                     android:id="@+id/cb_candidate_have_aadhaar_card"
@@ -400,8 +399,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_regular"
                     android:checked="true"
+                    android:visibility="gone"
                     android:enabled="false"
-                    android:text="Have aadhaar card ?" />
+                    android:text="Have Aadhaar Card ?" />
 
                 <EditText
                     android:id="@+id/et_candidate_aadhaar_card_number"
@@ -409,7 +409,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_regular"
                     android:digits="0123456789"
-                    android:hint="Aadhaar number*"
+                    android:hint="Aadhaar Number*"
                     android:inputType="number"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -424,7 +424,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/btn_square_login"
-                    android:text="Submit"
+                    android:text="Enter Details"
                     android:textColor="@color/white"
                     android:fontFamily="@font/open_sans_bold"
                     android:textSize="14sp"/>
