@@ -37,17 +37,33 @@
             android:icon="@drawable/ic_sync"
             android:title="Sync" />
 
+        <!--        <item-->
+        <!--            android:id="@+id/nav_change_password"-->
+        <!--            android:icon="@drawable/ic_change_password"-->
+        <!--            android:title="Change Password" />-->
+
+
+    </group>
+    <group
+        android:id="@+id/nav_footer"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_footer_1"
+            android:menuCategory="system"
+            android:title="Profile" />
+        <item
+            android:id="@+id/nav_footer_2"
+            android:menuCategory="system"
+            android:title="About Us" />
         <item
             android:id="@+id/nav_change_password"
-            android:icon="@drawable/ic_change_password"
+            android:menuCategory="system"
             android:title="Change Password" />
-
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_logout"
+            android:menuCategory="system"
             android:title="Logout" />
     </group>
-
     <!--<item android:title="Communicate">
         <menu>
             <item

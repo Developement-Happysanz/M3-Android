@@ -44,6 +44,7 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
     private ProgressDialogHelper progressDialogHelper;
     private EditText etOldPassword;
     private EditText etNewPassword;
+    private EditText etConfirmPassword;
     private Button btnSubmit;
     View rootView;
 
@@ -59,6 +60,7 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
         progressDialogHelper = new ProgressDialogHelper(getActivity());
         etOldPassword = rootView.findViewById(R.id.et_old_password);
         etNewPassword = rootView.findViewById(R.id.et_new_password);
+        etConfirmPassword = rootView.findViewById(R.id.et_confirm_password);
         btnSubmit = rootView.findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(this);
 
@@ -103,10 +105,16 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
     private boolean validateFields() {
 
         if (!AppValidator.checkNullString(this.etOldPassword.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(getActivity(), "Enter valid password");
+            AlertDialogHelper.showSimpleAlertDialog(getActivity(), "Old password required");
             return false;
         } else if (!AppValidator.checkNullString(this.etNewPassword.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(getActivity(), "Enter valid password");
+            AlertDialogHelper.showSimpleAlertDialog(getActivity(), "New password required");
+            return false;
+        } else if (!AppValidator.checkNullString(this.etConfirmPassword.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(getActivity(), "Confirm password required");
+            return false;
+        } else if (!this.etNewPassword.getText().toString().trim().equalsIgnoreCase(this.etNewPassword.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(getActivity(), "Password does not match new password");
             return false;
         } else {
             return true;

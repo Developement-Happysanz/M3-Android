@@ -38,6 +38,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.core.view.GravityCompat;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,6 +71,7 @@ import com.happysanztech.mmm.fragments.AddCandidateFragment;
 import com.happysanztech.mmm.fragments.CenterInfoFragment;
 import com.happysanztech.mmm.fragments.ChangePasswordFragment;
 import com.happysanztech.mmm.fragments.DashboardFragment;
+import com.happysanztech.mmm.fragments.ProfileFragment;
 import com.happysanztech.mmm.fragments.TaskFragment;
 import com.happysanztech.mmm.fragments.TradeFragment;
 import com.happysanztech.mmm.helper.AlertDialogHelper;
@@ -167,8 +169,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mBound = false;
         }
     };
-
-
 
 
     @Override
@@ -383,17 +383,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
 
         if (id == R.id.nav_dashboard) {
+            mRequestLocationUpdatesButton.setVisibility(View.VISIBLE);
+            mRemoveLocationUpdatesButton.setVisibility(View.VISIBLE);
             // Handle the camera action
             fragment = new DashboardFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContent, fragment);
             ft.commit();
         } else if (id == R.id.nav_add_candidate) {
+            mRequestLocationUpdatesButton.setVisibility(View.GONE);
+            mRemoveLocationUpdatesButton.setVisibility(View.GONE);
             fragment = new AddCandidateFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContent, fragment);
             ft.commit();
         } else if (id == R.id.nav_center_information) {
+            mRequestLocationUpdatesButton.setVisibility(View.GONE);
+            mRemoveLocationUpdatesButton.setVisibility(View.GONE);
             fragment = new CenterInfoFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContent, fragment);
@@ -406,16 +412,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.commit();
         }*/
         else if (id == R.id.nav_trade) {
+            mRequestLocationUpdatesButton.setVisibility(View.GONE);
+            mRemoveLocationUpdatesButton.setVisibility(View.GONE);
             fragment = new TradeFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContent, fragment);
             ft.commit();
         } else if (id == R.id.nav_task) {
+            mRequestLocationUpdatesButton.setVisibility(View.GONE);
+            mRemoveLocationUpdatesButton.setVisibility(View.GONE);
             fragment = new TaskFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContent, fragment);
             ft.commit();
         } else if (id == R.id.nav_sync) {
+            mRequestLocationUpdatesButton.setVisibility(View.GONE);
+            mRemoveLocationUpdatesButton.setVisibility(View.GONE);
             /*fragment = new SyncFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContent, fragment);
@@ -423,7 +435,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent navigationIntent = new Intent(this, SyncRecordsActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
+        } else if (id == R.id.nav_footer_1) {
+            mRequestLocationUpdatesButton.setVisibility(View.GONE);
+            mRemoveLocationUpdatesButton.setVisibility(View.GONE);
+            fragment = new ProfileFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.flContent, fragment);
+            ft.commit();
+        } else if (id == R.id.nav_footer_2) {
+            mRequestLocationUpdatesButton.setVisibility(View.GONE);
+            mRemoveLocationUpdatesButton.setVisibility(View.GONE);
+            fragment = new ChangePasswordFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.flContent, fragment);
+            ft.commit();
         } else if (id == R.id.nav_change_password) {
+            mRequestLocationUpdatesButton.setVisibility(View.GONE);
+            mRemoveLocationUpdatesButton.setVisibility(View.GONE);
             fragment = new ChangePasswordFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContent, fragment);
@@ -726,7 +754,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * Returns the current state of the permissions needed.
      */
     private boolean checkPermissions() {
-        return  PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(this,
+        return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
     }
 
@@ -838,10 +866,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
-    /**
-     * Uploading the file to server
-     */
     private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
         private static final String TAG = "UploadFileToServer";
         private HttpClient httpclient;
@@ -868,7 +892,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             String responseString = null;
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost(String.format(MobilizerConstants.BUILD_URL + MobilizerConstants.UPLOAD_USER_PIC + PreferenceStorage.getUserId(getApplicationContext())));
+            httppost = new HttpPost(String.format(MobilizerConstants.BUILD_URL + MobilizerConstants.UPLOAD_USER_PIC + PreferenceStorage.getUserId(getApplicationContext()) + "/"));
 
             try {
                 AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
@@ -889,8 +913,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     entity.addPart("user_pic", new FileBody(sourceFile));
 
                     // Extra parameters if you want to pass to server
-                    entity.addPart("user_id", new StringBody(PreferenceStorage.getUserId(getApplicationContext())));
-//                    entity.addPart("user_type", new StringBody(PreferenceStorage.getUserType(MainActivity.this)));
+//                    entity.addPart("user_id", new StringBody(PreferenceStorage.getUserId(getApplicationContext())));
+//                    entity.addPart("user_type", new StringBody(PreferenceStorage.getUserType(ProfileActivity.this)));
 
                     totalSize = entity.getContentLength();
                     httppost.setEntity(entity);
@@ -907,7 +931,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             JSONObject resp = new JSONObject(responseString);
                             String successVal = resp.getString("status");
 
-                            mUpdatedImageUrl = resp.getString("user_picture");
+                            mUpdatedImageUrl = resp.getString("picture_url");
+                            PreferenceStorage.saveUserPicture(getApplicationContext(), mUpdatedImageUrl);
 
                             Log.d(TAG, "updated image url is" + mUpdatedImageUrl);
                             if (successVal.equalsIgnoreCase("success")) {
@@ -950,7 +975,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Toast.makeText(getApplicationContext(), "User profile image successfully...", Toast.LENGTH_SHORT).show();
 //            finish();
-//            saveCandidate();
         }
 
         @Override
@@ -958,6 +982,126 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onCancelled();
         }
     }
+
+//    /**
+//     * Uploading the file to server
+//     */
+//    private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
+//        private static final String TAG = "UploadFileToServer";
+//        private HttpClient httpclient;
+//        HttpPost httppost;
+//        public boolean isTaskAborted = false;
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected void onProgressUpdate(Integer... progress) {
+//
+//        }
+//
+//        @Override
+//        protected String doInBackground(Void... params) {
+//            return uploadFile();
+//        }
+//
+//        @SuppressWarnings("deprecation")
+//        private String uploadFile() {
+//            String responseString = null;
+//
+//            httpclient = new DefaultHttpClient();
+//            httppost = new HttpPost(String.format(MobilizerConstants.BUILD_URL + MobilizerConstants.UPLOAD_USER_PIC + PreferenceStorage.getUserId(getApplicationContext())));
+//
+//            try {
+//                AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
+//                        new AndroidMultiPartEntity.ProgressListener() {
+//
+//                            @Override
+//                            public void transferred(long num) {
+//
+//                            }
+//                        });
+//                Log.d(TAG, "actual file path is" + mActualFilePath);
+//                if (mActualFilePath != null) {
+//
+//                    File sourceFile = new File(mActualFilePath);
+//
+//                    // Adding file data to http body
+//                    //fileToUpload
+//                    entity.addPart("user_pic", new FileBody(sourceFile));
+//
+//                    // Extra parameters if you want to pass to server
+//                    entity.addPart("user_id", new StringBody(PreferenceStorage.getUserId(getApplicationContext())));
+////                    entity.addPart("user_type", new StringBody(PreferenceStorage.getUserType(MainActivity.this)));
+//
+//                    totalSize = entity.getContentLength();
+//                    httppost.setEntity(entity);
+//
+//                    // Making server call
+//                    HttpResponse response = httpclient.execute(httppost);
+//                    HttpEntity r_entity = response.getEntity();
+//
+//                    int statusCode = response.getStatusLine().getStatusCode();
+//                    if (statusCode == 200) {
+//                        // Server response
+//                        responseString = EntityUtils.toString(r_entity);
+//                        try {
+//                            JSONObject resp = new JSONObject(responseString);
+//                            String successVal = resp.getString("status");
+//
+//                            mUpdatedImageUrl = resp.getString("user_picture");
+//
+//                            Log.d(TAG, "updated image url is" + mUpdatedImageUrl);
+//                            if (successVal.equalsIgnoreCase("success")) {
+//                                Log.d(TAG, "Updated image succesfully");
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    } else {
+//                        responseString = "Error occurred! Http Status Code: "
+//                                + statusCode;
+//                    }
+//                }
+//
+//            } catch (ClientProtocolException e) {
+//                responseString = e.toString();
+//            } catch (IOException e) {
+//                responseString = e.toString();
+//            }
+//
+//            return responseString;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            Log.e(TAG, "Response from server: " + result);
+//
+//            super.onPostExecute(result);
+//            if ((result == null) || (result.isEmpty()) || (result.contains("Error"))) {
+//                Toast.makeText(MainActivity.this, "Unable to save profile picture", Toast.LENGTH_SHORT).show();
+//            } else {
+//                if (mUpdatedImageUrl != null) {
+//                    PreferenceStorage.saveUserPicture(MainActivity.this, mUpdatedImageUrl);
+//                }
+//            }
+//
+//            if (mProgressDialog != null) {
+//                mProgressDialog.cancel();
+//            }
+//
+//            Toast.makeText(getApplicationContext(), "User profile image successfully...", Toast.LENGTH_SHORT).show();
+////            finish();
+////            saveCandidate();
+//        }
+//
+//        @Override
+//        protected void onCancelled() {
+//            super.onCancelled();
+//        }
+//    }
 
     private boolean checkPhoneModel() {
 

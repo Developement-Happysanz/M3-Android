@@ -88,6 +88,12 @@ public class MobilizerConstants {
     //    Upload candidate pic
     public static final String UPLOAD_USER_PIC = MOBILIZER_API + "user_profilepic/";
 
+    //    Upload candidate pic
+    public static final String GET_USER_PROFILE = MOBILIZER_API + "user_profile/";
+
+    //    Upload candidate pic
+    public static final String UPDATE_USER_PROFILE = MOBILIZER_API + "user_profile_update/";
+
     //    Add candidate
     public static final String ADD_CANDIDATE = MOBILIZER_API + "add_student/";
 

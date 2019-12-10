@@ -16,13 +16,14 @@
         <include
             layout="@layout/app_bar_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_above="@+id/loc_layout" />
 
         <FrameLayout
             android:id="@+id/flContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/loc_layout"/>
+            android:layout_above="@+id/loc_layout" />
 
         <LinearLayout
             android:id="@+id/loc_layout"
@@ -34,15 +35,15 @@
             <Button
                 android:id="@+id/request_location_updates_button"
                 android:layout_width="match_parent"
-                android:layout_weight="0.5"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.5"
                 android:text="@string/request_location_updates" />
 
             <Button
                 android:id="@+id/remove_location_updates_button"
                 android:layout_width="match_parent"
-                android:layout_weight="0.5"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.5"
                 android:text="@string/remove_location_updates" />
 
 
@@ -60,6 +61,4 @@
         app:headerLayout="@layout/nav_header_main"
         app:itemTextAppearance="@font/open_sans_regular"
         app:menu="@menu/activity_main_drawer" />
-
-
 </androidx.drawerlayout.widget.DrawerLayout>
