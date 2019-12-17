@@ -663,13 +663,18 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     if (gender.equalsIgnoreCase("M")) {
                         etCandidateSex.setText("Male");
                     } else if (gender.equalsIgnoreCase("F")) {
-                        etCandidateDOB.setText("Female");
+                        etCandidateSex.setText("Female");
                     } else {
-                        etCandidateDOB.setText("Others");
+                        etCandidateSex.setText("Others");
                     }
                     etCandidateAddressLine1.setText(house + " " + street + " " + location);
-                    etCandidateCity.setText(postOffice);
+                    etCandidateFatherName.setText(careOf);
+                    etCandidateCity.setText(district);
+                    etCandidateDOB.setText(dob);
                     etCandidateState.setText(state);
+                    etCandidateNationality.setText("Indian");
+                    cbCandidatesAadhaarStatus.setVisibility(View.VISIBLE);
+                    cbCandidatesAadhaarStatus.setChecked(true);
 
                     /*String dobFormat = "", ageFormat = "";
                     if (dob != null && dob != "") {
@@ -1232,17 +1237,18 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
 
             if (requestCode == REQUEST_IMAGE_GET) {
-                Log.d(TAG, "ONActivity Result");
+                d(TAG, "ONActivity Result");
                 final boolean isCamera;
                 if (data == null) {
-                    Log.d(TAG, "camera is true");
+                    d(TAG, "camera is true");
                     isCamera = true;
                 } else {
                     final String action = data.getAction();
-                    Log.d(TAG, "camera action is" + action);
+                    d(TAG, "camera action is" + action);
                     if (action == null) {
                         isCamera = false;
                     } else {
@@ -1253,19 +1259,19 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                 Uri selectedImageUri;
 
                 if (isCamera) {
-                    Log.d(TAG, "Add to gallery");
+                    d(TAG, "Add to gallery");
                     selectedImageUri = outputFileUri;
                     mActualFilePath = outputFileUri.getPath();
                     galleryAddPic(selectedImageUri);
                 } else {
                     selectedImageUri = data == null ? null : data.getData();
                     mActualFilePath = getRealPathFromURI(this, selectedImageUri);
-                    Log.d(TAG, "path to image is" + mActualFilePath);
+                    d(TAG, "path to image is" + mActualFilePath);
 
                 }
-                Log.d(TAG, "image Uri is" + selectedImageUri);
+                d(TAG, "image Uri is" + selectedImageUri);
                 if (selectedImageUri != null) {
-                    Log.d(TAG, "image URI is" + selectedImageUri);
+                    d(TAG, "image URI is" + selectedImageUri);
                     setPic(selectedImageUri);
                 }
             }

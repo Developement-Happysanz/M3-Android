@@ -73,27 +73,27 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/btn_square_login"
+                    android:background="@drawable/btn_square_border"
                     android:drawableLeft="@drawable/ic_btn_photos"
                     android:drawableStart="@drawable/ic_btn_photos"
                     android:paddingLeft="10dp"
                     android:text="Photos"
                     android:textAllCaps="false"
                     android:fontFamily="@font/open_sans_bold"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/colorPrimary" />
 
                 <Button
                     android:id="@+id/btn_videos"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/btn_square_login"
+                    android:background="@drawable/btn_square_border"
                     android:drawableLeft="@drawable/ic_btn_videos"
                     android:drawableStart="@drawable/ic_btn_videos"
                     android:textAllCaps="false"
                     android:paddingLeft="10dp"
                     android:fontFamily="@font/open_sans_bold"
                     android:text="Videos"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/colorPrimary" />
             </LinearLayout>
 
             <LinearLayout
@@ -171,8 +171,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="50dp"
                 android:layout_below="@+id/ll_success_stories"
-                android:background="@drawable/btn_square_login"
+                android:background="@drawable/round_btn_color"
                 android:text="Trades"
                 android:textSize="16sp"
                 android:fontFamily="@font/open_sans_bold"
