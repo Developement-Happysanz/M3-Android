@@ -48,6 +48,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -114,7 +115,7 @@ import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        DialogClickListener, IServiceListener, SharedPreferences.OnSharedPreferenceChangeListener {
+        DialogClickListener, IServiceListener, SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
 
     private int count = 0;
     private static final String TAG = AddCandidateActivity.class.getName();
@@ -170,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     };
 
+    private LinearLayout layProspects, layAddCandidate, layCenterInformation, layTrades, layTasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
 //                Toast.makeText(getApplicationContext(), "Hi", Toast.LENGTH_LONG).show();
 //                doIncrease();
-                openImageIntent();
+//                openImageIntent();
             }
         });
 
@@ -282,8 +284,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
+        layProspects = findViewById(R.id.prospects);
+        layProspects.setOnClickListener(this);
+
+        layAddCandidate = findViewById(R.id.add_candidates);
+        layAddCandidate.setOnClickListener(this);
+
+        layCenterInformation = findViewById(R.id.center_information);
+        layCenterInformation.setOnClickListener(this);
+
+        layTrades = findViewById(R.id.trades);
+        layTrades.setOnClickListener(this);
+
+        layTasks = findViewById(R.id.task);
+        layTasks.setOnClickListener(this);
+
         dailyLoginActivity();
-        loadDashboard();
+//        loadDashboard();
 
         UploadDataSyncAdapter.initializeSyncAdapter(getApplicationContext());
 
@@ -386,24 +403,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mRequestLocationUpdatesButton.setVisibility(View.VISIBLE);
             mRemoveLocationUpdatesButton.setVisibility(View.VISIBLE);
             // Handle the camera action
-            fragment = new DashboardFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flContent, fragment);
-            ft.commit();
+//            fragment = new DashboardFragment();
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.replace(R.id.flContent, fragment);
+//            ft.commit();
+            Intent navigationIntent = new Intent(this, MainActivity.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
         } else if (id == R.id.nav_add_candidate) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
-            fragment = new AddCandidateFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flContent, fragment);
-            ft.commit();
+//            fragment = new AddCandidateFragment();
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.replace(R.id.flContent, fragment);
+//            ft.commit();
+            Intent navigationIntent = new Intent(this, AddCandidateFragment.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
         } else if (id == R.id.nav_center_information) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
-            fragment = new CenterInfoFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flContent, fragment);
-            ft.commit();
+//            fragment = new CenterInfoFragment();
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.replace(R.id.flContent, fragment);
+//            ft.commit();
+            Intent navigationIntent = new Intent(this, CenterInfoFragment.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
         }
         /*else if (id == R.id.nav_batch_details) {
             fragment = new BatchDetailsFragment();
@@ -414,17 +440,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.nav_trade) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
-            fragment = new TradeFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flContent, fragment);
-            ft.commit();
+//            fragment = new TradeFragment();
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.replace(R.id.flContent, fragment);
+//            ft.commit();
+            Intent navigationIntent = new Intent(this, TradeFragment.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
         } else if (id == R.id.nav_task) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
-            fragment = new TaskFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flContent, fragment);
-            ft.commit();
+//            fragment = new TaskFragment();
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.replace(R.id.flContent, fragment);
+//            ft.commit();
+            Intent navigationIntent = new Intent(this, TaskFragment.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
         } else if (id == R.id.nav_sync) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
@@ -438,24 +470,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_footer_1) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
-            fragment = new ProfileFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flContent, fragment);
-            ft.commit();
+            Intent navigationIntent = new Intent(this, ProfileFragment.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
         } else if (id == R.id.nav_footer_2) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
-            fragment = new ChangePasswordFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flContent, fragment);
-            ft.commit();
+//            fragment = new ChangePasswordFragment();
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.replace(R.id.flContent, fragment);
+//            ft.commit();
+            Intent navigationIntent = new Intent(this, ChangePasswordFragment.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
         } else if (id == R.id.nav_change_password) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
-            fragment = new ChangePasswordFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flContent, fragment);
-            ft.commit();
+//            fragment = new ChangePasswordFragment();
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.replace(R.id.flContent, fragment);
+//            ft.commit();
+            Intent navigationIntent = new Intent(this, ChangePasswordFragment.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
         } else if (id == R.id.nav_logout) {
             doLogout();
         }
@@ -467,10 +504,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void loadDashboard() {
 
-        Fragment fragment = new DashboardFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.flContent, fragment);
-        ft.commit();
+//        Fragment fragment = new DashboardFragment();
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        ft.replace(R.id.flContent, fragment);
+//        ft.commit();
+        Intent navigationIntent = new Intent(this, DashboardFragment.class);
+        navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(navigationIntent);
     }
 
     public void doLogout() {
@@ -503,151 +543,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onAlertNegativeClicked(int tag) {
 
-    }
-
-    private void openImagesDocument() {
-        Intent pictureIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        pictureIntent.setType("image/*");
-        pictureIntent.addCategory(Intent.CATEGORY_OPENABLE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            String[] mimeTypes = new String[]{"image/jpeg", "image/png"};
-            pictureIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-        }
-        startActivityForResult(Intent.createChooser(pictureIntent, "Select Picture"), 2);
-    }
-
-    private void openImageIntent() {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Remove Photo", "Cancel"};
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Change Profile Picture");
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take Photo")) {
-//                    openCamera();
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-                    Uri f = FileProvider.getUriForFile(MainActivity.this,
-                            BuildConfig.APPLICATION_ID + ".provider",
-                            createImageFile());
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, f);
-                    startActivityForResult(intent, 1);
-                } else if (options[item].equals("Choose from Gallery")) {
-                    openImagesDocument();
-                } else if (options[item].equals("Remove Photo")) {
-                    PreferenceStorage.saveUserPicture(MainActivity.this, "");
-                    ivUserProfile.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_profile));
-                    mSelectedImageUri = Uri.parse("android.resource://com.palprotech.heylaapp/drawable/ic_default_profile");
-                    mActualFilePath = mSelectedImageUri.getPath();
-                    saveUserImage();
-                } else if (options[item].equals("Cancel")) {
-
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
-//                Uri uri = Uri.parse(mActualFilePath);
-//                openCropActivity(uri, uri);
-                final File file = new File(mActualFilePath);
-                try {
-                    InputStream ims = new FileInputStream(file);
-                    ivUserProfile.setImageBitmap(BitmapFactory.decodeStream(ims));
-                } catch (FileNotFoundException e) {
-                    return;
-                }
-
-                // ScanFile so it will be appeared on Gallery
-                MediaScannerConnection.scanFile(MainActivity.this,
-                        new String[]{mActualFilePath}, null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            public void onScanCompleted(String path, Uri uri) {
-//                                performCrop(uri);
-                                Uri destinationUri = Uri.fromFile(file);  // 3
-                                openCropActivity(uri, destinationUri);
-                            }
-                        });
-            } else if (requestCode == 2) {
-                Uri sourceUri = data.getData(); // 1
-                File file = null; // 2
-                try {
-                    file = getImageFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Uri destinationUri = Uri.fromFile(file);  // 3
-                openCropActivity(sourceUri, destinationUri);  // 4
-            } else if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
-                if (data != null) {
-                    Uri uri = UCrop.getOutput(data);
-                    ivUserProfile.setImageURI(uri);
-//                    mActualFilePath = uri.getPath();
-                    saveUserImage();
-                }
-            }
-        }
-    }
-
-    private File getImageFile() throws IOException {
-        String timeStamp =
-                new SimpleDateFormat("yyyyMMdd_HHmmss",
-                        Locale.getDefault()).format(new Date());
-        String imageFileName = "IMG_" + timeStamp + "_";
-        File storageDir =
-                getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".png",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        mActualFilePath = image.getAbsolutePath();
-        return image;
-    }
-
-    private File createImageFile() {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "PNG_" + timeStamp + "_";
-        File storageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM), "Camera");
-        try {
-            image = File.createTempFile(
-                    imageFileName,  /* prefix */
-                    ".png",         /* suffix */
-                    storageDir      /* directory */
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mActualFilePath = image.getAbsolutePath();
-        return image;
-    }
-
-    private void openCropActivity(Uri sourceUri, Uri destinationUri) {
-        UCrop.Options options = new UCrop.Options();
-        options.setCircleDimmedLayer(true);
-        options.setCropFrameColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        UCrop.of(sourceUri, destinationUri)
-                .withMaxResultSize(100, 100)
-                .withAspectRatio(5f, 5f)
-                .start(this);
-    }
-
-    private void saveUserImage() {
-
-        mUpdatedImageUrl = null;
-
-        new UploadFileToServer().execute();
     }
 
     private boolean validateSignInResponse(JSONObject response) {
@@ -833,6 +728,66 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @Override
+    public void onClick(View v) {
+
+        if (v == layProspects) {
+//            Fragment fragment = new AddCandidateFragment();
+//            FragmentManager fragmentManager = this.getSupportFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            fragmentTransaction.replace(R.id.flContent, fragment);
+//            fragmentTransaction.addToBackStack(null);
+//            fragmentTransaction.commit();
+            Intent navigationIntent = new Intent(this, ProspectsActivity.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
+        }
+        if (v == layAddCandidate) {
+//            Fragment fragment = new AddCandidateFragment();
+//            FragmentManager fragmentManager = this.getSupportFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            fragmentTransaction.replace(R.id.flContent, fragment);
+//            fragmentTransaction.addToBackStack(null);
+//            fragmentTransaction.commit();
+            Intent navigationIntent = new Intent(this, AddCandidateFragment.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
+        }
+        if (v == layCenterInformation) {
+//            Fragment fragment = new CenterInfoFragment();
+//            FragmentManager fragmentManager = this.getSupportFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            fragmentTransaction.replace(R.id.flContent, fragment);
+//            fragmentTransaction.addToBackStack(null);
+//            fragmentTransaction.commit();
+            Intent navigationIntent = new Intent(this, CenterInfoFragment.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
+        }
+        if (v == layTrades) {
+//            Fragment fragment = new TradeFragment();
+//            FragmentManager fragmentManager = this.getSupportFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            fragmentTransaction.replace(R.id.flContent, fragment);
+//            fragmentTransaction.addToBackStack(null);
+//            fragmentTransaction.commit();
+            Intent navigationIntent = new Intent(this, TradeFragment.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
+        }
+        if (v == layTasks) {
+//            Fragment fragment = new TaskFragment();
+//            FragmentManager fragmentManager = this.getSupportFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            fragmentTransaction.replace(R.id.flContent, fragment);
+//            fragmentTransaction.addToBackStack(null);
+//            fragmentTransaction.commit();
+            Intent navigationIntent = new Intent(this, TaskFragment.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
+        }
+    }
+
     /**
      * Receiver for broadcasts sent by {@link LocationUpdatesService}.
      */
@@ -866,122 +821,122 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
-        private static final String TAG = "UploadFileToServer";
-        private HttpClient httpclient;
-        HttpPost httppost;
-        public boolean isTaskAborted = false;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... progress) {
-
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            return uploadFile();
-        }
-
-        @SuppressWarnings("deprecation")
-        private String uploadFile() {
-            String responseString = null;
-
-            httpclient = new DefaultHttpClient();
-            httppost = new HttpPost(String.format(MobilizerConstants.BUILD_URL + MobilizerConstants.UPLOAD_USER_PIC + PreferenceStorage.getUserId(getApplicationContext()) + "/"));
-
-            try {
-                AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
-                        new AndroidMultiPartEntity.ProgressListener() {
-
-                            @Override
-                            public void transferred(long num) {
-
-                            }
-                        });
-                Log.d(TAG, "actual file path is" + mActualFilePath);
-                if (mActualFilePath != null) {
-
-                    File sourceFile = new File(mActualFilePath);
-
-                    // Adding file data to http body
-                    //fileToUpload
-                    entity.addPart("user_pic", new FileBody(sourceFile));
-
-                    // Extra parameters if you want to pass to server
-//                    entity.addPart("user_id", new StringBody(PreferenceStorage.getUserId(getApplicationContext())));
-//                    entity.addPart("user_type", new StringBody(PreferenceStorage.getUserType(ProfileActivity.this)));
-
-                    totalSize = entity.getContentLength();
-                    httppost.setEntity(entity);
-
-                    // Making server call
-                    HttpResponse response = httpclient.execute(httppost);
-                    HttpEntity r_entity = response.getEntity();
-
-                    int statusCode = response.getStatusLine().getStatusCode();
-                    if (statusCode == 200) {
-                        // Server response
-                        responseString = EntityUtils.toString(r_entity);
-                        try {
-                            JSONObject resp = new JSONObject(responseString);
-                            String successVal = resp.getString("status");
-
-                            mUpdatedImageUrl = resp.getString("picture_url");
-                            PreferenceStorage.saveUserPicture(getApplicationContext(), mUpdatedImageUrl);
-
-                            Log.d(TAG, "updated image url is" + mUpdatedImageUrl);
-                            if (successVal.equalsIgnoreCase("success")) {
-                                Log.d(TAG, "Updated image succesfully");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        responseString = "Error occurred! Http Status Code: "
-                                + statusCode;
-                    }
-                }
-
-            } catch (ClientProtocolException e) {
-                responseString = e.toString();
-            } catch (IOException e) {
-                responseString = e.toString();
-            }
-
-            return responseString;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Log.e(TAG, "Response from server: " + result);
-
-            super.onPostExecute(result);
-            if ((result == null) || (result.isEmpty()) || (result.contains("Error"))) {
-                Toast.makeText(MainActivity.this, "Unable to save profile picture", Toast.LENGTH_SHORT).show();
-            } else {
-                if (mUpdatedImageUrl != null) {
-                    PreferenceStorage.saveUserPicture(MainActivity.this, mUpdatedImageUrl);
-                }
-            }
-
-            if (mProgressDialog != null) {
-                mProgressDialog.cancel();
-            }
-
-            Toast.makeText(getApplicationContext(), "User profile image successfully...", Toast.LENGTH_SHORT).show();
-//            finish();
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-        }
-    }
+//    private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
+//        private static final String TAG = "UploadFileToServer";
+//        private HttpClient httpclient;
+//        HttpPost httppost;
+//        public boolean isTaskAborted = false;
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected void onProgressUpdate(Integer... progress) {
+//
+//        }
+//
+//        @Override
+//        protected String doInBackground(Void... params) {
+//            return uploadFile();
+//        }
+//
+//        @SuppressWarnings("deprecation")
+//        private String uploadFile() {
+//            String responseString = null;
+//
+//            httpclient = new DefaultHttpClient();
+//            httppost = new HttpPost(String.format(MobilizerConstants.BUILD_URL + MobilizerConstants.UPLOAD_USER_PIC + PreferenceStorage.getUserId(getApplicationContext()) + "/"));
+//
+//            try {
+//                AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
+//                        new AndroidMultiPartEntity.ProgressListener() {
+//
+//                            @Override
+//                            public void transferred(long num) {
+//
+//                            }
+//                        });
+//                Log.d(TAG, "actual file path is" + mActualFilePath);
+//                if (mActualFilePath != null) {
+//
+//                    File sourceFile = new File(mActualFilePath);
+//
+//                    // Adding file data to http body
+//                    //fileToUpload
+//                    entity.addPart("user_pic", new FileBody(sourceFile));
+//
+//                    // Extra parameters if you want to pass to server
+////                    entity.addPart("user_id", new StringBody(PreferenceStorage.getUserId(getApplicationContext())));
+////                    entity.addPart("user_type", new StringBody(PreferenceStorage.getUserType(ProfileActivity.this)));
+//
+//                    totalSize = entity.getContentLength();
+//                    httppost.setEntity(entity);
+//
+//                    // Making server call
+//                    HttpResponse response = httpclient.execute(httppost);
+//                    HttpEntity r_entity = response.getEntity();
+//
+//                    int statusCode = response.getStatusLine().getStatusCode();
+//                    if (statusCode == 200) {
+//                        // Server response
+//                        responseString = EntityUtils.toString(r_entity);
+//                        try {
+//                            JSONObject resp = new JSONObject(responseString);
+//                            String successVal = resp.getString("status");
+//
+//                            mUpdatedImageUrl = resp.getString("picture_url");
+//                            PreferenceStorage.saveUserPicture(getApplicationContext(), mUpdatedImageUrl);
+//
+//                            Log.d(TAG, "updated image url is" + mUpdatedImageUrl);
+//                            if (successVal.equalsIgnoreCase("success")) {
+//                                Log.d(TAG, "Updated image succesfully");
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    } else {
+//                        responseString = "Error occurred! Http Status Code: "
+//                                + statusCode;
+//                    }
+//                }
+//
+//            } catch (ClientProtocolException e) {
+//                responseString = e.toString();
+//            } catch (IOException e) {
+//                responseString = e.toString();
+//            }
+//
+//            return responseString;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            Log.e(TAG, "Response from server: " + result);
+//
+//            super.onPostExecute(result);
+//            if ((result == null) || (result.isEmpty()) || (result.contains("Error"))) {
+//                Toast.makeText(MainActivity.this, "Unable to save profile picture", Toast.LENGTH_SHORT).show();
+//            } else {
+//                if (mUpdatedImageUrl != null) {
+//                    PreferenceStorage.saveUserPicture(MainActivity.this, mUpdatedImageUrl);
+//                }
+//            }
+//
+//            if (mProgressDialog != null) {
+//                mProgressDialog.cancel();
+//            }
+//
+//            Toast.makeText(getApplicationContext(), "User profile image successfully...", Toast.LENGTH_SHORT).show();
+////            finish();
+//        }
+//
+//        @Override
+//        protected void onCancelled() {
+//            super.onCancelled();
+//        }
+//    }
 
 //    /**
 //     * Uploading the file to server

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.happysanztech.mmm.R;
@@ -15,15 +16,11 @@ import com.happysanztech.mmm.R;
  * Created by Admin on 03-01-2018.
  */
 
-public class BatchDetailsFragment extends Fragment {
+public class BatchDetailsFragment extends AppCompatActivity {
 
-    public BatchDetailsFragment() {
-    }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_batch_details, container, false);
-        return rootView;
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_batch_details);
     }
 }

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -43,7 +44,7 @@ import static android.util.Log.d;
  * Created by Admin on 03-01-2018.
  */
 
-public class CenterInfoFragment extends Fragment implements View.OnClickListener, IServiceListener, DialogClickListener {
+public class CenterInfoFragment extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener {
 
     private static final String TAG = "CenterInfoFragment";
     private ServiceHelper serviceHelper;
@@ -56,46 +57,39 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
     private LinearLayout layout_success_stories;
     View rootView;
 
-    public CenterInfoFragment() {
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_center_info, container, false);
-        serviceHelper = new ServiceHelper(getActivity());
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_center_info);
+        
+        serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
-        progressDialogHelper = new ProgressDialogHelper(getActivity());
-        txtBannerName = rootView.findViewById(R.id.im_banner1);
-        txtDescriptionDetails = rootView.findViewById(R.id.txt_description_details);
-        btnTrades = rootView.findViewById(R.id.btn_trades);
+        progressDialogHelper = new ProgressDialogHelper(this);
+        txtBannerName = findViewById(R.id.im_banner1);
+        txtDescriptionDetails = findViewById(R.id.txt_description_details);
+        btnTrades = findViewById(R.id.btn_trades);
         btnTrades.setOnClickListener(this);
-        btnPhotos = rootView.findViewById(R.id.btn_photos);
+        btnPhotos = findViewById(R.id.btn_photos);
         btnPhotos.setOnClickListener(this);
-        btnVideos = rootView.findViewById(R.id.btn_videos);
+        btnVideos = findViewById(R.id.btn_videos);
         btnVideos.setOnClickListener(this);
         loadCenterInfo();
-        return rootView;
     }
 
     @Override
     public void onClick(View v) {
         if (v == btnPhotos) {
-            Intent myIntent = new Intent(getActivity(), CenterPhotosActivity.class);
+            Intent myIntent = new Intent(this, CenterPhotosActivity.class);
 
-            getActivity().startActivity(myIntent);
+            this.startActivity(myIntent);
         }
         if (v == btnVideos) {
-            Intent myIntent = new Intent(getActivity(), VideoListDemoActivity.class);
-            getActivity().startActivity(myIntent);
+            Intent myIntent = new Intent(this, VideoListDemoActivity.class);
+            this.startActivity(myIntent);
         }
         if (v == btnTrades) {
-            Fragment fragment = new TradeFragment();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.flContent, fragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            Intent navigationIntent = new Intent(this, TradeFragment.class);
+            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(navigationIntent);
         }
     }
 
@@ -122,7 +116,7 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
                             (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
                         signInSuccess = false;
                         d(TAG, "Show error dialog");
-                        AlertDialogHelper.showSimpleAlertDialog(getActivity(), msg);
+                        AlertDialogHelper.showSimpleAlertDialog(this, msg);
 
                     } else {
                         signInSuccess = true;
@@ -155,7 +149,7 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
                 centerInfo = centerData.getString("center_info");
                 centerAddress = centerData.getString("center_address");
 
-                PreferenceStorage.saveCenterId(getActivity(), centerId);
+                PreferenceStorage.saveCenterId(this, centerId);
 
                 txtBannerName.setText(centerName);
                 txtDescriptionDetails.setText(centerInfo);
@@ -178,15 +172,15 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
     public void onError(String error) {
 
         progressDialogHelper.hideProgressDialog();
-        AlertDialogHelper.showSimpleAlertDialog(getActivity(), error);
+        AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), error);
 
     }
 
     private void loadCenterInfo() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(getActivity()));
-            jsonObject.put(MobilizerConstants.KEY_PIA_ID, PreferenceStorage.getPIAId(getActivity()));
+            jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(MobilizerConstants.KEY_PIA_ID, PreferenceStorage.getPIAId(this));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -199,8 +193,8 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
 
     private void loadTrainerUI(JSONArray getTrainer) {
         try {
-            layout_trainer = rootView.findViewById(R.id.layout_trainer);
-            TableLayout layout = new TableLayout(getActivity());
+            layout_trainer = findViewById(R.id.layout_trainer);
+            TableLayout layout = new TableLayout(this);
             layout.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
             layout_trainer.setScrollbarFadingEnabled(false);
@@ -220,7 +214,7 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
             int col = 0;
             for (int f = 0; f < 1; f++) {
 
-                TableRow tr = new TableRow(getActivity());
+                TableRow tr = new TableRow(this);
 
                 tr.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
@@ -233,12 +227,12 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
 
                 for (int c1 = 0; c1 < getTrainer.length(); c1++) {
 
-                    LinearLayout cell = new LinearLayout(getActivity());
+                    LinearLayout cell = new LinearLayout(this);
                     cell.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT));
-                    TextView viewDateFormat = new TextView(getActivity());
-                    final TextView trainerName = new TextView(getActivity());
-                    Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/open_sans_regular.ttf");
+                    TextView viewDateFormat = new TextView(this);
+                    final TextView trainerName = new TextView(this);
+                    Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/open_sans_regular.ttf");
                     trainerName.setTypeface(font);
 
                     JSONObject jsonobj = getTrainer.getJSONObject(i);
@@ -290,7 +284,7 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
                         public void onClick(View v) {
                             // TODO Auto-generated method stub
 //                            viewDateFormat.setBackgroundColor(Color.parseColor("#708090"));
-                            Toast.makeText(getActivity(), trainerName.getText(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), trainerName.getText(), Toast.LENGTH_LONG).show();
                             /*showDate = functionalDateFormat.getText().toString();
                             loadBookingTimings();
                             if (showDate.equalsIgnoreCase("")) {
@@ -333,8 +327,8 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
 
     private void loadSuccessStoriesUI(JSONArray getSuccessStories) {
         try {
-            layout_success_stories = rootView.findViewById(R.id.layout_success_stories);
-            TableLayout layout = new TableLayout(getActivity());
+            layout_success_stories = findViewById(R.id.layout_success_stories);
+            TableLayout layout = new TableLayout(this);
             layout.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
             layout_success_stories.setScrollbarFadingEnabled(false);
@@ -354,7 +348,7 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
             int col = 0;
             for (int f = 0; f < 1; f++) {
 
-                TableRow tr = new TableRow(getActivity());
+                TableRow tr = new TableRow(this);
 
                 tr.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
@@ -367,12 +361,12 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
 
                 for (int c1 = 0; c1 < getSuccessStories.length(); c1++) {
 
-                    LinearLayout cell = new LinearLayout(getActivity());
+                    LinearLayout cell = new LinearLayout(this);
                     cell.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT));
-                    TextView viewDateFormat = new TextView(getActivity());
-                    final TextView trainerName = new TextView(getActivity());
-                    Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/open_sans_regular.ttf");
+                    TextView viewDateFormat = new TextView(this);
+                    final TextView trainerName = new TextView(this);
+                    Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/open_sans_regular.ttf");
                     trainerName.setTypeface(font);
 
                     JSONObject jsonobj = getSuccessStories.getJSONObject(i);
@@ -424,7 +418,7 @@ public class CenterInfoFragment extends Fragment implements View.OnClickListener
                         public void onClick(View v) {
                             // TODO Auto-generated method stub
 //                            viewDateFormat.setBackgroundColor(Color.parseColor("#708090"));
-                            Toast.makeText(getActivity(), trainerName.getText(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), trainerName.getText(), Toast.LENGTH_LONG).show();
                             /*showDate = functionalDateFormat.getText().toString();
                             loadBookingTimings();
                             if (showDate.equalsIgnoreCase("")) {

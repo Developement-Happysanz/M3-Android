@@ -47,6 +47,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.happysanztech.mmm.R;
+import com.happysanztech.mmm.bean.support.AllProspects;
 import com.happysanztech.mmm.bean.support.StoreBloodGroup;
 import com.happysanztech.mmm.bean.support.StoreTimings;
 import com.happysanztech.mmm.bean.support.StoreTrade;
@@ -121,6 +122,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
     private String mUpdatedImageUrl = null;
     long totalSize = 0;
     String admissionId = "";
+    AllProspects allProspects;
 
     //Define a request code to send to Google Play services
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
@@ -186,6 +188,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_candidate);
+        allProspects = (AllProspects) getIntent().getSerializableExtra("pros");
 
         setUpUI();
         setupUI(findViewById(R.id.scrollID));
@@ -237,8 +240,12 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         } else if (v == btnSubmit) {
             if (mLastLocation != null) {
                 if (validateFields()) {
-                    checkInternalState = "candidate_submit";
-                    saveProfile();
+                    if (allProspects == null){
+                        checkInternalState = "candidate_submit";
+                        saveProfile();
+                    } else {
+                        updateCandidate();
+                    }
                 }
             } else {
                 if (mGoogleApiClient.isConnected()) {
@@ -731,6 +738,129 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 //                lv_saved_card_list.setVisibility(View.GONE);
             }
         }
+    }
+
+    private void updateCandidate() {
+
+        checkInternalState = "updateStudent";
+
+        String CandidateName = etCandidateName.getText().toString();
+        String CandidateSex = etCandidateSex.getText().toString();
+        String CandidateDOB = etCandidateDOB.getText().toString();
+        String CandidateAge = etCandidateAge.getText().toString();
+        String CandidateNationality = etCandidateNationality.getText().toString();
+        String CandidateReligion = etCandidateReligion.getText().toString();
+        String CandidateCommunityClass = etCandidateCommunityClass.getText().toString();
+        String CandidateCommunity = etCandidateCommunity.getText().toString();
+        String CandidateBloodGroup = etCandidateBloodGroup.getText().toString();
+        String CandidateFatherName = etCandidateFatherName.getText().toString();
+        String CandidateMotherName = etCandidateMotherName.getText().toString();
+        String CandidateMobileNo = etCandidateMobileNo.getText().toString();
+        String CandidateAlterMobileNo = etCandidateAlterMobileNo.getText().toString();
+        String CandidateEmailId = etCandidateEmailId.getText().toString();
+        String CandidateState = etCandidateState.getText().toString();
+        String CandidateCity = etCandidateCity.getText().toString();
+        String CandidateAddressLine1 = etCandidateAddressLine1.getText().toString();
+        String CandidateAddressLine2 = etCandidateAddressLine2.getText().toString();
+        String CandidateMotherTongue = etCandidateMotherTongue.getText().toString();
+        String AnyDisability = "" + cbAnyDisability.isChecked();
+        String CandidateDisabilityReason = "";
+        if (cbAnyDisability.isChecked()) {
+            AnyDisability = "1";
+            CandidateDisabilityReason = etCandidateDisabilityReason.getText().toString();
+        } else {
+            AnyDisability = "0";
+            CandidateDisabilityReason = "";
+        }
+        String CandidatesPreferredTrade = etCandidatesPreferredTrade.getText().toString();
+        String CandidatesPreferredTiming = etCandidatesPreferredTiming.getText().toString();
+        String CandidatesQualification = etCandidatesQualification.getText().toString();
+        String CandidatesLastInstitute = etCandidatesLastInstitute.getText().toString();
+        String CandidatesQualifiedPromotion = etCandidatesQualifiedPromotion.getText().toString();
+//        String CandidatesTC = etCandidatesTC.getText().toString();
+        String CandidatesTC = "";
+        if (cbCandidatesTC.isChecked()) {
+            CandidatesTC = "1";
+        } else {
+            CandidatesTC = "0";
+        }
+        String CandidatesAadhaarStatus = "" + cbCandidatesAadhaarStatus.isChecked();
+        String CandidatesAadhaarNo = "";
+        if (cbCandidatesAadhaarStatus.isChecked()) {
+            CandidatesAadhaarStatus = "1";
+            CandidatesAadhaarNo = etCandidatesAadhaarNo.getText().toString();
+        } else {
+            CandidatesAadhaarStatus = "0";
+            CandidatesAadhaarNo = "";
+        }
+
+        String serverFormatDate = "";
+        if (etCandidateDOB.getText().toString() != null && etCandidateDOB.getText().toString() != "") {
+
+            String date = etCandidateDOB.getText().toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            Date testDate = null;
+            try {
+                testDate = sdf.parse(date);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            serverFormatDate = formatter.format(testDate);
+            System.out.println(".....Date..." + serverFormatDate);
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentTime = Calendar.getInstance().getTime();
+        String currentDateandTime = sdf.format(currentTime);
+
+        locationAddressResult = getCompleteAddressString(currentLatitude, currentLongitude);
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(MobilizerConstants.PARAMS_HAVE_AADHAAR_CARD, CandidatesAadhaarStatus);
+            jsonObject.put(MobilizerConstants.PARAMS_AADHAAR_CARD_NUMBER, CandidatesAadhaarNo);
+            jsonObject.put(MobilizerConstants.PARAMS_NAME, CandidateName);
+            jsonObject.put(MobilizerConstants.PARAMS_SEX, CandidateSex);
+            jsonObject.put(MobilizerConstants.PARAMS_DOB, serverFormatDate);
+            jsonObject.put(MobilizerConstants.PARAMS_AGE, CandidateAge);
+            jsonObject.put(MobilizerConstants.PARAMS_NATIONALITY, CandidateNationality);
+            jsonObject.put(MobilizerConstants.PARAMS_RELIGION, CandidateReligion);
+            jsonObject.put(MobilizerConstants.PARAMS_COMMUNITY_CLASS, CandidateCommunityClass);
+            jsonObject.put(MobilizerConstants.PARAMS_COMMUNITY, CandidateCommunity);
+            jsonObject.put(MobilizerConstants.PARAMS_FATHER_NAME, CandidateFatherName);
+            jsonObject.put(MobilizerConstants.PARAMS_MOTHER_NAME, CandidateMotherName);
+            jsonObject.put(MobilizerConstants.PARAMS_MOBILE, CandidateMobileNo);
+            jsonObject.put(MobilizerConstants.PARAMS_SEC_MOBILE, CandidateAlterMobileNo);
+            jsonObject.put(MobilizerConstants.PARAMS_EMAIL, CandidateEmailId);
+            jsonObject.put(MobilizerConstants.PARAMS_STATE, CandidateState);
+            jsonObject.put(MobilizerConstants.PARAMS_CITY, CandidateCity);
+            jsonObject.put(MobilizerConstants.PARAMS_ADDRESS, CandidateAddressLine1);
+            jsonObject.put(MobilizerConstants.PARAMS_MOTHER_TONGUE, CandidateMotherTongue);
+            jsonObject.put(MobilizerConstants.PARAMS_DISABILITY, AnyDisability);
+            jsonObject.put(MobilizerConstants.PARAMS_BLOOD_GROUP, CandidateBloodGroup);
+            jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_DATE, currentDateandTime);
+            jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_LOCATION, locationAddressResult);
+            jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_LATITUDE, "" + currentLatitude);
+            jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_LONGITUDE, "" + currentLongitude);
+            jsonObject.put(MobilizerConstants.PARAMS_PREFERRED_TRADE, tradeId);
+            jsonObject.put(MobilizerConstants.PARAMS_PREFERRED_TIMING, CandidatesPreferredTiming);
+            jsonObject.put(MobilizerConstants.PARAMS_LAST_INSTITUTE, CandidatesLastInstitute);
+            jsonObject.put(MobilizerConstants.PARAMS_LAST_STUDIED, CandidatesQualification);
+            jsonObject.put(MobilizerConstants.PARAMS_QUALIFIED_PROMOTION, CandidatesQualifiedPromotion);
+            jsonObject.put(MobilizerConstants.PARAMS_TRANSFER_CERTIFICATE, CandidatesTC);
+            jsonObject.put(MobilizerConstants.PARAMS_STATUS, "Pending");
+//            jsonObject.put(MobilizerConstants.PARAMS_CREATED_BY, PreferenceStorage.getUserId(getApplicationContext()));
+//            jsonObject.put(MobilizerConstants.PARAMS_CREATED_AT, currentDateandTime);
+            jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
+            jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_ID, allProspects.getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+        String url = MobilizerConstants.BUILD_URL + MobilizerConstants.UPDATE_CANDIDATE;
+        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 
     private boolean validateFields() {

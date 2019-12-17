@@ -38,6 +38,7 @@ import androidx.core.content.ContextCompat;
 
 import com.happysanztech.mmm.R;
 import com.happysanztech.mmm.bean.support.TaskData;
+import com.happysanztech.mmm.fragments.TaskFragment;
 import com.happysanztech.mmm.helper.AlertDialogHelper;
 import com.happysanztech.mmm.helper.ProgressDialogHelper;
 import com.happysanztech.mmm.interfaces.DialogClickListener;
@@ -204,6 +205,8 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if (v == ivBack) {
+            Intent intent = new Intent(this, TaskFragment.class);
+            startActivity(intent);
             finish();
         }
         if (v == edtTaskDate) {
@@ -282,7 +285,8 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
         if (validateSignInResponse(response)) {
 //            setResult(RESULT_OK);
             Toast.makeText(this, "Updated successfully...", Toast.LENGTH_SHORT).show();
-//            finish();
+            Intent intent = new Intent(this, TaskFragment.class);
+            startActivity(intent);
             finish();
         }
     }
@@ -421,17 +425,18 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
 
             if (requestCode == REQUEST_IMAGE_GET) {
-                Log.d(TAG, "ONActivity Result");
+                d(TAG, "ONActivity Result");
                 final boolean isCamera;
                 if (data == null) {
-                    Log.d(TAG, "camera is true");
+                    d(TAG, "camera is true");
                     isCamera = true;
                 } else {
                     final String action = data.getAction();
-                    Log.d(TAG, "camera action is" + action);
+                    d(TAG, "camera action is" + action);
                     if (action == null) {
                         isCamera = false;
                     } else {
@@ -442,19 +447,19 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
                 Uri selectedImageUri;
 
                 if (isCamera) {
-                    Log.d(TAG, "Add to gallery");
+                    d(TAG, "Add to gallery");
                     selectedImageUri = outputFileUri;
                     mActualFilePath = outputFileUri.getPath();
                     galleryAddPic(selectedImageUri);
                 } else {
                     selectedImageUri = data == null ? null : data.getData();
                     mActualFilePath = getRealPathFromURI(this, selectedImageUri);
-                    Log.d(TAG, "path to image is" + mActualFilePath);
+                    d(TAG, "path to image is" + mActualFilePath);
 
                 }
-                Log.d(TAG, "image Uri is" + selectedImageUri);
+                d(TAG, "image Uri is" + selectedImageUri);
                 if (selectedImageUri != null) {
-                    Log.d(TAG, "image URI is" + selectedImageUri);
+                    d(TAG, "image URI is" + selectedImageUri);
 //                    setPic(selectedImageUri);
                     mProgressDialog = new ProgressDialog(this);
                     mProgressDialog.setIndeterminate(true);
@@ -535,7 +540,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
             String responseString = null;
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost(String.format(MobilizerConstants.BUILD_URL + MobilizerConstants.TASK_PHOTOS + taskData.getId()));
+            httppost = new HttpPost(String.format(MobilizerConstants.BUILD_URL + MobilizerConstants.TASK_PHOTOS + taskData.getId() + "/"));
 
             try {
                 AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
@@ -556,7 +561,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
                     entity.addPart("task_pic", new FileBody(sourceFile));
 
                     // Extra parameters if you want to pass to server
-                    entity.addPart("task_id", new StringBody(taskData.getId()));
+//                    entity.addPart("task_id", new StringBody(taskData.getId()));
 //                    entity.addPart("user_type", new StringBody(PreferenceStorage.getUserType(ProfileActivity.this)));
 
                     totalSize = entity.getContentLength();

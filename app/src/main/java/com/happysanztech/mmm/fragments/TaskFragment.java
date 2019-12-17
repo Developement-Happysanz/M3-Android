@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,7 +43,7 @@ import static android.util.Log.d;
  * Created by Admin on 03-01-2018.
  */
 
-public class TaskFragment extends Fragment implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
+public class TaskFragment extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
 
     private static final String TAG = "TaskFragment";
     private ServiceHelper serviceHelper;
@@ -56,29 +57,24 @@ public class TaskFragment extends Fragment implements View.OnClickListener, ISer
     private FloatingActionButton fabAddTask;
 
 
-    public TaskFragment() {
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_tasks, container, false);
-        serviceHelper = new ServiceHelper(getActivity());
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_tasks);
+        serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
-        progressDialogHelper = new ProgressDialogHelper(getActivity());
-        loadMoreListView = rootView.findViewById(R.id.listView_task);
+        progressDialogHelper = new ProgressDialogHelper(this);
+        loadMoreListView = findViewById(R.id.listView_task);
         loadMoreListView.setOnItemClickListener(this);
         taskDataArrayList = new ArrayList<>();
-        fabAddTask = rootView.findViewById(R.id.fab_add_task);
+        fabAddTask = findViewById(R.id.fab_add_task);
         fabAddTask.setOnClickListener(this);
         loadTask();
-        return rootView;
     }
 
     private void loadTask() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(getActivity()));
+            jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
 
 
         } catch (JSONException e) {
@@ -99,7 +95,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener, ISer
     }
 
     public void startPersonDetailsActivity(long id) {
-        Intent intent = new Intent(getActivity(), AddTaskActivity.class);
+        Intent intent = new Intent(this, AddTaskActivity.class);
         startActivityForResult(intent, 0);
     }
 
@@ -107,15 +103,12 @@ public class TaskFragment extends Fragment implements View.OnClickListener, ISer
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        for (Fragment fragment : getActivity().getSupportFragmentManager().getFragments()) {
-            fragment.onActivityResult(requestCode, resultCode, data);
-            if (resultCode == RESULT_OK) {
-                if (taskDataArrayList != null) {
-                    taskDataArrayList.clear();
-                    taskDataListAdapter = new TaskDataListAdapter(getActivity(), this.taskDataArrayList);
-                    loadMoreListView.setAdapter(taskDataListAdapter);
-                    loadTask();
-                }
+        if (resultCode == RESULT_OK) {
+            if (taskDataArrayList != null) {
+                taskDataArrayList.clear();
+                taskDataListAdapter = new TaskDataListAdapter(this, this.taskDataArrayList);
+                loadMoreListView.setAdapter(taskDataListAdapter);
+                loadTask();
             }
         }
     }
@@ -132,9 +125,10 @@ public class TaskFragment extends Fragment implements View.OnClickListener, ISer
         } else {
             taskData = taskDataArrayList.get(position);
         }
-        Intent intent = new Intent(getActivity(), UpdateTaskActivity.class);
+        Intent intent = new Intent(this, UpdateTaskActivity.class);
         intent.putExtra("eventObj", taskData);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -160,7 +154,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener, ISer
                             (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
                         signInSuccess = false;
                         d(TAG, "Show error dialog");
-                        AlertDialogHelper.showSimpleAlertDialog(getActivity(), msg);
+                        AlertDialogHelper.showSimpleAlertDialog(this, msg);
 
                     } else {
                         signInSuccess = true;
@@ -201,7 +195,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener, ISer
             @Override
             public void run() {
                 progressDialogHelper.hideProgressDialog();
-                AlertDialogHelper.showSimpleAlertDialog(getContext(), error);
+                AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), error);
             }
         });
     }
@@ -209,7 +203,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener, ISer
     protected void updateListAdapter(ArrayList<TaskData> taskDataArrayList) {
         this.taskDataArrayList.addAll(taskDataArrayList);
 //        if (taskDataListAdapter == null) {
-        taskDataListAdapter = new TaskDataListAdapter(getContext(), this.taskDataArrayList);
+        taskDataListAdapter = new TaskDataListAdapter(this, this.taskDataArrayList);
         loadMoreListView.setAdapter(taskDataListAdapter);
 //        } else {
         taskDataListAdapter.notifyDataSetChanged();

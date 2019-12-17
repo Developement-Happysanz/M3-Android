@@ -97,10 +97,23 @@ public class MobilizerConstants {
     //    Add candidate
     public static final String ADD_CANDIDATE = MOBILIZER_API + "add_student/";
 
+    //    PROSPECT LIST
+    public static final String ALL_STUDENTS = MOBILIZER_API + "list_students";
+
+    //    PROSPECT STATUS
+    public static final String STUDENTS_LIST_STATUS = MOBILIZER_API + "list_students_status";
+
+    //    PROSPECT DETAIL
+    public static final String STUDENT_DETAIL = MOBILIZER_API + "view_student";
+
+    //    UPDATE CANDIDATE
+    public static final String UPDATE_CANDIDATE = MOBILIZER_API + "update_student";
+
     //    Add candidate params
     public static final String PARAMS_HAVE_AADHAAR_CARD = "have_aadhaar_card";
     public static final String PARAMS_AADHAAR_CARD_NUMBER = "aadhaar_card_number";
     public static final String PARAMS_NAME = "name";
+    public static final String PARAMS_ADMISSION_ID = "admission_id";
     public static final String PARAMS_SEX = "sex";
     public static final String PARAMS_DOB = "dob";
     public static final String PARAMS_AGE = "age";

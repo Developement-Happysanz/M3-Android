@@ -47,6 +47,17 @@
     <string name="label_home">HOME</string>
     <string name="label_delete">DELETE</string>
 
+    <!--Titiles-->
+    <string name="add_candidate_title">Add Candidate</string>
+    <string name="batch_details_title">Batch Details</string>
+    <string name="center_info_title">Center Info</string>
+    <string name="change_password_title">Change Password</string>
+    <string name="profile_title">Profile</string>
+    <string name="task_title">Task</string>
+    <string name="trade_title">Trade</string>
+
+
+
     <!--Youtube-->
     <!---->
 

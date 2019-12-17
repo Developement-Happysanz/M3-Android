@@ -14,6 +14,7 @@
     <!--<color name="colorAccent">#FF4081</color>-->
     <color name="top_bar_background">#EBF1DE</color>
     <color name="top_bar_text_color">#D52736</color>
+    <color name="red">#46D52736</color>
     <color name="app_background">#EEEEEE</color>
     <color name="scanned_data_text_color">#D52736</color>
     <color name="action_save_background">#FAB50F</color>

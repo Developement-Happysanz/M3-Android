@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -31,7 +32,7 @@ import java.io.StringReader;
  * Created by Admin on 03-01-2018.
  */
 
-public class AddCandidateFragment extends Fragment implements View.OnClickListener {
+public class AddCandidateFragment extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnScanAadhaarCard;
     private Button btnAddCandidate;
@@ -40,36 +41,30 @@ public class AddCandidateFragment extends Fragment implements View.OnClickListen
 
     View rootView;
 
-    public AddCandidateFragment() {
 
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_add_candidate, container, false);
-
-        btnAddCandidate = rootView.findViewById(R.id.btn_add_candidate);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_add_candidate);
+        btnAddCandidate = findViewById(R.id.btn_add_candidate);
         btnAddCandidate.setOnClickListener(this);
 
-        btnScanAadhaarCard = rootView.findViewById(R.id.btn_scan_aadhaar_card);
+        btnScanAadhaarCard = findViewById(R.id.btn_scan_aadhaar_card);
         btnScanAadhaarCard.setOnClickListener(this);
 
-        return rootView;
     }
 
     @Override
     public void onClick(View v) {
         if (v == btnAddCandidate) {
-            Intent myIntent = new Intent(getActivity(), AddCandidateActivity.class);
-            getActivity().startActivity(myIntent);
+            Intent myIntent = new Intent(this, AddCandidateActivity.class);
+            this.startActivity(myIntent);
         }
         if (v == btnScanAadhaarCard) {
             //initiating the qr code scan
-            Intent myIntent = new Intent(getActivity(), HomeActivity.class);
-            getActivity().startActivity(myIntent);
+            Intent myIntent = new Intent(this, HomeActivity.class);
+            this.startActivity(myIntent);
 
-           /* IntentIntegrator integrator = new IntentIntegrator(getActivity());
+           /* IntentIntegrator integrator = new IntentIntegrator(this);
             integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
             integrator.setPrompt("Scan a Aadharcard QR Code");
 //        integrator.setResultDisplayDuration(500);
@@ -79,7 +74,7 @@ public class AddCandidateFragment extends Fragment implements View.OnClickListen
     }
 
     public void scanNow( View view){
-        IntentIntegrator integrator = new IntentIntegrator(getActivity());
+        IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
         integrator.setPrompt("Scan a Aadharcard QR Code");
 //        integrator.setResultDisplayDuration(500);
@@ -96,6 +91,7 @@ public class AddCandidateFragment extends Fragment implements View.OnClickListen
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //retrieve scan result
+        super.onActivityResult(requestCode, resultCode, intent);
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
         if (scanningResult != null) {
@@ -104,15 +100,15 @@ public class AddCandidateFragment extends Fragment implements View.OnClickListen
             String scanFormat = scanningResult.getFormatName();
 
             // process received data
-            if(scanContent != null && !scanContent.isEmpty()){
+            if (scanContent != null && !scanContent.isEmpty()) {
                 processScannedData(scanContent);
-            }else{
-                Toast toast = Toast.makeText(getActivity(),"Scan Cancelled", Toast.LENGTH_SHORT);
+            } else {
+                Toast toast = Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_SHORT);
                 toast.show();
             }
 
-        }else{
-            Toast toast = Toast.makeText(getActivity(),"No scan data received!", Toast.LENGTH_SHORT);
+        } else {
+            Toast toast = Toast.makeText(this, "No scan data received!", Toast.LENGTH_SHORT);
             toast.show();
         }
     }

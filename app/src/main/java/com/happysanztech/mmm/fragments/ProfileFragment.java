@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -68,16 +69,16 @@ import java.util.Locale;
 import static android.app.Activity.RESULT_OK;
 import static android.util.Log.d;
 
-public class ProfileFragment  extends Fragment implements View.OnClickListener, IServiceListener, DialogClickListener {
+public class ProfileFragment extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener {
 
     private static final String TAG = "TradeFragment";
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
-    private EditText name, number, mail, address; 
+    private EditText name, number, mail, address;
     private Button btnSubmit;
     private ImageView profileImg;
     View rootView;
-    String res;
+    String res, userIdSend;
 
     private Uri outputFileUri;
     static final int REQUEST_IMAGE_GET = 1;
@@ -89,48 +90,43 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
     long totalSize = 0;
     File image = null;
 
-    public ProfileFragment() {
-    }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_profile, container, false);
-        serviceHelper = new ServiceHelper(getActivity());
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_profile);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
-        progressDialogHelper = new ProgressDialogHelper(getActivity());
+        progressDialogHelper = new ProgressDialogHelper(this);
         getData();
-        name = rootView.findViewById(R.id.user_name);
-        name.setText(PreferenceStorage.getName(getActivity()));
-        number = rootView.findViewById(R.id.phone);
-        number.setText(PreferenceStorage.getStaffPhone(getActivity()));
-        mail = rootView.findViewById(R.id.email);
-        mail.setText(PreferenceStorage.getStaffEmail(getActivity()));
-        address = rootView.findViewById(R.id.address);
-        address.setText(PreferenceStorage.getStaffAddress(getActivity()));
-        profileImg = rootView.findViewById(R.id.profile_img);
+        name = findViewById(R.id.user_name);
+        name.setText(PreferenceStorage.getName(this));
+        number = findViewById(R.id.phone);
+        number.setText(PreferenceStorage.getStaffPhone(this));
+        mail = findViewById(R.id.email);
+        mail.setText(PreferenceStorage.getStaffEmail(this));
+        address = findViewById(R.id.address);
+        address.setText(PreferenceStorage.getStaffAddress(this));
+        profileImg = findViewById(R.id.profile_img);
         profileImg.setOnClickListener(this);
-        String url = PreferenceStorage.getUserPicture(getActivity());
+        String url = PreferenceStorage.getUserPicture(this);
         if (((url != null) && !(url.isEmpty()))) {
             Picasso.get().load(url).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(profileImg);
         }
-        btnSubmit = rootView.findViewById(R.id.save_user);
+        btnSubmit = findViewById(R.id.save_user);
         btnSubmit.setOnClickListener(this);
 
-        rootView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
+        
+    }
 
-                if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.
-                            INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-                    return true;
-                }
-                return true;
-            }
-        });
-
-        return rootView;
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
@@ -139,7 +135,7 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
             if (validateFields()) {
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(getActivity()));
+                    jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
                     jsonObject.put(MobilizerConstants.KEY_ADDRESS, address.getText().toString());
                     jsonObject.put(MobilizerConstants.PARAMS_EMAIL, mail.getText().toString());
 
@@ -152,7 +148,8 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
                 serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
 
             }
-        } if (v == profileImg) {
+        }
+        if (v == profileImg) {
             openImageIntent();
 
         }
@@ -160,7 +157,7 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
 
     private void openImageIntent() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Remove Photo", "Cancel"};
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(rootView.getContext());
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setTitle("Change Profile Picture");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
@@ -169,7 +166,7 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
 //                    openCamera();
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-                    Uri f = FileProvider.getUriForFile(rootView.getContext(),
+                    Uri f = FileProvider.getUriForFile(getApplicationContext(),
                             BuildConfig.APPLICATION_ID + ".provider",
                             createImageFile());
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, f);
@@ -177,8 +174,8 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
                 } else if (options[item].equals("Choose from Gallery")) {
                     openImagesDocument();
                 } else if (options[item].equals("Remove Photo")) {
-                    PreferenceStorage.saveUserPicture(rootView.getContext(), "");
-                    profileImg.setBackground(ContextCompat.getDrawable(rootView.getContext(), R.drawable.ic_profile));
+                    PreferenceStorage.saveUserPicture(getApplicationContext(), "");
+                    profileImg.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_profile));
                     mSelectedImageUri = Uri.parse("android.resource://com.palprotech.heylaapp/drawable/ic_default_profile");
                     mActualFilePath = mSelectedImageUri.getPath();
                     saveUserImage();
@@ -218,7 +215,7 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
                 }
 
                 // ScanFile so it will be appeared on Gallery
-                MediaScannerConnection.scanFile(rootView.getContext(),
+                MediaScannerConnection.scanFile(this,
                         new String[]{mActualFilePath}, null,
                         new MediaScannerConnection.OnScanCompletedListener() {
                             public void onScanCompleted(String path, Uri uri) {
@@ -254,7 +251,7 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
                         Locale.getDefault()).format(new Date());
         String imageFileName = "IMG_" + timeStamp + "_";
         File storageDir =
-                getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".png",         /* suffix */
@@ -285,16 +282,24 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
         mActualFilePath = image.getAbsolutePath();
         return image;
     }
-
     private void openCropActivity(Uri sourceUri, Uri destinationUri) {
         UCrop.Options options = new UCrop.Options();
         options.setCircleDimmedLayer(true);
-        options.setCropFrameColor(ContextCompat.getColor(rootView.getContext(), R.color.colorPrimary));
+        options.setCropFrameColor(ContextCompat.getColor(this, R.color.colorPrimary));
         UCrop.of(sourceUri, destinationUri)
                 .withMaxResultSize(100, 100)
                 .withAspectRatio(5f, 5f)
-                .start(getActivity());
+                .start(this);
     }
+//    private void openCropActivity(Uri sourceUri, Uri destinationUri) {
+//        UCrop.Options options = new UCrop.Options();
+//        options.setCircleDimmedLayer(true);
+//        options.setCropFrameColor(ContextCompat.getColor(this, R.color.colorPrimary));
+//        UCrop.of(sourceUri, destinationUri)
+//                .withMaxResultSize(100, 100)
+//                .withAspectRatio(5f, 5f)
+//                .start(this);
+//    }
 
     private void saveUserImage() {
 
@@ -330,7 +335,7 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
             String responseString = null;
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost(String.format(MobilizerConstants.BUILD_URL + MobilizerConstants.UPLOAD_USER_PIC + PreferenceStorage.getUserId(getActivity()) +"/"));
+            httppost = new HttpPost(String.format(MobilizerConstants.BUILD_URL + MobilizerConstants.UPLOAD_USER_PIC + PreferenceStorage.getUserId(getApplicationContext()) + "/"));
 
             try {
                 AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
@@ -351,7 +356,7 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
                     entity.addPart("user_pic", new FileBody(sourceFile));
 
                     // Extra parameters if you want to pass to server
-//                    entity.addPart("user_id", new StringBody(PreferenceStorage.getUserId(getActivity())));
+//                    entity.addPart("user_id", new StringBody(PreferenceStorage.getUserId(this)));
 //                    entity.addPart("user_type", new StringBody(PreferenceStorage.getUserType(ProfileActivity.this)));
 
                     totalSize = entity.getContentLength();
@@ -370,7 +375,7 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
                             String successVal = resp.getString("status");
 
                             mUpdatedImageUrl = resp.getString("picture_url");
-                            PreferenceStorage.saveUserPicture(getActivity(), mUpdatedImageUrl);
+                            PreferenceStorage.saveUserPicture(getApplicationContext(), mUpdatedImageUrl);
 
                             Log.d(TAG, "updated image url is" + mUpdatedImageUrl);
                             if (successVal.equalsIgnoreCase("success")) {
@@ -400,10 +405,10 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
 
             super.onPostExecute(result);
             if ((result == null) || (result.isEmpty()) || (result.contains("Error"))) {
-                Toast.makeText(rootView.getContext(), "Unable to save profile picture", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Unable to save profile picture", Toast.LENGTH_SHORT).show();
             } else {
                 if (mUpdatedImageUrl != null) {
-                    PreferenceStorage.saveUserPicture(rootView.getContext(), mUpdatedImageUrl);
+                    PreferenceStorage.saveUserPicture(getApplicationContext(), mUpdatedImageUrl);
                 }
             }
 
@@ -411,7 +416,7 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
                 mProgressDialog.cancel();
             }
 
-            Toast.makeText(getActivity(), "User profile image successfully...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "User profile image successfully...", Toast.LENGTH_SHORT).show();
 //            finish();
         }
 
@@ -426,7 +431,7 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
         res = "get";
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(getActivity()));
+            jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -436,15 +441,16 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
         String url = MobilizerConstants.BUILD_URL + MobilizerConstants.GET_USER_PROFILE;
         serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
+
     private boolean validateFields() {
 
         if (!AppValidator.checkNullString(this.address.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(getActivity(), "Enter address");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter address");
             return false;
         } else if (!AppValidator.checkNullString(this.mail.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(getActivity(), "Enter email");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter email");
             return false;
-        }  else {
+        } else {
             return true;
         }
     }
@@ -472,7 +478,7 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
                             (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
                         signInSuccess = false;
                         d(TAG, "Show error dialog");
-                        AlertDialogHelper.showSimpleAlertDialog(getContext(), msg);
+                        AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), msg);
 
                     } else {
                         signInSuccess = true;
@@ -490,16 +496,26 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
         progressDialogHelper.hideProgressDialog();
 
         if (validateSignInResponse(response)) {
-            if (res.equalsIgnoreCase("get")) {
-
-            } else {
-                Toast.makeText(getActivity(), "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                Fragment fragment = new DashboardFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.flContent, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+            try {
+                if (res.equalsIgnoreCase("get")) {
+                    JSONObject dataa = response.getJSONObject("userprofile");
+                    userIdSend = dataa.getString("id");
+                    saveUserData(dataa);
+                } else {
+                    Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+//                    Fragment fragment = new DashboardFragment();
+//                    FragmentManager fragmentManager = this.getSupportFragmentManager();
+//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                    fragmentTransaction.replace(R.id.flContent, fragment);
+//                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.commit();
+//                    Intent navigationIntent = new Intent(this, DashboardFragment.class);
+//                    navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    startActivity(navigationIntent);
+                    finish();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -507,6 +523,85 @@ public class ProfileFragment  extends Fragment implements View.OnClickListener, 
     @Override
     public void onError(String error) {
         progressDialogHelper.hideProgressDialog();
-        AlertDialogHelper.showSimpleAlertDialog(getActivity(), error);
+        AlertDialogHelper.showSimpleAlertDialog(this, error);
     }
+
+    private void saveUserData(JSONObject userData) {
+
+        Log.d(TAG, "userData dictionary" + userData.toString());
+
+        String userId = "";
+        String fullName = "";
+        String userName = "";
+        String userPicture = "";
+        String userTypeName = "";
+        String userType = "";
+        String passwordStatus = "";
+        String cutrrentaddress = "";
+        String phoneNo = "";
+        String emailID = "";
+
+        try {
+
+            if (userData != null) {
+
+                // User Preference - User Id
+//                userId = userData.getString("id");
+//                if ((userId != null) && !(userId.isEmpty()) && !userId.equalsIgnoreCase("null")) {
+//                    PreferenceStorage.saveUserId(this, userId);
+//                }
+
+                // User Preference - User Full Name
+                fullName = userData.getString("name");
+                if ((fullName != null) && !(fullName.isEmpty()) && !fullName.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveName(this, fullName);
+                }
+
+//                // User Preference - User Name
+//                userName = userData.getString("user_name");
+//                if ((userName != null) && !(userName.isEmpty()) && !userName.equalsIgnoreCase("null")) {
+//                    PreferenceStorage.saveUserName(this, userName);
+//                }
+
+                // User Preference - User Picture
+                phoneNo = userData.getString("phone");
+                if ((phoneNo != null) && !(phoneNo.isEmpty()) && !phoneNo.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveStaffPhone(this, phoneNo);
+                }
+
+                // User Preference - User Picture
+                userPicture = userData.getString("profile_pic");
+                if ((userPicture != null) && !(userPicture.isEmpty()) && !userPicture.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveUserPicture(this, userPicture);
+                }
+
+                // User Preference - User Picture
+                cutrrentaddress = userData.getString("address");
+                if ((cutrrentaddress != null) && !(cutrrentaddress.isEmpty()) && !cutrrentaddress.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveStaffAddress(this, cutrrentaddress);
+                }
+
+                // User Preference - User Picture
+                emailID = userData.getString("email");
+                if ((emailID != null) && !(emailID.isEmpty()) && !emailID.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveStaffEmail(this, emailID);
+                }
+
+                // User Preference - User Type Name
+//                userTypeName = userData.getString("user_type_name");
+//                if ((userTypeName != null) && !(userTypeName.isEmpty()) && !userTypeName.equalsIgnoreCase("null")) {
+//                    PreferenceStorage.saveUserTypeName(this, userTypeName);
+//                }
+
+                // User Preference - User Type
+//                userType = userData.getString("user_type");
+//                if ((userType != null) && !(userType.isEmpty()) && !userType.equalsIgnoreCase("null")) {
+//                    PreferenceStorage.saveUserType(this, userType);
+//                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

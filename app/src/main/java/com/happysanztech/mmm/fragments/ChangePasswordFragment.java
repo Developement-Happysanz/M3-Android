@@ -1,8 +1,10 @@
 package com.happysanztech.mmm.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -37,7 +39,7 @@ import static android.util.Log.d;
  * Created by Admin on 03-01-2018.
  */
 
-public class ChangePasswordFragment extends Fragment implements View.OnClickListener, IServiceListener, DialogClickListener {
+public class ChangePasswordFragment extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener {
 
     private static final String TAG = "TradeFragment";
     private ServiceHelper serviceHelper;
@@ -48,36 +50,20 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
     private Button btnSubmit;
     View rootView;
 
-    public ChangePasswordFragment() {
-    }
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_change_password);
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_change_password, container, false);
-        serviceHelper = new ServiceHelper(getActivity());
+        serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
-        progressDialogHelper = new ProgressDialogHelper(getActivity());
-        etOldPassword = rootView.findViewById(R.id.et_old_password);
-        etNewPassword = rootView.findViewById(R.id.et_new_password);
-        etConfirmPassword = rootView.findViewById(R.id.et_confirm_password);
-        btnSubmit = rootView.findViewById(R.id.btn_submit);
+        progressDialogHelper = new ProgressDialogHelper(this);
+        etOldPassword = findViewById(R.id.et_old_password);
+        etNewPassword = findViewById(R.id.et_new_password);
+        etConfirmPassword = findViewById(R.id.et_confirm_password);
+        btnSubmit = findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(this);
 
-        rootView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
 
-                if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.
-                            INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-                    return true;
-                }
-                return true;
-            }
-        });
-
-        return rootView;
     }
 
     @Override
@@ -86,7 +72,7 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
             if (validateFields()) {
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(getActivity()));
+                    jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
                     jsonObject.put(MobilizerConstants.PARAMS_OLD_PASSWORD, etOldPassword.getText().toString());
                     jsonObject.put(MobilizerConstants.PARAMS_NEW_PASSWORD, etNewPassword.getText().toString());
 
@@ -105,16 +91,16 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
     private boolean validateFields() {
 
         if (!AppValidator.checkNullString(this.etOldPassword.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(getActivity(), "Old password required");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Old password required");
             return false;
         } else if (!AppValidator.checkNullString(this.etNewPassword.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(getActivity(), "New password required");
+            AlertDialogHelper.showSimpleAlertDialog(this, "New password required");
             return false;
         } else if (!AppValidator.checkNullString(this.etConfirmPassword.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(getActivity(), "Confirm password required");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Confirm password required");
             return false;
         } else if (!this.etNewPassword.getText().toString().trim().equalsIgnoreCase(this.etNewPassword.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(getActivity(), "Password does not match new password");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Password does not match new password");
             return false;
         } else {
             return true;
@@ -144,7 +130,7 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
                             (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
                         signInSuccess = false;
                         d(TAG, "Show error dialog");
-                        AlertDialogHelper.showSimpleAlertDialog(getContext(), msg);
+                        AlertDialogHelper.showSimpleAlertDialog(this, msg);
 
                     } else {
                         signInSuccess = true;
@@ -162,19 +148,17 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
         progressDialogHelper.hideProgressDialog();
 
         if (validateSignInResponse(response)) {
-            Toast.makeText(getActivity(), "Password changed successfully", Toast.LENGTH_SHORT).show();
-            Fragment fragment = new DashboardFragment();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.flContent, fragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            Toast.makeText(this, "Password changed successfully", Toast.LENGTH_SHORT).show();
+//            Intent navigationIntent = new Intent(this, DashboardFragment.class);
+//            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(navigationIntent);
+            finish();
         }
     }
 
     @Override
     public void onError(String error) {
         progressDialogHelper.hideProgressDialog();
-        AlertDialogHelper.showSimpleAlertDialog(getActivity(), error);
+        AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), error);
     }
 }

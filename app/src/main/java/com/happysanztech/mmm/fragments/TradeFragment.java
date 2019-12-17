@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
@@ -38,7 +39,7 @@ import static android.util.Log.d;
  * Created by Admin on 03-01-2018.
  */
 
-public class TradeFragment extends Fragment implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
+public class TradeFragment extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
 
     private static final String TAG = "TradeFragment";
     private ServiceHelper serviceHelper;
@@ -50,21 +51,16 @@ public class TradeFragment extends Fragment implements View.OnClickListener, ISe
     Handler mHandler = new Handler();
     int pageNumber = 0, totalCount = 0;
 
-    public TradeFragment() {
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_trades, container, false);
-        serviceHelper = new ServiceHelper(getActivity());
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_tasks);
+        serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
-        progressDialogHelper = new ProgressDialogHelper(getActivity());
-        loadMoreListView = rootView.findViewById(R.id.listView_trades);
+        progressDialogHelper = new ProgressDialogHelper(this);
+        loadMoreListView = findViewById(R.id.listView_trades);
         loadMoreListView.setOnItemClickListener(this);
         tradeDataArrayList = new ArrayList<>();
         loadTrades();
-        return rootView;
     }
 
     @Override
@@ -95,7 +91,7 @@ public class TradeFragment extends Fragment implements View.OnClickListener, ISe
                             (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
                         signInSuccess = false;
                         d(TAG, "Show error dialog");
-                        AlertDialogHelper.showSimpleAlertDialog(getActivity(), msg);
+                        AlertDialogHelper.showSimpleAlertDialog(this, msg);
 
                     } else {
                         signInSuccess = true;
@@ -137,7 +133,7 @@ public class TradeFragment extends Fragment implements View.OnClickListener, ISe
             @Override
             public void run() {
                 progressDialogHelper.hideProgressDialog();
-                AlertDialogHelper.showSimpleAlertDialog(getActivity(), error);
+                AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), error);
             }
         });
 
@@ -146,7 +142,7 @@ public class TradeFragment extends Fragment implements View.OnClickListener, ISe
     protected void updateListAdapter(ArrayList<TradeData> tradeDataArrayList) {
         this.tradeDataArrayList.addAll(tradeDataArrayList);
         if (tradeDataListAdapter == null) {
-            tradeDataListAdapter = new TradeDataListAdapter(getContext(), this.tradeDataArrayList);
+            tradeDataListAdapter = new TradeDataListAdapter(this, this.tradeDataArrayList);
             loadMoreListView.setAdapter(tradeDataListAdapter);
         } else {
             tradeDataListAdapter.notifyDataSetChanged();
@@ -156,8 +152,8 @@ public class TradeFragment extends Fragment implements View.OnClickListener, ISe
     private void loadTrades() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(getActivity()));
-            jsonObject.put(MobilizerConstants.KEY_PIA_ID, PreferenceStorage.getPIAId(getActivity()));
+            jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(MobilizerConstants.KEY_PIA_ID, PreferenceStorage.getPIAId(this));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -180,7 +176,7 @@ public class TradeFragment extends Fragment implements View.OnClickListener, ISe
         } else {
             tradeData = tradeDataArrayList.get(position);
         }
-        /*Intent intent = new Intent(getActivity(), BatchDetailsActivity.class);
+        /*Intent intent = new Intent(this, BatchDetailsActivity.class);
         intent.putExtra("eventObj", tradeData);
         startActivity(intent);*/
     }

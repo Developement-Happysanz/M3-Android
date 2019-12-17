@@ -13,17 +13,234 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/mm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
         <include
             layout="@layout/app_bar_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:layout_above="@+id/loc_layout" />
 
         <FrameLayout
             android:id="@+id/flContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:layout_above="@+id/loc_layout" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:layout_below="@+id/mm"
+            android:layout_above="@+id/loc_layout">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:background="@color/colorPrimary">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:text="@string/login_title_banner"
+                        android:textColor="@color/white"
+                        android:textAllCaps="true"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <!--        <ImageView-->
+                    <!--            android:layout_width="match_parent"-->
+                    <!--            android:layout_height="match_parent"-->
+                    <!--            android:gravity="center"-->
+                    <!--            android:src="@drawable/dashboardimage"/>-->
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/prospects"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shadow_round"
+                        android:gravity="left"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="80sp"
+                            android:layout_height="80sp"
+                            android:padding="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_student" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/open_sans_bold"
+                            android:text="Prospects"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/add_candidates"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shadow_round"
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:padding="20dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_add_candidate" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:text="Add Candidate"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/open_sans_bold"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/center_information"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shadow_round"
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:padding="20dp"
+                                android:layout_gravity="left"
+                                android:src="@drawable/ic_center_information" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/open_sans_bold"
+                                android:text="Center Informations"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/trades"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shadow_round"
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="80sp"
+                                android:layout_height="80sp"
+                                android:layout_gravity="center"
+                                android:padding="20dp"
+                                android:src="@drawable/ic_trade" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/open_sans_bold"
+                                android:text="Trades"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/task"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shadow_round"
+                            android:layout_marginTop="20dp"
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="80sp"
+                                android:layout_height="80sp"
+                                android:padding="20dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_task" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/open_sans_bold"
+                                android:text="Task"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </ScrollView>
+
+
 
         <LinearLayout
             android:id="@+id/loc_layout"
