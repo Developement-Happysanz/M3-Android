@@ -1,4 +1,4 @@
-package com.happysanztech.mmm.fragments;
+package com.happysanztech.mmm.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -39,9 +39,9 @@ import static android.util.Log.d;
  * Created by Admin on 03-01-2018.
  */
 
-public class ChangePasswordFragment extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener {
+public class ChangePasswordActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener {
 
-    private static final String TAG = "TradeFragment";
+    private static final String TAG = "TradeActivity";
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
     private EditText etOldPassword;
@@ -149,7 +149,7 @@ public class ChangePasswordFragment extends AppCompatActivity implements View.On
 
         if (validateSignInResponse(response)) {
             Toast.makeText(this, "Password changed successfully", Toast.LENGTH_SHORT).show();
-//            Intent navigationIntent = new Intent(this, DashboardFragment.class);
+//            Intent navigationIntent = new Intent(this, DashboardActivity.class);
 //            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            startActivity(navigationIntent);
             finish();

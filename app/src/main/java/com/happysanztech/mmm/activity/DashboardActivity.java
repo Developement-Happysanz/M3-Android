@@ -1,26 +1,22 @@
-package com.happysanztech.mmm.fragments;
+package com.happysanztech.mmm.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.happysanztech.mmm.R;
+import com.happysanztech.mmm.fragments.AddCandidateFragment;
 
 
 /**
  * Created by Admin on 03-01-2018.
  */
 
-public class DashboardFragment extends AppCompatActivity implements View.OnClickListener {
+public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
 
     private LinearLayout layAddCandidate;
     private LinearLayout layCenterInformation;
@@ -61,35 +57,35 @@ public class DashboardFragment extends AppCompatActivity implements View.OnClick
             startActivity(navigationIntent);
         }
         if (v == layCenterInformation) {
-//            Fragment fragment = new CenterInfoFragment();
+//            Fragment fragment = new CenterInfoActivity();
 //            FragmentManager fragmentManager = this.getSupportFragmentManager();
 //            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //            fragmentTransaction.replace(R.id.flContent, fragment);
 //            fragmentTransaction.addToBackStack(null);
 //            fragmentTransaction.commit();
-            Intent navigationIntent = new Intent(this, CenterInfoFragment.class);
+            Intent navigationIntent = new Intent(this, CenterInfoActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         }
         if (v == layTrades) {
-//            Fragment fragment = new TradeFragment();
+//            Fragment fragment = new TradeActivity();
 //            FragmentManager fragmentManager = this.getSupportFragmentManager();
 //            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //            fragmentTransaction.replace(R.id.flContent, fragment);
 //            fragmentTransaction.addToBackStack(null);
 //            fragmentTransaction.commit();
-            Intent navigationIntent = new Intent(this, TradeFragment.class);
+            Intent navigationIntent = new Intent(this, TradeActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         }
         if (v == layTasks) {
-//            Fragment fragment = new TaskFragment();
+//            Fragment fragment = new TaskActivity();
 //            FragmentManager fragmentManager = this.getSupportFragmentManager();
 //            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //            fragmentTransaction.replace(R.id.flContent, fragment);
 //            fragmentTransaction.addToBackStack(null);
 //            fragmentTransaction.commit();
-            Intent navigationIntent = new Intent(this, TaskFragment.class);
+            Intent navigationIntent = new Intent(this, TaskActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         }

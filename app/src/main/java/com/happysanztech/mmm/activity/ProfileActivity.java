@@ -1,4 +1,4 @@
-package com.happysanztech.mmm.fragments;
+package com.happysanztech.mmm.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -69,9 +69,9 @@ import java.util.Locale;
 import static android.app.Activity.RESULT_OK;
 import static android.util.Log.d;
 
-public class ProfileFragment extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener {
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener {
 
-    private static final String TAG = "TradeFragment";
+    private static final String TAG = "TradeActivity";
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
     private EditText name, number, mail, address;
@@ -503,13 +503,13 @@ public class ProfileFragment extends AppCompatActivity implements View.OnClickLi
                     saveUserData(dataa);
                 } else {
                     Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-//                    Fragment fragment = new DashboardFragment();
+//                    Fragment fragment = new DashboardActivity();
 //                    FragmentManager fragmentManager = this.getSupportFragmentManager();
 //                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //                    fragmentTransaction.replace(R.id.flContent, fragment);
 //                    fragmentTransaction.addToBackStack(null);
 //                    fragmentTransaction.commit();
-//                    Intent navigationIntent = new Intent(this, DashboardFragment.class);
+//                    Intent navigationIntent = new Intent(this, DashboardActivity.class);
 //                    navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                    startActivity(navigationIntent);
                     finish();

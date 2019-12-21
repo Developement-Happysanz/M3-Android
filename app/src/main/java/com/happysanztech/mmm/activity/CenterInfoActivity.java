@@ -1,11 +1,10 @@
-package com.happysanztech.mmm.fragments;
+package com.happysanztech.mmm.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,13 +17,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.happysanztech.mmm.R;
-import com.happysanztech.mmm.activity.CenterPhotosActivity;
-import com.happysanztech.mmm.activity.VideoListDemoActivity;
 import com.happysanztech.mmm.helper.AlertDialogHelper;
 import com.happysanztech.mmm.helper.ProgressDialogHelper;
 import com.happysanztech.mmm.interfaces.DialogClickListener;
@@ -44,9 +38,9 @@ import static android.util.Log.d;
  * Created by Admin on 03-01-2018.
  */
 
-public class CenterInfoFragment extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener {
+public class CenterInfoActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener {
 
-    private static final String TAG = "CenterInfoFragment";
+    private static final String TAG = "CenterInfoActivity";
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
     private TextView txtDescriptionDetails, txtBannerName;
@@ -87,7 +81,7 @@ public class CenterInfoFragment extends AppCompatActivity implements View.OnClic
             this.startActivity(myIntent);
         }
         if (v == btnTrades) {
-            Intent navigationIntent = new Intent(this, TradeFragment.class);
+            Intent navigationIntent = new Intent(this, TradeActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         }

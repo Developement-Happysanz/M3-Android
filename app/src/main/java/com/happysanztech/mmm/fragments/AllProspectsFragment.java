@@ -126,9 +126,13 @@ public class AllProspectsFragment extends Fragment implements AdapterView.OnItem
         }
 
         if (!PreferenceStorage.getUserId(getActivity()).equalsIgnoreCase("1")) {
-            Intent intent = new Intent(getActivity(), AddCandidateActivity.class);
-            intent.putExtra("pros", centers);
-            startActivity(intent);
+            if (centers.getStatus().equalsIgnoreCase("Pending")) {
+                Intent intent = new Intent(getActivity(), AddCandidateActivity.class);
+                intent.putExtra("pros", centers);
+                startActivity(intent);
+            } else {
+                AlertDialogHelper.showSimpleAlertDialog(getActivity(), "Can't edit");
+            }
         } else {
 
         }

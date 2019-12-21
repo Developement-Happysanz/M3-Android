@@ -69,6 +69,12 @@
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
+            android:name=".activity.ForgotPasswordActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBar" />
+
+        <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -171,43 +177,37 @@
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".fragments.BatchDetailsFragment"
-            android:label="@string/batch_details_title"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-
-        <activity
-            android:name=".fragments.CenterInfoFragment"
+            android:name=".activity.CenterInfoActivity"
             android:label="@string/center_info_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".fragments.ChangePasswordFragment"
+            android:name=".activity.ChangePasswordActivity"
             android:label="@string/change_password_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".fragments.DashboardFragment"
+            android:name=".activity.DashboardActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".fragments.ProfileFragment"
+            android:name=".activity.ProfileActivity"
             android:label="@string/profile_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".fragments.TaskFragment"
+            android:name=".activity.TaskActivity"
             android:label="@string/task_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".fragments.TradeFragment"
+            android:name=".activity.TradeActivity"
             android:label="@string/trade_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

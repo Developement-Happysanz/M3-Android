@@ -240,7 +240,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         } else if (v == btnSubmit) {
             if (mLastLocation != null) {
                 if (validateFields()) {
-                    if (allProspects == null){
+                    if (allProspects == null) {
                         checkInternalState = "candidate_submit";
                         saveProfile();
                     } else {
@@ -356,7 +356,11 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                             return view;
                         }
                     };
-
+                    if (allProspects == null) {
+                        Log.d(TAG, "null");
+                    } else {
+                        getProspectdata();
+                    }
                 } else if (checkInternalState.equalsIgnoreCase("timings")) {
                     JSONArray getData = response.getJSONArray("Timings");
                     int getLength = getData.length();
@@ -410,7 +414,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         }
                     };
 
-//                    GetTrade();
+                    GetTrade();
                 } else if (checkInternalState.equalsIgnoreCase("addStudent")) {
                     if (mProgressDialog != null) {
                         mProgressDialog.cancel();
@@ -428,7 +432,52 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         Toast.makeText(getApplicationContext(), "Created a new prospect.", Toast.LENGTH_SHORT).show();
                         finish();
                     }
+                } else if (checkInternalState.equalsIgnoreCase("prospect")) {
+                    JSONArray getData = response.getJSONArray("studentDetails");
+//                    JSONObject getData = response.getJSONObject("studentDetails");
+
+                    etCandidateName.setText(getData.getJSONObject(0).getString("name"));
+                    etCandidateSex.setText(getData.getJSONObject(0).getString("sex"));
+                    etCandidateDOB.setText(getData.getJSONObject(0).getString("dob"));
+                    etCandidateAge.setText(getData.getJSONObject(0).getString("age"));
+                    etCandidateNationality.setText(getData.getJSONObject(0).getString("nationality"));
+                    etCandidateReligion.setText(getData.getJSONObject(0).getString("religion"));
+                    etCandidateCommunityClass.setText(getData.getJSONObject(0).getString("community_class"));
+                    etCandidateCommunity.setText(getData.getJSONObject(0).getString("community"));
+                    etCandidateBloodGroup.setText(getData.getJSONObject(0).getString("blood_group"));
+                    etCandidateFatherName.setText(getData.getJSONObject(0).getString("father_name"));
+                    etCandidateMotherName.setText(getData.getJSONObject(0).getString("mother_name"));
+                    etCandidateMobileNo.setText(getData.getJSONObject(0).getString("mobile"));
+                    etCandidateAlterMobileNo.setText(getData.getJSONObject(0).getString("sec_mobile"));
+                    etCandidateEmailId.setText(getData.getJSONObject(0).getString("email"));
+                    etCandidateState.setText(getData.getJSONObject(0).getString("state"));
+                    etCandidateCity.setText(getData.getJSONObject(0).getString("city"));
+                    etCandidateAddressLine1.setText(getData.getJSONObject(0).getString("address"));
+//                    etCandidateAddressLine2.setText(getData.getJSONObject(0).getString("name"));
+                    etCandidateMotherTongue.setText(getData.getJSONObject(0).getString("mother_tongue"));
+                    if (getData.getJSONObject(0).getString("disability").equalsIgnoreCase("0")) {
+                        cbAnyDisability.setChecked(false);
+                    } else {
+                        cbAnyDisability.setChecked(true);
+                    }
+                    if (getData.getJSONObject(0).getString("have_aadhaar_card").equalsIgnoreCase("0")) {
+                        cbCandidatesAadhaarStatus.setChecked(false);
+                    } else {
+                        cbCandidatesAadhaarStatus.setChecked(true);
+                        etCandidatesAadhaarNo.setText(getData.getJSONObject(0).getString("aadhaar_card_number"));
+                    }
+//                    etCandidateDisabilityReason.setText(getData.getJSONObject(0).getString("name"));
+//                    etCandidatesPreferredTrade.setText(getData.getJSONObject(0).getString("preferred_trade"));
+                    tradeId = getData.getJSONObject(0).getString("preferred_trade");
+                    selectTradeById(tradeId);
+                    etCandidatesPreferredTiming.setText(getData.getJSONObject(0).getString("preferred_timing"));
+                    etCandidatesQualification.setText(getData.getJSONObject(0).getString("last_studied"));
+                    etCandidatesLastInstitute.setText(getData.getJSONObject(0).getString("last_institute"));
+                    etCandidatesQualifiedPromotion.setText(getData.getJSONObject(0).getString("qualified_promotion"));
+//                    etCandidateStatus.setText(getData.getJSONObject(0).getString("status"));
+
                 }
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1170,7 +1219,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                 Toast.makeText(AddCandidateActivity.this, "Unable to save picture", Toast.LENGTH_SHORT).show();
             } else {
                 if (mUpdatedImageUrl != null) {
-//                    PreferenceStorage.saveUserPicture(AddCandidateActivity.this, mUpdatedImageUrl);
+//                    PreferenceStorage.saveUserPicture(AddCandidateFragment.this, mUpdatedImageUrl);
                 }
             }
 
@@ -1446,6 +1495,20 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         builderSingle.show();
     }
 
+    private void selectTradeById(String id) {
+        if (!tradeList.isEmpty()) {
+            String test = "";
+            for (int ss = 0; ss < tradeList.size(); ss++) {
+                if (tradeList.get(ss).getTradeId().equalsIgnoreCase(id)) {
+                    test = tradeList.get(ss).getTradeName();
+                }
+            }
+            etCandidatesPreferredTrade.setText(test);
+        } else {
+            etCandidatesPreferredTrade.setText("");
+        }
+    }
+
     private void GetBloodGroup() {
 
         checkInternalState = "bloodGroup";
@@ -1537,6 +1600,30 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         builderSingle.show();
     }
 
+    private void getProspectdata() {
+
+        checkInternalState = "prospect";
+
+        if (CommonUtils.isNetworkAvailable(this)) {
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_ID, allProspects.getId());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+            String url = MobilizerConstants.BUILD_URL + MobilizerConstants.STUDENT_DETAIL;
+            serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+
+
+        } else {
+            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_occurred));
+        }
+    }
+
     private void GetTradeTimings() {
 
         checkInternalState = "timings";
@@ -1624,7 +1711,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         //zoom the camera to current location
         if (mLastLocation != null) {
             LatLng pos = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-               /* mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos,10));*/
+            /* mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos,10));*/
 //            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 14), 1000, null);
         }
 //        }
@@ -1637,29 +1724,29 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-/*
-             * Google Play services can resolve some errors it detects.
-             * If the error has a resolution, try sending an Intent to
-             * start a Google Play services activity that can resolve
-             * error.
-             */
+        /*
+         * Google Play services can resolve some errors it detects.
+         * If the error has a resolution, try sending an Intent to
+         * start a Google Play services activity that can resolve
+         * error.
+         */
         if (connectionResult.hasResolution()) {
             try {
                 // Start an Activity that tries to resolve the error
                 connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
-                    /*
-                     * Thrown if Google Play services canceled the original
-                     * PendingIntent
-                     */
+                /*
+                 * Thrown if Google Play services canceled the original
+                 * PendingIntent
+                 */
             } catch (IntentSender.SendIntentException e) {
                 // Log the error
                 e.printStackTrace();
             }
         } else {
-                /*
-                 * If no resolution is available, display a dialog to the
-                 * user with the error.
-                 */
+            /*
+             * If no resolution is available, display a dialog to the
+             * user with the error.
+             */
             Log.e("Error", "Location services connection failed with code " + connectionResult.getErrorCode());
         }
     }

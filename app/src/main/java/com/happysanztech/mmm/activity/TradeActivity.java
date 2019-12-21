@@ -1,4 +1,4 @@
-package com.happysanztech.mmm.fragments;
+package com.happysanztech.mmm.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,9 +39,9 @@ import static android.util.Log.d;
  * Created by Admin on 03-01-2018.
  */
 
-public class TradeFragment extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
+public class TradeActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
 
-    private static final String TAG = "TradeFragment";
+    private static final String TAG = "TradeActivity";
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
     ListView loadMoreListView;
@@ -176,7 +176,7 @@ public class TradeFragment extends AppCompatActivity implements View.OnClickList
         } else {
             tradeData = tradeDataArrayList.get(position);
         }
-        /*Intent intent = new Intent(this, BatchDetailsActivity.class);
+        /*Intent intent = new Intent(this, BatchDetailsFragment.class);
         intent.putExtra("eventObj", tradeData);
         startActivity(intent);*/
     }

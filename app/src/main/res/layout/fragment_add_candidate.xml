@@ -11,8 +11,8 @@
 
         <ImageView
             android:id="@+id/im_qr_code_scan"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ic_qr_code"
             android:contentDescription="@string/app_name" />
@@ -24,7 +24,7 @@
             android:layout_below="@+id/im_qr_code_scan"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/round_btn_white_base"
             android:text="Scan Aadhaar Card"

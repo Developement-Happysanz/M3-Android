@@ -1,47 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@drawable/shadow_round"
+    android:orientation="vertical"
+    android:padding="5dp">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/text_task_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shadow_round"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_margin="5dp">
+        android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/txtTaskId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
+    <TextView
+        android:id="@+id/text_task_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:background="@color/white"
+        android:gravity="left|center"
+        android:text="The task title is"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/txtTaskTitle"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/white"
-            android:gravity="left"
-            android:text="Advanced Digital Signal Processing"
-            android:textColor="@color/black"
+    <TextView
+        android:id="@+id/text_task_assigned_to"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_task_title"
+        android:layout_marginLeft="10dp"
+        android:background="@color/white"
+        android:gravity="left"
+        android:text="Assigned to"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
 
-            android:textSize="16sp"
-            android:fontFamily="@font/open_sans_bold"/>
+    <TextView
+        android:id="@+id/text_task_assigned_by"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_task_assigned_to"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/white"
+        android:gravity="left"
+        android:text="Assigned by"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/txtTaskDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:text="Advanced Digital Signal Processing"
-            android:textColor="@color/black"
-            android:fontFamily="@font/open_sans_regular"
-            android:textSize="14sp" />
+    <TextView
+        android:id="@+id/text_task_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/text_task_assigned_by"
+        android:layout_marginLeft="10dp"
+        android:background="@color/white"
+        android:gravity="left"
+        android:text="Task details"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
 
+    <TextView
+        android:id="@+id/task_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/text_task_title"
+        android:layout_alignBottom="@id/text_task_title"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/white"
+        android:text="DD-MM-YYYY"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/task_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/white"
+        android:text="Status"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
 
-
-</LinearLayout>
+</RelativeLayout>

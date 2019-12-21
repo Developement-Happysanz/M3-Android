@@ -7,7 +7,6 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -15,28 +14,20 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.IBinder;
-import android.os.Parcelable;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.provider.Settings;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.FileProvider;
 import androidx.core.view.GravityCompat;
 
 import android.util.Log;
@@ -53,14 +44,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.material.navigation.NavigationView;
@@ -69,56 +56,30 @@ import com.happysanztech.mmm.BuildConfig;
 import com.happysanztech.mmm.R;
 import com.happysanztech.mmm.bean.database.SQLiteHelper;
 import com.happysanztech.mmm.fragments.AddCandidateFragment;
-import com.happysanztech.mmm.fragments.CenterInfoFragment;
-import com.happysanztech.mmm.fragments.ChangePasswordFragment;
-import com.happysanztech.mmm.fragments.DashboardFragment;
-import com.happysanztech.mmm.fragments.ProfileFragment;
-import com.happysanztech.mmm.fragments.TaskFragment;
-import com.happysanztech.mmm.fragments.TradeFragment;
 import com.happysanztech.mmm.helper.AlertDialogHelper;
 import com.happysanztech.mmm.helper.ProgressDialogHelper;
 import com.happysanztech.mmm.interfaces.DialogClickListener;
-import com.happysanztech.mmm.servicehelpers.GoogleLocationService;
 import com.happysanztech.mmm.servicehelpers.LocationUpdatesService;
 import com.happysanztech.mmm.servicehelpers.ServiceHelper;
 import com.happysanztech.mmm.serviceinterfaces.IServiceListener;
 import com.happysanztech.mmm.syncadapter.UploadDataSyncAdapter;
-import com.happysanztech.mmm.utils.AndroidMultiPartEntity;
 import com.happysanztech.mmm.utils.MobilizerConstants;
 import com.happysanztech.mmm.utils.PreferenceStorage;
 import com.happysanztech.mmm.utils.Utils;
 import com.squareup.picasso.Picasso;
-import com.yalantis.ucrop.UCrop;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         DialogClickListener, IServiceListener, SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
 
     private int count = 0;
-    private static final String TAG = AddCandidateActivity.class.getName();
+    private static final String TAG = com.happysanztech.mmm.activity.AddCandidateActivity.class.getName();
     private Uri outputFileUri;
     static final int REQUEST_IMAGE_GET = 1;
     private String mActualFilePath = null;
@@ -403,7 +364,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mRequestLocationUpdatesButton.setVisibility(View.VISIBLE);
             mRemoveLocationUpdatesButton.setVisibility(View.VISIBLE);
             // Handle the camera action
-//            fragment = new DashboardFragment();
+//            fragment = new DashboardActivity();
 //            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 //            ft.replace(R.id.flContent, fragment);
 //            ft.commit();
@@ -423,11 +384,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_center_information) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
-//            fragment = new CenterInfoFragment();
+//            fragment = new CenterInfoActivity();
 //            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 //            ft.replace(R.id.flContent, fragment);
 //            ft.commit();
-            Intent navigationIntent = new Intent(this, CenterInfoFragment.class);
+            Intent navigationIntent = new Intent(this, CenterInfoActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         }
@@ -440,21 +401,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.nav_trade) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
-//            fragment = new TradeFragment();
+//            fragment = new TradeActivity();
 //            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 //            ft.replace(R.id.flContent, fragment);
 //            ft.commit();
-            Intent navigationIntent = new Intent(this, TradeFragment.class);
+            Intent navigationIntent = new Intent(this, TradeActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         } else if (id == R.id.nav_task) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
-//            fragment = new TaskFragment();
+//            fragment = new TaskActivity();
 //            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 //            ft.replace(R.id.flContent, fragment);
 //            ft.commit();
-            Intent navigationIntent = new Intent(this, TaskFragment.class);
+            Intent navigationIntent = new Intent(this, TaskActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         } else if (id == R.id.nav_sync) {
@@ -470,31 +431,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_footer_1) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
-            Intent navigationIntent = new Intent(this, ProfileFragment.class);
+            Intent navigationIntent = new Intent(this, ProfileActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         } else if (id == R.id.nav_footer_2) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
-//            fragment = new ChangePasswordFragment();
+//            fragment = new ChangePasswordActivity();
 //            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 //            ft.replace(R.id.flContent, fragment);
 //            ft.commit();
-            Intent navigationIntent = new Intent(this, ChangePasswordFragment.class);
+            Intent navigationIntent = new Intent(this, ChangePasswordActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         } else if (id == R.id.nav_change_password) {
             mRequestLocationUpdatesButton.setVisibility(View.GONE);
             mRemoveLocationUpdatesButton.setVisibility(View.GONE);
-//            fragment = new ChangePasswordFragment();
+//            fragment = new ChangePasswordActivity();
 //            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 //            ft.replace(R.id.flContent, fragment);
 //            ft.commit();
-            Intent navigationIntent = new Intent(this, ChangePasswordFragment.class);
+            Intent navigationIntent = new Intent(this, ChangePasswordActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         } else if (id == R.id.nav_logout) {
-            doLogout();
+            android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Logout");
+            alertDialogBuilder.setMessage("Do you really want to logout?");
+            alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    doLogout();
+                }
+            });
+            alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alertDialogBuilder.show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -504,11 +480,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void loadDashboard() {
 
-//        Fragment fragment = new DashboardFragment();
+//        Fragment fragment = new DashboardActivity();
 //        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 //        ft.replace(R.id.flContent, fragment);
 //        ft.commit();
-        Intent navigationIntent = new Intent(this, DashboardFragment.class);
+        Intent navigationIntent = new Intent(this, DashboardActivity.class);
         navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(navigationIntent);
     }
@@ -754,35 +730,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(navigationIntent);
         }
         if (v == layCenterInformation) {
-//            Fragment fragment = new CenterInfoFragment();
+//            Fragment fragment = new CenterInfoActivity();
 //            FragmentManager fragmentManager = this.getSupportFragmentManager();
 //            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //            fragmentTransaction.replace(R.id.flContent, fragment);
 //            fragmentTransaction.addToBackStack(null);
 //            fragmentTransaction.commit();
-            Intent navigationIntent = new Intent(this, CenterInfoFragment.class);
+            Intent navigationIntent = new Intent(this, CenterInfoActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         }
         if (v == layTrades) {
-//            Fragment fragment = new TradeFragment();
+//            Fragment fragment = new TradeActivity();
 //            FragmentManager fragmentManager = this.getSupportFragmentManager();
 //            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //            fragmentTransaction.replace(R.id.flContent, fragment);
 //            fragmentTransaction.addToBackStack(null);
 //            fragmentTransaction.commit();
-            Intent navigationIntent = new Intent(this, TradeFragment.class);
+            Intent navigationIntent = new Intent(this, TradeActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         }
         if (v == layTasks) {
-//            Fragment fragment = new TaskFragment();
+//            Fragment fragment = new TaskActivity();
 //            FragmentManager fragmentManager = this.getSupportFragmentManager();
 //            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //            fragmentTransaction.replace(R.id.flContent, fragment);
 //            fragmentTransaction.addToBackStack(null);
 //            fragmentTransaction.commit();
-            Intent navigationIntent = new Intent(this, TaskFragment.class);
+            Intent navigationIntent = new Intent(this, TaskActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         }

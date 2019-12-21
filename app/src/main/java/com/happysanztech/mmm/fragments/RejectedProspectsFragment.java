@@ -180,9 +180,9 @@ public class RejectedProspectsFragment extends Fragment implements AdapterView.O
         }
 
         if (!PreferenceStorage.getUserId(getActivity()).equalsIgnoreCase("1")) {
-            Intent intent = new Intent(getActivity(), AddCandidateActivity.class);
-            intent.putExtra("pros", centers);
-            startActivity(intent);
+//            Intent intent = new Intent(getActivity(), AddCandidateActivity.class);
+//            intent.putExtra("pros", centers);
+//            startActivity(intent);
         } else {
 
         }

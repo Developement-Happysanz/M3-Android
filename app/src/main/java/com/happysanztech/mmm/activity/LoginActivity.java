@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -72,6 +73,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText edtUsername, edtPassword;
     private Button signIn;
     Context context;
+    private TextView txtForgotPsw;
 
     private static String[] PERMISSIONS_ALL = {Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -101,6 +103,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         edtPassword = findViewById(R.id.edtPassword);
         signIn = findViewById(R.id.signin);
         signIn.setOnClickListener(this);
+        txtForgotPsw = findViewById(R.id.forgot);
+        txtForgotPsw.setOnClickListener(this);
 
         FirstTimePreference prefFirstTime = new FirstTimePreference(getApplicationContext());
 
@@ -170,6 +174,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String url = MobilizerConstants.BUILD_URL + MobilizerConstants.USER_LOGIN_API;
                     serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
                 }
+            }
+            else if (v == txtForgotPsw) {
+                Intent i = new Intent(LoginActivity.this,
+                        ForgotPasswordActivity.class);
+                startActivity(i);
             }
         } else {
             AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection available");

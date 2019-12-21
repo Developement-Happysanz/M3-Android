@@ -39,6 +39,10 @@ public class AllProspects  implements Serializable {
     @Expose
     private String profile_pic;
 
+    @SerializedName("aadhaar_card_number")
+    @Expose
+    private String aadhaar_card_number;
+
     /**
      * @return The id
      */
@@ -149,6 +153,20 @@ public class AllProspects  implements Serializable {
      */
     public void setProfile_pic(String profile_pic) {
         this.profile_pic = profile_pic;
+    }
+
+    /**
+     * @return The aadhaar_card_number
+     */
+    public String getAadhaar_card_number() {
+        return aadhaar_card_number;
+    }
+
+    /**
+     * @param aadhaar_card_number The aadhaar_card_number
+     */
+    public void setAadhaar_card_number(String aadhaar_card_number) {
+        this.aadhaar_card_number = aadhaar_card_number;
     }
 
 }

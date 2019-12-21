@@ -110,6 +110,7 @@ public class MobilizerConstants {
     public static final String UPDATE_CANDIDATE = MOBILIZER_API + "update_student";
 
     //    Add candidate params
+    public static final String KEY_STUDENT_ID = "student_id";
     public static final String PARAMS_HAVE_AADHAAR_CARD = "have_aadhaar_card";
     public static final String PARAMS_AADHAAR_CARD_NUMBER = "aadhaar_card_number";
     public static final String PARAMS_NAME = "name";
@@ -168,6 +169,9 @@ public class MobilizerConstants {
     public static final String PARAMS_LOCATION = "location";
     public static final String PARAMS_DISTANCE = "miles";
     public static final String PARAMS_DATETIME = "location_datetime";
+
+    //Forgot password URL
+    public static final String USER_FORGOT_PASSWORD = "apimain/forgot_password/";
 
     //    Change password
     public static final String CHANGE_PASSWORD = "apimain/change_password/";

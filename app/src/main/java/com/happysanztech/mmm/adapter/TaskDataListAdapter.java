@@ -13,7 +13,11 @@ import android.widget.TextView;
 import com.happysanztech.mmm.R;
 import com.happysanztech.mmm.bean.support.TaskData;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Admin on 09-01-2018.
@@ -32,6 +36,7 @@ public class TaskDataListAdapter extends BaseAdapter {
     public TaskDataListAdapter(Context context, ArrayList<TaskData> taskData) {
         this.context = context;
         this.taskData = taskData;
+//        Collections.reverse(taskData);
         mSearching = false;
     }
 
@@ -71,9 +76,13 @@ public class TaskDataListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.task_list_item, parent, false);
 
             holder = new ViewHolder();
-            holder.txtTaskId = (TextView) convertView.findViewById(R.id.txtTaskId);
-            holder.txtTaskTitle = (TextView) convertView.findViewById(R.id.txtTaskTitle);
-            holder.txtTaskDescription = (TextView) convertView.findViewById(R.id.txtTaskDescription);
+            holder.txtTaskId = (TextView) convertView.findViewById(R.id.text_task_id);
+            holder.txtTaskTitle = (TextView) convertView.findViewById(R.id.text_task_title);
+            holder.txtTaskDescription = (TextView) convertView.findViewById(R.id.text_task_description);
+            holder.txtTaskDate = (TextView) convertView.findViewById(R.id.task_date);
+            holder.txtTaskAssignedTo = (TextView) convertView.findViewById(R.id.text_task_assigned_to);
+            holder.txtTaskAssignedBy = (TextView) convertView.findViewById(R.id.text_task_assigned_by);
+            holder.txtTaskStatus = (TextView) convertView.findViewById(R.id.task_status);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -87,6 +96,24 @@ public class TaskDataListAdapter extends BaseAdapter {
         holder.txtTaskId.setText(taskData.get(position).getId());
         holder.txtTaskTitle.setText(taskData.get(position).getTaskTitle());
         holder.txtTaskDescription.setText(taskData.get(position).getTaskDescription());
+        holder.txtTaskDescription.setVisibility(View.GONE);
+        holder.txtTaskAssignedTo.setText("Assigned To: "+taskData.get(position).getAssigned_to());
+        holder.txtTaskAssignedBy.setText("Assigned By: "+taskData.get(position).getAssigned_from());
+        holder.txtTaskStatus.setText(taskData.get(position).getStatus());
+        String start = taskData.get(position).getTaskDate();
+        try {
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = formatter.parse(start);
+            SimpleDateFormat sent_date = new SimpleDateFormat("dd-MM-yyyy");
+            String sent_date_name = sent_date.format(date.getTime());
+            if (start != null) {
+                holder.txtTaskDate.setText(sent_date_name);
+            } else {
+                holder.txtTaskDate.setText("N/A");
+            }
+        } catch (final ParseException e) {
+            e.printStackTrace();
+        }
 
         return convertView;
     }
@@ -118,7 +145,7 @@ public class TaskDataListAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
-        public TextView txtTaskId, txtTaskTitle, txtTaskDescription;
+        public TextView txtTaskId, txtTaskTitle, txtTaskDescription, txtTaskDate, txtTaskAssignedTo, txtTaskAssignedBy, txtTaskStatus;
     }
 
     public boolean ismSearching() {

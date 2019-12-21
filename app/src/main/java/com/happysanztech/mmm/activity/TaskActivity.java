@@ -1,4 +1,4 @@
-package com.happysanztech.mmm.fragments;
+package com.happysanztech.mmm.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,9 +43,9 @@ import static android.util.Log.d;
  * Created by Admin on 03-01-2018.
  */
 
-public class TaskFragment extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
+public class TaskActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
 
-    private static final String TAG = "TaskFragment";
+    private static final String TAG = "TaskActivity";
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
     ListView loadMoreListView;

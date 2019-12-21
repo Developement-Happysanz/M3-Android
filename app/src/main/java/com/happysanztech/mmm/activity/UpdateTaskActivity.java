@@ -29,16 +29,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.happysanztech.mmm.R;
 import com.happysanztech.mmm.bean.support.TaskData;
-import com.happysanztech.mmm.fragments.TaskFragment;
 import com.happysanztech.mmm.helper.AlertDialogHelper;
 import com.happysanztech.mmm.helper.ProgressDialogHelper;
 import com.happysanztech.mmm.interfaces.DialogClickListener;
@@ -56,7 +51,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
@@ -205,7 +199,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if (v == ivBack) {
-            Intent intent = new Intent(this, TaskFragment.class);
+            Intent intent = new Intent(this, TaskActivity.class);
             startActivity(intent);
             finish();
         }
@@ -285,7 +279,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
         if (validateSignInResponse(response)) {
 //            setResult(RESULT_OK);
             Toast.makeText(this, "Updated successfully...", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, TaskFragment.class);
+            Intent intent = new Intent(this, TaskActivity.class);
             startActivity(intent);
             finish();
         }

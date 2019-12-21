@@ -100,7 +100,7 @@
                             android:layout_height="80sp"
                             android:padding="20dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_student" />
+                            android:src="@drawable/ic_prospects_red" />
 
                         <TextView
                             android:layout_width="wrap_content"

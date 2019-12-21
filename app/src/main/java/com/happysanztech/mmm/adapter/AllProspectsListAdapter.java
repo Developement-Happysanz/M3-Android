@@ -83,8 +83,22 @@ public class AllProspectsListAdapter extends BaseAdapter {
         }
 
         holder.txtName.setText(upcomingHoliday.get(position).getName());
-        holder.txtStatus.setText(upcomingHoliday.get(position).getStatus());
+        String str = upcomingHoliday.get(position).getAadhaar_card_number();
+        String upToNCharacters = "";
 
+        if (str.length() == 4) {
+            upToNCharacters = str;
+        } else if (str.length() > 4) {
+            upToNCharacters = str.substring(str.length() - 4);
+        } else {
+            // whatever is appropriate in this case
+            throw new IllegalArgumentException("word has less than 3 characters!");
+        }
+        if (upcomingHoliday.get(position).getStatus().equalsIgnoreCase("Pending")) {
+            holder.txtStatus.setText(upcomingHoliday.get(position).getStatus());
+        } else {
+            holder.txtStatus.setText("****" + upToNCharacters);
+        }
         return convertView;
     }
 
