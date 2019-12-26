@@ -63,6 +63,7 @@ import com.happysanztech.mmm.utils.MobilizerConstants;
 import com.happysanztech.mmm.utils.PreferenceStorage;
 import com.happysanztech.mmm.utils.aadhaar.DataAttributes;
 import com.happysanztech.mmm.utils.aadhaar.Storage;
+import com.squareup.picasso.Picasso;
 
 
 import androidx.annotation.NonNull;
@@ -438,7 +439,30 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
                     etCandidateName.setText(getData.getJSONObject(0).getString("name"));
                     etCandidateSex.setText(getData.getJSONObject(0).getString("sex"));
-                    etCandidateDOB.setText(getData.getJSONObject(0).getString("dob"));
+
+                    String dobFormat = "";
+                    String dob = getData.getJSONObject(0).getString("dob");
+//                    etCandidateDOB.setText(getData.getJSONObject(0).getString("dob"));
+                    if (dob != null && dob != "") {
+
+                        String date = dob;
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+                        Date testDate = null;
+                        try {
+                            testDate = sdf.parse(date);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
+                        dobFormat = formatter.format(testDate);
+                        System.out.println(".....Date..." + dobFormat);
+
+//                        SimpleDateFormat ageFormatter = new SimpleDateFormat("yyy-MM-dd");
+//                        ageFormat = ageFormatter.format(testDate);
+
+                    }
+                    etCandidateDOB.setText(dobFormat);
+
                     etCandidateAge.setText(getData.getJSONObject(0).getString("age"));
                     etCandidateNationality.setText(getData.getJSONObject(0).getString("nationality"));
                     etCandidateReligion.setText(getData.getJSONObject(0).getString("religion"));
@@ -475,6 +499,26 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     etCandidatesLastInstitute.setText(getData.getJSONObject(0).getString("last_institute"));
                     etCandidatesQualifiedPromotion.setText(getData.getJSONObject(0).getString("qualified_promotion"));
 //                    etCandidateStatus.setText(getData.getJSONObject(0).getString("status"));
+                    admissionId = getData.getJSONObject(0).getString("id");
+
+                } else if (checkInternalState.equalsIgnoreCase("updateStudent")) {
+                    if (mProgressDialog != null) {
+                        mProgressDialog.cancel();
+                    }
+                    if ((mActualFilePath != null)) {
+                        Log.d(TAG, "Update profile picture");
+                        mProgressDialog = new ProgressDialog(this);
+                        mProgressDialog.setIndeterminate(true);
+                        mProgressDialog.setMessage("Updating Profile");
+                        mProgressDialog.show();
+                        saveUserImage();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Student profile update successfully...", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(getApplicationContext(), ProspectsActivity.class);
+//                        startActivity(intent);
+                        finish();
+                    }
+
 
                 }
 
@@ -519,6 +563,13 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
         imCandidatePicture = findViewById(R.id.im_candidate_picture);
         imCandidatePicture.setOnClickListener(this);
+
+        if (allProspects != null) {
+            String url = allProspects.getProfile_pic();
+            if (((url != null) && !(url.isEmpty()))) {
+                Picasso.get().load(url).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(imCandidatePicture);
+            }
+        }
 
         etCandidateName = findViewById(R.id.et_candidate_name);
 
