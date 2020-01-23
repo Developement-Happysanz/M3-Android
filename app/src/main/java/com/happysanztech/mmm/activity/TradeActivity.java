@@ -53,7 +53,7 @@ public class TradeActivity extends AppCompatActivity implements View.OnClickList
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_tasks);
+        setContentView(R.layout.fragment_trades);
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);

@@ -70,6 +70,7 @@
                     android:hint="Name*"
                     android:inputType="text"
                     android:singleLine="true"
+                    android:maxLength="40"
                     android:fontFamily="@font/open_sans_regular"
                     android:textSize="14sp" />
 
@@ -124,6 +125,7 @@
                         android:layout_weight="0.50"
                         android:hint="Nationality*"
                         android:fontFamily="@font/open_sans_regular"
+                        android:maxLength="20"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textSize="14sp" />
@@ -141,6 +143,7 @@
                         android:layout_weight="0.50"
                         android:hint="Religion*"
                         android:fontFamily="@font/open_sans_regular"
+                        android:maxLength="20"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textSize="14sp" />
@@ -152,6 +155,7 @@
                         android:layout_weight="0.50"
                         android:hint="Communal Category*"
                         android:fontFamily="@font/open_sans_regular"
+                        android:maxLength="20"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textSize="14sp" />
@@ -169,6 +173,7 @@
                         android:layout_weight="0.50"
                         android:hint="Community*"
                         android:fontFamily="@font/open_sans_regular"
+                        android:maxLength="20"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textSize="14sp" />
@@ -197,6 +202,7 @@
                         android:layout_weight="0.50"
                         android:hint="Father Name*"
                         android:inputType="text"
+                        android:maxLength="40"
                         android:fontFamily="@font/open_sans_regular"
                         android:singleLine="true"
                         android:textSize="14sp" />
@@ -208,6 +214,7 @@
                         android:layout_weight="0.50"
                         android:hint="Mother Name*"
                         android:inputType="text"
+                        android:maxLength="40"
                         android:fontFamily="@font/open_sans_regular"
                         android:singleLine="true"
                         android:textSize="14sp" />
@@ -220,6 +227,7 @@
                     android:digits="0123456789"
                     android:hint="Mobile Number*"
                     android:inputType="number"
+                    android:maxLength="15"
                     android:fontFamily="@font/open_sans_regular"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -231,6 +239,7 @@
                     android:digits="0123456789"
                     android:hint="Alternative Mobile Number"
                     android:fontFamily="@font/open_sans_regular"
+                    android:maxLength="15"
                     android:inputType="number"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -242,6 +251,7 @@
                     android:fontFamily="@font/open_sans_regular"
                     android:hint="Email ID"
                     android:inputType="textEmailAddress"
+                    android:maxLength="40"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -252,6 +262,7 @@
                     android:hint="State*"
                     android:fontFamily="@font/open_sans_regular"
                     android:inputType="text"
+                    android:maxLength="40"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -261,6 +272,7 @@
                     android:layout_height="wrap_content"
                     android:hint="City*"
                     android:inputType="text"
+                    android:maxLength="40"
                     android:fontFamily="@font/open_sans_regular"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -271,6 +283,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Address Line 1*"
                     android:fontFamily="@font/open_sans_regular"
+                    android:maxLength="40"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -282,6 +295,7 @@
                     android:hint="Address Line 2"
                     android:fontFamily="@font/open_sans_regular"
                     android:inputType="text"
+                    android:maxLength="40"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -293,6 +307,7 @@
                     android:fontFamily="@font/open_sans_regular"
                     android:hint="Mother Tongue*"
                     android:inputType="text"
+                    android:maxLength="40"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -349,6 +364,7 @@
                         android:layout_weight="0.60"
                         android:fontFamily="@font/open_sans_regular"
                         android:hint="Qualification"
+                        android:maxLength="40"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textSize="14sp" />
@@ -362,6 +378,7 @@
                     android:hint="Last Institute"
                     android:fontFamily="@font/open_sans_regular"
                     android:inputType="text"
+                    android:maxLength="40"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -372,6 +389,7 @@
                     android:hint="Qualified Promotion"
                     android:fontFamily="@font/open_sans_regular"
                     android:inputType="text"
+                    android:maxLength="40"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -411,6 +429,7 @@
                     android:digits="0123456789"
                     android:hint="Aadhaar Number*"
                     android:inputType="number"
+                    android:maxLength="20"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
