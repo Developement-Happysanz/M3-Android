@@ -1621,7 +1621,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             }
 
             progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-            String url = MobilizerConstants.BUILD_URL + MobilizerConstants.TRADE_LIST;
+            String url = MobilizerConstants.BUILD_URL + MobilizerConstants.TRADES;
             serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
 
 
