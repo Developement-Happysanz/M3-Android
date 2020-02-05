@@ -17,6 +17,7 @@ import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -47,6 +48,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.happysanztech.mmm.R;
+import com.happysanztech.mmm.bean.database.SQLiteHelper;
 import com.happysanztech.mmm.bean.support.AllProspects;
 import com.happysanztech.mmm.bean.support.StoreBloodGroup;
 import com.happysanztech.mmm.bean.support.StoreTimings;
@@ -184,15 +186,34 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
     private Storage storage;
     private JSONArray storageDataArray;
 
+    SQLiteHelper database;
+    boolean isGPSEnable = false;
+    boolean isNetworkEnable = false;
+    LocationManager locationManager;
+    private String gpsStatus = "N";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_candidate);
+
+        database = new SQLiteHelper(getApplicationContext());
+
+        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        if (!isGPSEnable && !isNetworkEnable) {
+
+            gpsStatus = "N";
+
+        } else {
+
+            gpsStatus = "Y";
+        }
         allProspects = (AllProspects) getIntent().getSerializableExtra("pros");
 
         setUpUI();
-        setupUI(findViewById(R.id.scrollID));
+//        setupUI(findViewById(R.id.scrollID));
     }
 
     @Override
@@ -203,34 +224,35 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         return true;
     }
 
-    public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager =
-                (InputMethodManager) activity.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(), 0);
-    }
-
-    public void setupUI(View view) {
-
-        // Set up touch listener for non-text box views to hide keyboard.
-        if (!(view instanceof EditText)) {
-            view.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    hideSoftKeyboard(AddCandidateActivity.this);
-                    return false;
-                }
-            });
-        }
-
-        //If a layout container, iterate over children and seed recursion.
-        if (view instanceof ViewGroup) {
-            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-                View innerView = ((ViewGroup) view).getChildAt(i);
-                setupUI(innerView);
-            }
-        }
-    }
+//    public static void hideSoftKeyboard(Activity activity) {
+//        InputMethodManager inputMethodManager =
+//                (InputMethodManager) activity.getSystemService(
+//                        Activity.INPUT_METHOD_SERVICE);
+//        inputMethodManager.hideSoftInputFromWindow(
+//
+//                .getCurrentFocus().getWindowToken(), 0);
+//    }
+//
+//    public void setupUI(View view) {
+//
+//        // Set up touch listener for non-text box views to hide keyboard.
+//        if (!(view instanceof EditText)) {
+//            view.setOnTouchListener(new View.OnTouchListener() {
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    hideSoftKeyboard(AddCandidateActivity.this);
+//                    return false;
+//                }
+//            });
+//        }
+//
+//        //If a layout container, iterate over children and seed recursion.
+//        if (view instanceof ViewGroup) {
+//            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+//                View innerView = ((ViewGroup) view).getChildAt(i);
+//                setupUI(innerView);
+//            }
+//        }
+//    }
 
     @Override
     public void onClick(View v) {
@@ -434,15 +456,15 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         finish();
                     }
                 } else if (checkInternalState.equalsIgnoreCase("prospect")) {
-                    JSONArray getData = response.getJSONArray("studentDetails");
-//                    JSONObject getData = response.getJSONObject("studentDetails");
+//                    JSONArray getData = response.getJSONArray("studentDetails");
+                    JSONObject getData = response.getJSONObject("studentDetails");
 
-                    etCandidateName.setText(getData.getJSONObject(0).getString("name"));
-                    etCandidateSex.setText(getData.getJSONObject(0).getString("sex"));
+                    etCandidateName.setText(getData.getString("name"));
+                    etCandidateSex.setText(getData.getString("sex"));
 
                     String dobFormat = "";
-                    String dob = getData.getJSONObject(0).getString("dob");
-//                    etCandidateDOB.setText(getData.getJSONObject(0).getString("dob"));
+                    String dob = getData.getString("dob");
+//                    etCandidateDOB.setText(getData.getString("dob"));
                     if (dob != null && dob != "") {
 
                         String date = dob;
@@ -463,44 +485,47 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     }
                     etCandidateDOB.setText(dobFormat);
 
-                    etCandidateAge.setText(getData.getJSONObject(0).getString("age"));
-                    etCandidateNationality.setText(getData.getJSONObject(0).getString("nationality"));
-                    etCandidateReligion.setText(getData.getJSONObject(0).getString("religion"));
-                    etCandidateCommunityClass.setText(getData.getJSONObject(0).getString("community_class"));
-                    etCandidateCommunity.setText(getData.getJSONObject(0).getString("community"));
-                    etCandidateBloodGroup.setText(getData.getJSONObject(0).getString("blood_group"));
-                    etCandidateFatherName.setText(getData.getJSONObject(0).getString("father_name"));
-                    etCandidateMotherName.setText(getData.getJSONObject(0).getString("mother_name"));
-                    etCandidateMobileNo.setText(getData.getJSONObject(0).getString("mobile"));
-                    etCandidateAlterMobileNo.setText(getData.getJSONObject(0).getString("sec_mobile"));
-                    etCandidateEmailId.setText(getData.getJSONObject(0).getString("email"));
-                    etCandidateState.setText(getData.getJSONObject(0).getString("state"));
-                    etCandidateCity.setText(getData.getJSONObject(0).getString("city"));
-                    etCandidateAddressLine1.setText(getData.getJSONObject(0).getString("address"));
-//                    etCandidateAddressLine2.setText(getData.getJSONObject(0).getString("name"));
-                    etCandidateMotherTongue.setText(getData.getJSONObject(0).getString("mother_tongue"));
-                    if (getData.getJSONObject(0).getString("disability").equalsIgnoreCase("0")) {
+                    etCandidateAge.setText(getData.getString("age"));
+                    etCandidateNationality.setText(getData.getString("nationality"));
+                    etCandidateReligion.setText(getData.getString("religion"));
+                    etCandidateCommunityClass.setText(getData.getString("community_class"));
+                    etCandidateCommunity.setText(getData.getString("community"));
+                    etCandidateBloodGroup.setText(getData.getString("blood_group"));
+                    etCandidateFatherName.setText(getData.getString("father_name"));
+                    etCandidateMotherName.setText(getData.getString("mother_name"));
+                    etCandidateMobileNo.setText(getData.getString("mobile"));
+                    etCandidateAlterMobileNo.setText(getData.getString("sec_mobile"));
+                    etCandidateEmailId.setText(getData.getString("email"));
+                    etCandidateState.setText(getData.getString("state"));
+                    etCandidateCity.setText(getData.getString("city"));
+                    etCandidateAddressLine1.setText(getData.getString("address"));
+//                    etCandidateAddressLine2.setText(getData.getString("name"));
+                    etCandidateMotherTongue.setText(getData.getString("mother_tongue"));
+                    if (getData.getString("disability").equalsIgnoreCase("0")) {
                         cbAnyDisability.setChecked(false);
                     } else {
                         cbAnyDisability.setChecked(true);
                     }
-                    if (getData.getJSONObject(0).getString("have_aadhaar_card").equalsIgnoreCase("0")) {
+                    if (getData.getString("have_aadhaar_card").equalsIgnoreCase("0")) {
                         cbCandidatesAadhaarStatus.setChecked(false);
                     } else {
                         cbCandidatesAadhaarStatus.setChecked(true);
-                        etCandidatesAadhaarNo.setText(getData.getJSONObject(0).getString("aadhaar_card_number"));
+                        etCandidatesAadhaarNo.setText(getData.getString("aadhaar_card_number"));
                     }
-//                    etCandidateDisabilityReason.setText(getData.getJSONObject(0).getString("name"));
-//                    etCandidatesPreferredTrade.setText(getData.getJSONObject(0).getString("preferred_trade"));
-                    tradeId = getData.getJSONObject(0).getString("preferred_trade");
+//                    etCandidateDisabilityReason.setText(getData.getString("name"));
+//                    etCandidatesPreferredTrade.setText(getData.getString("preferred_trade"));
+                    tradeId = getData.getString("preferred_trade");
                     selectTradeById(tradeId);
-                    etCandidatesPreferredTiming.setText(getData.getJSONObject(0).getString("preferred_timing"));
-                    etCandidatesQualification.setText(getData.getJSONObject(0).getString("last_studied"));
-                    etCandidatesLastInstitute.setText(getData.getJSONObject(0).getString("last_institute"));
-                    etCandidatesQualifiedPromotion.setText(getData.getJSONObject(0).getString("qualified_promotion"));
-//                    etCandidateStatus.setText(getData.getJSONObject(0).getString("status"));
-                    admissionId = getData.getJSONObject(0).getString("id");
-
+                    etCandidatesPreferredTiming.setText(getData.getString("preferred_timing"));
+                    etCandidatesQualification.setText(getData.getString("last_studied"));
+                    etCandidatesLastInstitute.setText(getData.getString("last_institute"));
+                    etCandidatesQualifiedPromotion.setText(getData.getString("qualified_promotion"));
+//                    etCandidateStatus.setText(getData.getString("status"));
+                    admissionId = getData.getString("id");
+                    String url = getData.getString("student_pic");
+                    if (((url != null) && !(url.isEmpty()))) {
+                        Picasso.get().load(url).into(imCandidatePicture);
+                    }
                 } else if (checkInternalState.equalsIgnoreCase("updateStudent")) {
                     if (mProgressDialog != null) {
                         mProgressDialog.cancel();
@@ -1120,53 +1145,97 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
-
+        String cLat = "" + currentLatitude;
+        String cLong = "" + currentLongitude;
+        String timeing = "" ;
+        String stattt = "Pending";
+        String userIID = PreferenceStorage.getUserId(this);
+        String PIAiid = PreferenceStorage.getPIAId(this);
         locationAddressResult = getCompleteAddressString(currentLatitude, currentLongitude);
-
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(MobilizerConstants.PARAMS_HAVE_AADHAAR_CARD, CandidatesAadhaarStatus);
-            jsonObject.put(MobilizerConstants.PARAMS_AADHAAR_CARD_NUMBER, CandidatesAadhaarNo);
-            jsonObject.put(MobilizerConstants.PARAMS_NAME, CandidateName);
-            jsonObject.put(MobilizerConstants.PARAMS_SEX, CandidateSex);
-            jsonObject.put(MobilizerConstants.PARAMS_DOB, serverFormatDate);
-            jsonObject.put(MobilizerConstants.PARAMS_AGE, CandidateAge);
-            jsonObject.put(MobilizerConstants.PARAMS_NATIONALITY, CandidateNationality);
-            jsonObject.put(MobilizerConstants.PARAMS_RELIGION, CandidateReligion);
-            jsonObject.put(MobilizerConstants.PARAMS_COMMUNITY_CLASS, CandidateCommunityClass);
-            jsonObject.put(MobilizerConstants.PARAMS_COMMUNITY, CandidateCommunity);
-            jsonObject.put(MobilizerConstants.PARAMS_FATHER_NAME, CandidateFatherName);
-            jsonObject.put(MobilizerConstants.PARAMS_MOTHER_NAME, CandidateMotherName);
-            jsonObject.put(MobilizerConstants.PARAMS_MOBILE, CandidateMobileNo);
-            jsonObject.put(MobilizerConstants.PARAMS_SEC_MOBILE, CandidateAlterMobileNo);
-            jsonObject.put(MobilizerConstants.PARAMS_EMAIL, CandidateEmailId);
-            jsonObject.put(MobilizerConstants.PARAMS_STATE, CandidateReligion);
-            jsonObject.put(MobilizerConstants.PARAMS_CITY, CandidateCity);
-            jsonObject.put(MobilizerConstants.PARAMS_ADDRESS, CandidateAddressLine1);
-            jsonObject.put(MobilizerConstants.PARAMS_MOTHER_TONGUE, CandidateMotherTongue);
-            jsonObject.put(MobilizerConstants.PARAMS_DISABILITY, AnyDisability);
-            jsonObject.put(MobilizerConstants.PARAMS_BLOOD_GROUP, bloodGroupId);
-            jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_DATE, currentDateandTime);
-            jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_LOCATION, locationAddressResult);
-            jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_LATITUDE, "" + currentLatitude);
-            jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_LONGITUDE, "" + currentLongitude);
-            jsonObject.put(MobilizerConstants.PARAMS_PREFERRED_TRADE, tradeId);
-            jsonObject.put(MobilizerConstants.PARAMS_PREFERRED_TIMING, "");
-            jsonObject.put(MobilizerConstants.PARAMS_LAST_INSTITUTE, CandidatesLastInstitute);
-            jsonObject.put(MobilizerConstants.PARAMS_LAST_STUDIED, CandidatesQualification);
-            jsonObject.put(MobilizerConstants.PARAMS_QUALIFIED_PROMOTION, CandidatesQualifiedPromotion);
+        if (!CommonUtils.isNetworkAvailable(this)) {
+            long x = database.store_prospect_data_insert(
+                    CandidatesAadhaarStatus,
+                    CandidatesAadhaarNo,
+                    CandidateName,
+                    CandidateSex,
+                    serverFormatDate,
+                    CandidateAge,
+                    CandidateNationality,
+                    CandidateReligion,
+                    CandidateCommunityClass,
+                    CandidateCommunity,
+                    CandidateFatherName,
+                    CandidateMotherName,
+                    CandidateMobileNo,
+                    CandidateAlterMobileNo,
+                    CandidateEmailId,
+                    CandidateState,
+                    CandidateCity,
+                    CandidateAddressLine1,
+                    CandidateMotherTongue,
+                    AnyDisability,
+                    bloodGroupId,
+                    currentDateandTime,
+                    locationAddressResult,
+                    cLat,
+                    cLong,
+                    tradeId,
+                    CandidatesLastInstitute,
+                    CandidatesQualification,
+                    CandidatesQualifiedPromotion,
+                    userIID,
+                    currentDateandTime,
+                    PIAiid,
+                    mActualFilePath);
+            System.out.println("Stored Id : " + x);
+            Toast.makeText(this, "Prospect details stored. Sync later when network is available", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(MobilizerConstants.PARAMS_HAVE_AADHAAR_CARD, CandidatesAadhaarStatus);
+                jsonObject.put(MobilizerConstants.PARAMS_AADHAAR_CARD_NUMBER, CandidatesAadhaarNo);
+                jsonObject.put(MobilizerConstants.PARAMS_NAME, CandidateName);
+                jsonObject.put(MobilizerConstants.PARAMS_SEX, CandidateSex);
+                jsonObject.put(MobilizerConstants.PARAMS_DOB, serverFormatDate);
+                jsonObject.put(MobilizerConstants.PARAMS_AGE, CandidateAge);
+                jsonObject.put(MobilizerConstants.PARAMS_NATIONALITY, CandidateNationality);
+                jsonObject.put(MobilizerConstants.PARAMS_RELIGION, CandidateReligion);
+                jsonObject.put(MobilizerConstants.PARAMS_COMMUNITY_CLASS, CandidateCommunityClass);
+                jsonObject.put(MobilizerConstants.PARAMS_COMMUNITY, CandidateCommunity);
+                jsonObject.put(MobilizerConstants.PARAMS_FATHER_NAME, CandidateFatherName);
+                jsonObject.put(MobilizerConstants.PARAMS_MOTHER_NAME, CandidateMotherName);
+                jsonObject.put(MobilizerConstants.PARAMS_MOBILE, CandidateMobileNo);
+                jsonObject.put(MobilizerConstants.PARAMS_SEC_MOBILE, CandidateAlterMobileNo);
+                jsonObject.put(MobilizerConstants.PARAMS_EMAIL, CandidateEmailId);
+                jsonObject.put(MobilizerConstants.PARAMS_STATE, CandidateState);
+                jsonObject.put(MobilizerConstants.PARAMS_CITY, CandidateCity);
+                jsonObject.put(MobilizerConstants.PARAMS_ADDRESS, CandidateAddressLine1);
+                jsonObject.put(MobilizerConstants.PARAMS_MOTHER_TONGUE, CandidateMotherTongue);
+                jsonObject.put(MobilizerConstants.PARAMS_DISABILITY, AnyDisability);
+                jsonObject.put(MobilizerConstants.PARAMS_BLOOD_GROUP, bloodGroupId);
+                jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_DATE, currentDateandTime);
+                jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_LOCATION, locationAddressResult);
+                jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_LATITUDE, "" + currentLatitude);
+                jsonObject.put(MobilizerConstants.PARAMS_ADMISSION_LONGITUDE, "" + currentLongitude);
+                jsonObject.put(MobilizerConstants.PARAMS_PREFERRED_TRADE, tradeId);
+                jsonObject.put(MobilizerConstants.PARAMS_PREFERRED_TIMING, "");
+                jsonObject.put(MobilizerConstants.PARAMS_LAST_INSTITUTE, CandidatesLastInstitute);
+                jsonObject.put(MobilizerConstants.PARAMS_LAST_STUDIED, CandidatesQualification);
+                jsonObject.put(MobilizerConstants.PARAMS_QUALIFIED_PROMOTION, CandidatesQualifiedPromotion);
 //            jsonObject.put(MobilizerConstants.PARAMS_TRANSFER_CERTIFICATE, CandidatesTC);
-            jsonObject.put(MobilizerConstants.PARAMS_STATUS, "Pending");
-            jsonObject.put(MobilizerConstants.PARAMS_CREATED_BY, PreferenceStorage.getUserId(getApplicationContext()));
-            jsonObject.put(MobilizerConstants.PARAMS_CREATED_AT, currentDateandTime);
-            jsonObject.put(MobilizerConstants.PARAMS_PIA_ID, PreferenceStorage.getPIAId(getApplicationContext()));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+                jsonObject.put(MobilizerConstants.PARAMS_STATUS, "Pending");
+                jsonObject.put(MobilizerConstants.PARAMS_CREATED_BY, PreferenceStorage.getUserId(getApplicationContext()));
+                jsonObject.put(MobilizerConstants.PARAMS_CREATED_AT, currentDateandTime);
+                jsonObject.put(MobilizerConstants.PARAMS_PIA_ID, PreferenceStorage.getPIAId(getApplicationContext()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = MobilizerConstants.BUILD_URL + MobilizerConstants.ADD_CANDIDATE;
-        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+            progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+            String url = MobilizerConstants.BUILD_URL + MobilizerConstants.ADD_CANDIDATE;
+            serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+        }
     }
 
     /**
