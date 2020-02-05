@@ -20,10 +20,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         System.out.println("Alarma Reciver Called");
 
-        if (isMyServiceRunning(this.context, LocationService.class)) {
+        if (isMyServiceRunning(this.context, LocationUpdatesService.class)) {
             System.out.println("alredy running no need to start again");
         } else {
-            Intent background = new Intent(context, LocationService.class);
+            Intent background = new Intent(context, LocationUpdatesService.class);
             context.startService(background);
         }
     }

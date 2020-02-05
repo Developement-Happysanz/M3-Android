@@ -9,7 +9,8 @@ public class MobilizerConstants {
     // URLS
     // BASE URL
 //    private static final String BASE_URL = "https://iyerandrao.com/";
-    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
+//    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
+    private static final String BASE_URL = "https://happysanz.in/m3tnsrlm/";
 
     // BUILD URL
 //    public static final String BUILD_URL = BASE_URL + "uitensyfi/";
