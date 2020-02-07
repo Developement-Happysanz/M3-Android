@@ -19,12 +19,16 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String TAG = "SQLiteHelper.java";
 
     private static final String DATABASE_NAME = "MMM.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 9;
 
     private static final String table_create_current_best_location = "Create table IF NOT EXISTS currentBestLocation(_id integer primary key autoincrement,"
             + "latitude text,"
             + "longitude text,"
             + "status text);";
+
+    private static final String table_store_trades = "Create table IF NOT EXISTS storeTradeData(_id integer primary key autoincrement,"
+            + "trade_id text,"
+            + "trade_name text);";
 
     private static final String table_create_previous_best_location = "Create table IF NOT EXISTS previousBestLocation(_id integer primary key autoincrement,"
             + "latitude text,"
@@ -80,11 +84,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + "server_id text,"
             + "sync_status text);";
 
-    private static final String table_create_prospect = "Create table IF NOT EXISTS currentBestLocation(_id integer primary key autoincrement,"
-            + "latitude text,"
-            + "longitude text,"
-            + "status text);";
-
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -100,6 +99,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(table_create_store_location_data);
         //Store prospect details
         db.execSQL(table_create_prospect_data);
+        //Store trade details
+        db.execSQL(table_store_trades);
     }
 
     @Override
@@ -115,6 +116,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS storeLocationData");
         //Store prospect data
         db.execSQL("DROP TABLE IF EXISTS storeProspectData");
+        //Store trade data
+        db.execSQL("DROP TABLE IF EXISTS storeTradeData");
     }
 
     public void open() throws SQLException {
@@ -334,6 +337,38 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public void deleteAllStoredProspectData() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("storeProspectData", null, null);
+    }
+    /*
+     *   End
+     */
+
+
+    /*
+     *   Store trade data functionality
+     */
+    public long store_trade_data_insert(String val1, String val2) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues initialValues = new ContentValues();
+        initialValues.put("trade_id", val1);
+        initialValues.put("trade_name", val2);
+        long l = db.insert("storeTradeData", null, initialValues);
+        db.close();
+        return l;
+    }
+
+    public Cursor getStoredTradeData() throws SQLException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String fetch = "SELECT * FROM storeTradeData ;";
+        Cursor c = db.rawQuery(fetch, null);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
+
+    public void deleteAllStoredTradeData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("storeTradeData", null, null);
     }
     /*
      *   End

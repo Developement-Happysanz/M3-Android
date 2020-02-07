@@ -214,6 +214,32 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
         setUpUI();
 //        setupUI(findViewById(R.id.scrollID));
+
+        bloodGroupList = new ArrayList<>();
+
+        bloodGroupList.add(new StoreBloodGroup("1", "A+"));
+        bloodGroupList.add(new StoreBloodGroup("2", "O+"));
+        bloodGroupList.add(new StoreBloodGroup("3", "B+"));
+        bloodGroupList.add(new StoreBloodGroup("4", "AB+"));
+        bloodGroupList.add(new StoreBloodGroup("5", "A-"));
+        bloodGroupList.add(new StoreBloodGroup("6", "O-"));
+        bloodGroupList.add(new StoreBloodGroup("7", "B="));
+        bloodGroupList.add(new StoreBloodGroup("8", "AB-"));
+
+        //fill data in spinner
+        mBloodGroupAdapter = new ArrayAdapter<StoreBloodGroup>(getApplicationContext(), R.layout.gender_layout, R.id.gender_name, bloodGroupList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(bloodGroupList.get(position).getBloodGroupName());
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+
     }
 
     @Override
@@ -729,8 +755,41 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             }
         });*/
 
-        GetBloodGroup();
+//        GetBloodGroup();
+        if (!CommonUtils.isNetworkAvailableNew(this)) {
+            Cursor c = database.getStoredTradeData();
+            String traId = "";
+            String traName = "";
+            tradeList = new ArrayList<>();
 
+            if (c.getCount() > 0) {
+                if (c.moveToFirst()) {
+                    do {
+                        traId = c.getString(1);
+                        traName = c.getString(2);
+
+
+                        tradeList.add(new StoreTrade(traId, traName));
+
+                    } while (c.moveToNext());
+                }
+            }
+            Log.d(TAG, "TradeLIStaskldja is" + tradeList);
+            mTradeAdapter = new ArrayAdapter<StoreTrade>(getApplicationContext(), R.layout.gender_layout, R.id.gender_name, tradeList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    Log.d(TAG, "getview called" + position);
+                    View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                    TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                    gendername.setText(tradeList.get(position).getTradeName());
+
+                    // ... Fill in other views ...
+                    return view;
+                }
+            };
+        } else {
+            GetTrade();
+        }
         String checkFromAadhaarScan = "";
 
         checkFromAadhaarScan = PreferenceStorage.getAadhaarAction(getApplicationContext());
@@ -1147,12 +1206,12 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         String currentDateandTime = sdf.format(new Date());
         String cLat = "" + currentLatitude;
         String cLong = "" + currentLongitude;
-        String timeing = "" ;
+        String timeing = "";
         String stattt = "Pending";
         String userIID = PreferenceStorage.getUserId(this);
         String PIAiid = PreferenceStorage.getPIAId(this);
         locationAddressResult = getCompleteAddressString(currentLatitude, currentLongitude);
-        if (!CommonUtils.isNetworkAvailable(this)) {
+        if (!CommonUtils.isNetworkAvailableNew(this)) {
             long x = database.store_prospect_data_insert(
                     CandidatesAadhaarStatus,
                     CandidatesAadhaarNo,
