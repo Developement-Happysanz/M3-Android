@@ -223,7 +223,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         bloodGroupList.add(new StoreBloodGroup("4", "AB+"));
         bloodGroupList.add(new StoreBloodGroup("5", "A-"));
         bloodGroupList.add(new StoreBloodGroup("6", "O-"));
-        bloodGroupList.add(new StoreBloodGroup("7", "B="));
+        bloodGroupList.add(new StoreBloodGroup("7", "B-"));
         bloodGroupList.add(new StoreBloodGroup("8", "AB-"));
 
         //fill data in spinner
