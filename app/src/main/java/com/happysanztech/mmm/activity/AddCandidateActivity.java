@@ -43,10 +43,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.happysanztech.mmm.R;
 import com.happysanztech.mmm.bean.database.SQLiteHelper;
 import com.happysanztech.mmm.bean.support.AllProspects;
@@ -191,6 +196,8 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
     boolean isNetworkEnable = false;
     LocationManager locationManager;
     private String gpsStatus = "N";
+    private FusedLocationProviderClient mFusedLocationClient;
+    private LocationCallback mLocationCallback;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -198,7 +205,14 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         setContentView(R.layout.activity_add_candidate);
 
         database = new SQLiteHelper(getApplicationContext());
-
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+//                onNewLocation(locationResult.getLastLocation());
+            }
+        };
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -291,14 +305,15 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                 if (validateFields()) {
                     if (allProspects == null) {
                         checkInternalState = "candidate_submit";
-                        saveProfile();
+                        saveCandidate();
                     } else {
                         updateCandidate();
                     }
                 }
             } else {
                 if (mGoogleApiClient.isConnected()) {
-                    fetchCurrentLocation();
+//                    fetchCurrentLocation();
+                    getLastLocation();
                     if (mLastLocation == null) {
                         // AlertDialogHelper.showSimpleAlertDialog(getActivity(), "Enable Location services in settings");
                         android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(getApplicationContext());
@@ -336,6 +351,24 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         } else if (v == etCandidatesPreferredTiming) {
             showTimings();
         }
+    }
+
+    @SuppressWarnings("MissingPermission")
+    private void getLastLocation() {
+        mFusedLocationClient.getLastLocation()
+                .addOnCompleteListener(this, new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            mLastLocation = task.getResult();
+                            currentLatitude = mLastLocation.getLatitude();
+                            currentLongitude = mLastLocation.getLongitude();
+
+                        } else {
+                            Log.w(TAG, "getLastLocation:exception", task.getException());
+                        }
+                    }
+                });
     }
 
     @Override
@@ -1867,6 +1900,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        getLastLocation();
       /*  if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -1874,25 +1908,25 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         }*/
 //        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-        if (mLastLocation == null) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-
-        } else {
-            //If everything went fine lets get latitude and longitude
-            currentLatitude = mLastLocation.getLatitude();
-            currentLongitude = mLastLocation.getLongitude();
-
-//                Toast.makeText(this, currentLatitude + " WORKS " + currentLongitude + "", Toast.LENGTH_LONG).show();
-        }
+//        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//
+//        if (mLastLocation == null) {
+//            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+//
+//        } else {
+//            //If everything went fine lets get latitude and longitude
+//            currentLatitude = mLastLocation.getLatitude();
+//            currentLongitude = mLastLocation.getLongitude();
+//            LatLng pos = new LatLng(currentLatitude, currentLongitude);
+//
+////                Toast.makeText(this, currentLatitude + " WORKS " + currentLongitude + "", Toast.LENGTH_LONG).show();
+//        }
 
         //zoom the camera to current location
-        if (mLastLocation != null) {
-            LatLng pos = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+//        if (mLastLocation != null) {
             /* mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos,10));*/
 //            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 14), 1000, null);
-        }
+//        }
 //        }
     }
 
@@ -1976,8 +2010,8 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                 return;
             }
 //            try {
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-//        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
             if (mLastLocation == null) {
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
