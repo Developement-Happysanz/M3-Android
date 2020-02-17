@@ -18,8 +18,20 @@ import com.google.zxing.integration.android.IntentResult;
 import com.happysanztech.mmm.R;
 import com.happysanztech.mmm.activity.AddCandidateActivity;
 import com.happysanztech.mmm.activity.aadhaar.HomeActivity;
+import com.happysanztech.mmm.bean.database.SQLiteHelper;
+import com.happysanztech.mmm.helper.AlertDialogHelper;
+import com.happysanztech.mmm.helper.ProgressDialogHelper;
+import com.happysanztech.mmm.interfaces.DialogClickListener;
+import com.happysanztech.mmm.servicehelpers.ServiceHelper;
+import com.happysanztech.mmm.serviceinterfaces.IServiceListener;
+import com.happysanztech.mmm.utils.CommonUtils;
+import com.happysanztech.mmm.utils.MobilizerConstants;
+import com.happysanztech.mmm.utils.PreferenceStorage;
 import com.happysanztech.mmm.utils.aadhaar.DataAttributes;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -27,19 +39,25 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.StringReader;
 
+import static android.util.Log.d;
+
 
 /**
  * Created by Admin on 03-01-2018.
  */
 
-public class AddCandidateFragment extends AppCompatActivity implements View.OnClickListener {
+public class AddCandidateFragment extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener {
 
     private Button btnScanAadhaarCard;
     private Button btnAddCandidate;
     // variables to store extracted xml data
     String uid,name,gender,yearOfBirth,careOf,villageTehsil,postOffice,district,state,postCode;
 
-    View rootView;
+
+    private static final String TAG = "AddCandidateFragment";
+    private ServiceHelper serviceHelper;
+    private ProgressDialogHelper progressDialogHelper;
+    SQLiteHelper database;
 
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +69,28 @@ public class AddCandidateFragment extends AppCompatActivity implements View.OnCl
         btnScanAadhaarCard = findViewById(R.id.btn_scan_aadhaar_card);
         btnScanAadhaarCard.setOnClickListener(this);
 
+        database = new SQLiteHelper(getApplicationContext());
+        serviceHelper = new ServiceHelper(this);
+        serviceHelper.setServiceListener(this);
+        progressDialogHelper = new ProgressDialogHelper(this);
+        if (CommonUtils.isNetworkAvailableNew(this)) {
+            loadTrades();
+        }
+    }
+
+    private void loadTrades() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(MobilizerConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(MobilizerConstants.KEY_PIA_ID, PreferenceStorage.getPIAId(this));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+        String url = MobilizerConstants.BUILD_URL + MobilizerConstants.TRADES;
+        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 
     @Override
@@ -178,4 +218,65 @@ public class AddCandidateFragment extends AppCompatActivity implements View.OnCl
         }
 
     }// EO function
+
+    @Override
+    public void onAlertPositiveClicked(int tag) {
+
+    }
+
+    @Override
+    public void onAlertNegativeClicked(int tag) {
+
+    }
+
+    private boolean validateSignInResponse(JSONObject response) {
+        boolean signInSuccess = false;
+        if ((response != null)) {
+            try {
+                String status = response.getString("status");
+                String msg = response.getString(MobilizerConstants.PARAM_MESSAGE);
+                d(TAG, "status val" + status + "msg" + msg);
+
+                if ((status != null)) {
+                    if (((status.equalsIgnoreCase("activationError")) || (status.equalsIgnoreCase("alreadyRegistered")) ||
+                            (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
+                        signInSuccess = false;
+                        d(TAG, "Show error dialog");
+                        AlertDialogHelper.showSimpleAlertDialog(this, msg);
+
+                    } else {
+                        signInSuccess = true;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return signInSuccess;
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        progressDialogHelper.hideProgressDialog();
+        if (validateSignInResponse(response)) {
+            try {
+                JSONArray data = response.getJSONArray("Trades");
+                database.deleteAllStoredTradeData();
+                for (int i = 0; i < data.length(); i++) {
+                    String tradeID = data.getJSONObject(i).getString("id");
+                    String tradeName = data.getJSONObject(i).getString("trade_name");
+                    long l = database.store_trade_data_insert(tradeID, tradeName);
+                    System.out.println("Stored Id : " + l);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onError(String error) {
+        AlertDialogHelper.showSimpleAlertDialog(this, error);
+
+    }
 }

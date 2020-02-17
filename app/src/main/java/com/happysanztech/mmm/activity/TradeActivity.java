@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.google.gson.Gson;
 import com.happysanztech.mmm.R;
 import com.happysanztech.mmm.adapter.TradeDataListAdapter;
+import com.happysanztech.mmm.bean.database.SQLiteHelper;
 import com.happysanztech.mmm.bean.support.TradeData;
 import com.happysanztech.mmm.bean.support.TradeDataList;
 import com.happysanztech.mmm.helper.AlertDialogHelper;
@@ -27,6 +28,7 @@ import com.happysanztech.mmm.utils.MobilizerConstants;
 import com.happysanztech.mmm.utils.PreferenceStorage;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,10 +52,12 @@ public class TradeActivity extends AppCompatActivity implements View.OnClickList
     protected boolean isLoadingForFirstTime = true;
     Handler mHandler = new Handler();
     int pageNumber = 0, totalCount = 0;
+    SQLiteHelper database;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_trades);
+        database = new SQLiteHelper(getApplicationContext());
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
@@ -109,34 +113,32 @@ public class TradeActivity extends AppCompatActivity implements View.OnClickList
         progressDialogHelper.hideProgressDialog();
 
         if (validateSignInResponse(response)) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-//                    progressDialogHelper.hideProgressDialog();
-
-                    Gson gson = new Gson();
-                    TradeDataList tradeDataList = gson.fromJson(response.toString(), TradeDataList.class);
-                    if (tradeDataList.getTradeData() != null && tradeDataList.getTradeData().size() > 0) {
-                        totalCount = tradeDataList.getCount();
-                        isLoadingForFirstTime = false;
-                        updateListAdapter(tradeDataList.getTradeData());
-                    }
+            Gson gson = new Gson();
+            TradeDataList tradeDataList = gson.fromJson(response.toString(), TradeDataList.class);
+            if (tradeDataList.getTradeData() != null && tradeDataList.getTradeData().size() > 0) {
+                totalCount = tradeDataList.getCount();
+                isLoadingForFirstTime = false;
+                updateListAdapter(tradeDataList.getTradeData());
+            }
+            try {
+                JSONArray data = response.getJSONArray("Trades");
+                database.deleteAllStoredTradeData();
+                for (int i = 0; i < data.length(); i++) {
+                    String tradeID = data.getJSONObject(i).getString("id");
+                    String tradeName = data.getJSONObject(i).getString("trade_name");
+                    long l = database.store_trade_data_insert(tradeID, tradeName);
+                    System.out.println("Stored Id : " + l);
                 }
-            });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public void onError(final String error) {
-
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                progressDialogHelper.hideProgressDialog();
-                AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), error);
-            }
-        });
-
+        progressDialogHelper.hideProgressDialog();
+        AlertDialogHelper.showSimpleAlertDialog(this, error);
     }
 
     protected void updateListAdapter(ArrayList<TradeData> tradeDataArrayList) {

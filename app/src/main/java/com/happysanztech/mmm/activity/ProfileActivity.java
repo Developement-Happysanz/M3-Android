@@ -144,7 +144,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 }
 
                 progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-                String url = MobilizerConstants.BUILD_URL + MobilizerConstants.CHANGE_PASSWORD;
+                String url = MobilizerConstants.BUILD_URL + MobilizerConstants.UPDATE_USER_PROFILE;
                 serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
 
             }
