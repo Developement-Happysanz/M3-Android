@@ -3,6 +3,8 @@ package com.happysanztech.mmm.syncadapter;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -32,6 +34,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import static android.util.Log.d;
 
@@ -118,9 +122,11 @@ public class SyncProspectRecords implements IServiceListener {
                     AnyDisability = c.getString(20);
                     CandidateBloodGroup = c.getString(21);
                     currentDateandTime = c.getString(22);
-                    locationAddressResult = c.getString(23);
                     currentLatitude = c.getString(24);
                     currentLongitude = c.getString(25);
+                    if (!currentLatitude.isEmpty() && !currentLongitude.isEmpty()) {
+                        locationAddressResult = getCompleteAddressString(Double.valueOf(currentLatitude), Double.valueOf(currentLongitude));
+                    }
                     tradeId = c.getString(26);
                     CandidatesLastInstitute = c.getString(27);
                     CandidatesQualification = c.getString(28);
@@ -204,6 +210,29 @@ public class SyncProspectRecords implements IServiceListener {
         return signInSuccess;
     }
 
+    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+
+                for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append(" ");
+                }
+                strAdd = strReturnedAddress.toString();
+                Log.w("MyCurrentloctionaddress", strReturnedAddress.toString());
+            } else {
+                Log.w("MyCurrentloctionaddress", "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w("MyCurrentloctionaddress", "Canont get Address!");
+        }
+        return strAdd;
+    }
 
     @Override
     public void onResponse(JSONObject response) {
