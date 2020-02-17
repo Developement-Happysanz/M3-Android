@@ -137,7 +137,7 @@ public class MobilizerConstants {
     public static final String PARAMS_BLOOD_GROUP = "blood_group";
     public static final String PARAMS_ADMISSION_DATE = "admission_date";
     public static final String PARAMS_ADMISSION_LOCATION = "admission_location";
-    public static final String PARAMS_ADMISSION_LATITUDE = "admission_latitude ";
+    public static final String PARAMS_ADMISSION_LATITUDE = "admission_latitude";
     public static final String PARAMS_ADMISSION_LONGITUDE = "admission_longitude";
     public static final String PARAMS_PREFERRED_TRADE = "preferred_trade";
     public static final String PARAMS_PREFERRED_TIMING = "preferred_timing";
