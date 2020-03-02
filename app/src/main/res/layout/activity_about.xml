@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -18,7 +19,7 @@
             android:minHeight="60dp" />
 
         <ImageView
-            android:id="@+id/back_btn"
+            android:id="@+id/back_tic_his"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -31,11 +32,12 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/back_btn"
+            android:layout_toRightOf="@+id/back_tic_his"
             android:gravity="center_vertical|left"
             android:minHeight="60dp"
             android:padding="5dp"
             android:text="About"
+            android:fontFamily="@font/open_sans_semi_bold"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -57,6 +59,7 @@
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/open_sans_semi_bold"
         android:layout_marginStart="20dp"
         android:text="@string/about"/>
 
@@ -68,6 +71,7 @@
         android:textSize="16sp"
         android:layout_marginTop="10dp"
         android:gravity="left"
+        android:fontFamily="@font/open_sans_semi_bold"
         android:justificationMode="inter_word"
         android:text="@string/about_content"/>
 

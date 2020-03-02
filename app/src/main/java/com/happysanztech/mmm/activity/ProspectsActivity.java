@@ -31,7 +31,7 @@ public class ProspectsActivity  extends AppCompatActivity implements IServiceLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prostects);
 
-        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back_tic_his).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

@@ -65,158 +65,158 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.NotificationActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.AddCandidateActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.AboutUsActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.AddTaskActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.SyncRecordsActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.BatchDetailsActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.UpdateTaskActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.CenterPhotosActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.CenterVideosActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.aadhaar.HomeActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.ZoomImageActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.ViewTaskPhotosActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.VideoListDemoActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.CenterVideos"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.ProspectsActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.aadhaar.SavedAadhaarCardActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".fragments.AddCandidateFragment"
             android:label="@string/add_candidate_title"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.CenterInfoActivity"
             android:label="@string/center_info_title"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.ChangePasswordActivity"
             android:label="@string/change_password_title"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.DashboardActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.ProfileActivity"
             android:label="@string/profile_title"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.TaskActivity"
             android:label="@string/task_title"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".activity.TradeActivity"
             android:label="@string/trade_title"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppThemeNoActionBar" />
 
 
         <service android:name=".fcm.MyFirebaseMessagingService">
@@ -228,7 +228,7 @@
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
 

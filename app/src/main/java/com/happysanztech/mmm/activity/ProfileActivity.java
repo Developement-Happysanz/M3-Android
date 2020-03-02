@@ -125,7 +125,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         btnSubmit = findViewById(R.id.save_user);
         btnSubmit.setOnClickListener(this);
-
+        findViewById(R.id.back_tic_his).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         
     }
 

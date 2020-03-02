@@ -48,7 +48,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         etUsername = findViewById(R.id.edxUsername);
         btSubmit = findViewById(R.id.btnSubmit);
         btSubmit.setOnClickListener(this);
-        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back_tic_his).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

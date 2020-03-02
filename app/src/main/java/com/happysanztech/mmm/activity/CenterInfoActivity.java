@@ -67,6 +67,12 @@ public class CenterInfoActivity extends AppCompatActivity implements View.OnClic
         btnVideos = findViewById(R.id.btn_videos);
         btnVideos.setOnClickListener(this);
         loadCenterInfo();
+        findViewById(R.id.back_tic_his).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
