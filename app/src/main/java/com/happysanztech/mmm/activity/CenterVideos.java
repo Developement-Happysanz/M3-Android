@@ -56,6 +56,12 @@ public class CenterVideos extends AppCompatActivity implements YouTubeThumbnailV
         thumbnailView.initialize("AIzaSyCXfjl783QE_I5uqzot4fJXHc3dUO_Z2mc", this);
         playerFragment = (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.VideoFragment);
         playerFragment.initialize("AIzaSyCXfjl783QE_I5uqzot4fJXHc3dUO_Z2mc", this);
+        findViewById(R.id.back_tic_his).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

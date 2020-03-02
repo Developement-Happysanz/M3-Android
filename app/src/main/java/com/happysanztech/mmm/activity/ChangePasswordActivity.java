@@ -62,7 +62,12 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
         etConfirmPassword = findViewById(R.id.et_confirm_password);
         btnSubmit = findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(this);
-
+        findViewById(R.id.back_tic_his).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 

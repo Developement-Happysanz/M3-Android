@@ -76,6 +76,12 @@ public class AddCandidateFragment extends AppCompatActivity implements View.OnCl
         if (CommonUtils.isNetworkAvailableNew(this)) {
             loadTrades();
         }
+        findViewById(R.id.back_tic_his).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void loadTrades() {

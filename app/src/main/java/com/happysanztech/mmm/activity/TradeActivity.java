@@ -65,6 +65,12 @@ public class TradeActivity extends AppCompatActivity implements View.OnClickList
         loadMoreListView.setOnItemClickListener(this);
         tradeDataArrayList = new ArrayList<>();
         loadTrades();
+        findViewById(R.id.back_tic_his).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

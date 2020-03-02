@@ -441,7 +441,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 //            ft.replace(R.id.flContent, fragment);
 //            ft.commit();
-            Intent navigationIntent = new Intent(this, ChangePasswordActivity.class);
+            Intent navigationIntent = new Intent(this, AboutUsActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         } else if (id == R.id.nav_change_password) {

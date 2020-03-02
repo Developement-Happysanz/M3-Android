@@ -1,9 +1,11 @@
 package com.happysanztech.mmm.activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
@@ -22,10 +24,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -71,10 +75,12 @@ import static android.util.Log.d;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener {
 
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     private static final String TAG = "TradeActivity";
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
-    private EditText name, number, mail, address;
+    private EditText mail, address;
+    private TextView name, number;
     private Button btnSubmit;
     private ImageView profileImg;
     View rootView;
@@ -119,7 +125,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         btnSubmit = findViewById(R.id.save_user);
         btnSubmit.setOnClickListener(this);
-
+        findViewById(R.id.back_tic_his).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         
     }
 
@@ -150,10 +161,42 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
         if (v == profileImg) {
-            openImageIntent();
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(ProfileActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+            } else {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(ProfileActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                } else {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_DENIED) {
+                        ActivityCompat.requestPermissions(ProfileActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                    }
+                    openImageIntent();
+                }
+            }
 
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            String permissions[],
+            int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openImageIntent();
+//                    Toast.makeText(ProfileActivity.this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ProfileActivity.this, "Permission Denied!", Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+
 
     private void openImageIntent() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Remove Photo", "Cancel"};
@@ -374,8 +417,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             JSONObject resp = new JSONObject(responseString);
                             String successVal = resp.getString("status");
 
-                            mUpdatedImageUrl = resp.getString("picture_url");
-                            PreferenceStorage.saveUserPicture(getApplicationContext(), mUpdatedImageUrl);
+                            mUpdatedImageUrl = resp.getString("user_picture");
+                            String newmUpdatedImageUrl = MobilizerConstants.BUILD_URL+""+mUpdatedImageUrl;
+                            PreferenceStorage.saveUserPicture(getApplicationContext(), newmUpdatedImageUrl);
 
                             Log.d(TAG, "updated image url is" + mUpdatedImageUrl);
                             if (successVal.equalsIgnoreCase("success")) {
@@ -407,16 +451,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             if ((result == null) || (result.isEmpty()) || (result.contains("Error"))) {
                 Toast.makeText(getApplicationContext(), "Unable to save profile picture", Toast.LENGTH_SHORT).show();
             } else {
-                if (mUpdatedImageUrl != null) {
-                    PreferenceStorage.saveUserPicture(getApplicationContext(), mUpdatedImageUrl);
-                }
+                Toast.makeText(getApplicationContext(), "User profile image successfully...", Toast.LENGTH_SHORT).show();
+//                if (mUpdatedImageUrl != null) {
+//                    PreferenceStorage.saveUserPicture(getApplicationContext(), mUpdatedImageUrl);
+//                }
             }
 
             if (mProgressDialog != null) {
                 mProgressDialog.cancel();
             }
 
-            Toast.makeText(getApplicationContext(), "User profile image successfully...", Toast.LENGTH_SHORT).show();
 //            finish();
         }
 

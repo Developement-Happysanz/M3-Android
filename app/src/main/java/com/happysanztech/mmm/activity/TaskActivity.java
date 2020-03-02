@@ -69,6 +69,13 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         fabAddTask = findViewById(R.id.fab_add_task);
         fabAddTask.setOnClickListener(this);
         loadTask();
+        findViewById(R.id.back_tic_his).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private void loadTask() {
