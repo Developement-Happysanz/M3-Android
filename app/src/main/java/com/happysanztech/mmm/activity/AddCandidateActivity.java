@@ -107,6 +107,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -861,6 +862,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         for (int i = 1980; i <= thisYear; i++) {
             mYearList.add(Integer.toString(i));
         }
+        Collections.reverse(mYearList);
         mYearAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mYearList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -1886,32 +1888,6 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     imgurl = true;
                     setPic(selectedImageUri);
                 }
-                try {
-                    Document document = new Document();
-
-                    String directoryPath = android.os.Environment.getExternalStorageDirectory().toString();
-
-                    PdfWriter.getInstance(document, new FileOutputStream(directoryPath + "/example.pdf")); //  Change pdf's name.
-
-                    document.open();
-
-                    Image image = Image.getInstance(mActualFilePath);  // Change image's name and extension.
-
-                    float scaler = ((document.getPageSize().getWidth() - document.leftMargin()
-                            - document.rightMargin() - 0) / image.getWidth()) * 100; // 0 means you have no indentation. If you have any, change it.
-                    image.scalePercent(scaler);
-                    image.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
-
-                    document.add(image);
-                    document.close();
-                } catch (FileNotFoundException | DocumentException e) {
-                    e.printStackTrace();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
 
             }
         }

@@ -92,6 +92,15 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     private Button done;
 
+    private boolean docOne = false;
+    private boolean docTwo = false;
+    private boolean docThree = false;
+    private boolean docFour = false;
+    private boolean docFive = false;
+    private boolean docSix = false;
+    private boolean docSeven = false;
+    private boolean docEight = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +118,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             cast.setVisibility(View.VISIBLE);
         } else {
             cast.setVisibility(View.GONE);
+            docThree = true;
         }
         disab = findViewById(R.id.disab);
         String dis = PreferenceStorage.getDisability(this);
@@ -116,6 +126,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             disab.setVisibility(View.VISIBLE);
         } else {
             disab.setVisibility(View.GONE);
+            docSeven = true;
         }
 
         aadhaar = findViewById(R.id.txtUploadAadhaarCard);
@@ -169,7 +180,11 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             storeDocumentMasterId = "8";
             openImageIntent();
         } else if (v == done) {
-            finish();
+            if (docOne&&docTwo&&docThree&&docFour&&docFive&&docSix&&docSeven&&docEight) {
+                finish();
+            } else {
+                AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), "Upload all necessary documents");
+            }
         }
     }
 
@@ -586,6 +601,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                 switch (storeDocumentMasterId) {
 
                     case "1":
+                        docOne = true;
                         aadhaar.setEnabled(false);
                         aadhaar.setFocusable(false);
                         aadhaar.setClickable(false);
@@ -593,6 +609,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         aadhaar.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "2":
+                        docTwo = true;
                         transferCertificate.setEnabled(false);
                         transferCertificate.setFocusable(false);
                         transferCertificate.setClickable(false);
@@ -600,6 +617,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         transferCertificate.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "3":
+                        docThree = true;
                         communityCertificate.setEnabled(false);
                         communityCertificate.setFocusable(false);
                         communityCertificate.setClickable(false);
@@ -607,6 +625,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         communityCertificate.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "4":
+                        docFour = true;
                         rationCard.setEnabled(false);
                         rationCard.setFocusable(false);
                         rationCard.setClickable(false);
@@ -614,6 +633,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         rationCard.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "5":
+                        docFive = true;
                         voterId.setEnabled(false);
                         voterId.setFocusable(false);
                         voterId.setClickable(false);
@@ -621,6 +641,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         voterId.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "6":
+                        docSix = true;
                         jobCard.setEnabled(false);
                         jobCard.setFocusable(false);
                         jobCard.setClickable(false);
@@ -628,6 +649,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         jobCard.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "7":
+                        docSeven = true;
                         disability.setEnabled(false);
                         disability.setFocusable(false);
                         disability.setClickable(false);
@@ -635,6 +657,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         disability.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "8":
+                        docEight = true;
                         passBook.setEnabled(false);
                         passBook.setFocusable(false);
                         passBook.setClickable(false);
