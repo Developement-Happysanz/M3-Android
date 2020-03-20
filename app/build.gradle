@@ -146,6 +146,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.firebase:firebase-messaging:20.1.0'
     implementation 'com.github.yalantis:ucrop:2.2.2'
+    implementation 'com.itextpdf:itextg:5.5.10'
 }
 
 apply plugin: 'com.google.gms.google-services'

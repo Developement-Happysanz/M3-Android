@@ -94,7 +94,19 @@ public class SyncProspectRecords implements IServiceListener {
         String CandidatesQualifiedPromotion = "";
         String userId = "";
         String piaId = "";
-
+        String CandidatesqualificationDetails = "";
+        String CandidatesyearOfEdu ="";
+        String CandidatesyearOfPass ="";
+        String CandidatesiMarkOne = "";
+        String CandidatesiMarkTwo ="";
+        String CandidateslangKnown = "";
+        String CandidatesmotherMob = "";
+        String CandidatesfatherMob = "";
+        String CandidatesheadFamilyName = "";
+        String CandidateseduHeadOfFamily = "";
+        String CandidatesfamilyMembers = "";
+        String CandidatesyearlyIncome = "";
+        String CandidatesJobCard = "";
         Cursor c = database.getStoredProspectData();
         if (c.getCount() > 0) {
             if (c.moveToFirst()) {
@@ -134,7 +146,19 @@ public class SyncProspectRecords implements IServiceListener {
                     userId = c.getString(30);
                     piaId = c.getString(32);
                     mActualFilePath = c.getString(33);
-
+                    CandidatesqualificationDetails = c.getString(34);
+                    CandidatesyearOfEdu = c.getString(35);
+                    CandidatesyearOfPass = c.getString(36);
+                    CandidatesiMarkOne = c.getString(37);
+                    CandidatesiMarkTwo = c.getString(38);
+                    CandidateslangKnown = c.getString(39);
+                    CandidatesmotherMob = c.getString(40);
+                    CandidatesfatherMob = c.getString(41);
+                    CandidatesheadFamilyName = c.getString(42);
+                    CandidateseduHeadOfFamily = c.getString(43);
+                    CandidatesfamilyMembers = c.getString(44);
+                    CandidatesyearlyIncome = c.getString(45);
+                    CandidatesJobCard = c.getString(46);
                     JSONObject jsonObject = new JSONObject();
                     try {
                         jsonObject.put(MobilizerConstants.PARAMS_HAVE_AADHAAR_CARD, CandidatesAadhaarStatus);
@@ -172,6 +196,20 @@ public class SyncProspectRecords implements IServiceListener {
                         jsonObject.put(MobilizerConstants.PARAMS_CREATED_BY, userId);
                         jsonObject.put(MobilizerConstants.PARAMS_CREATED_AT, currentDateandTime);
                         jsonObject.put(MobilizerConstants.PARAMS_PIA_ID, piaId);
+                        jsonObject.put(MobilizerConstants.PARAMS_FATHER_MOBILE, CandidatesfatherMob);
+                        jsonObject.put(MobilizerConstants.PARAMS_MOTHER_MOBILE, CandidatesmotherMob);
+                        jsonObject.put(MobilizerConstants.KEY_QUALIFICATION, CandidatesQualification);
+                        jsonObject.put(MobilizerConstants.PARAMS_QUALIFICATION_DETAILS, CandidatesqualificationDetails);
+                        jsonObject.put(MobilizerConstants.PARAMS_YEAR_OF_EDU, CandidatesyearOfEdu);
+                        jsonObject.put(MobilizerConstants.PARAMS_YEAR_OF_PASS, CandidatesyearOfPass);
+                        jsonObject.put(MobilizerConstants.PARAMS_IDENTITY_MARK_ONE, CandidatesiMarkOne);
+                        jsonObject.put(MobilizerConstants.PARAMS_IDENTITY_MARK_TWO, CandidatesiMarkTwo);
+                        jsonObject.put(MobilizerConstants.PARAMS_LANGUAGES_KNOWN, CandidateslangKnown);
+                        jsonObject.put(MobilizerConstants.PARAMS_HEAD_OF_FAMILY, CandidatesheadFamilyName);
+                        jsonObject.put(MobilizerConstants.PARAMS_EDU_OF_HEAD_OF_FAMILY, CandidateseduHeadOfFamily);
+                        jsonObject.put(MobilizerConstants.PARAMS_NO_OF_FAMILY, CandidatesfamilyMembers);
+                        jsonObject.put(MobilizerConstants.PARAMS_YEARLY_INCOME, CandidatesyearlyIncome);
+                        jsonObject.put(MobilizerConstants.PARAMS_JOB_CARD, CandidatesJobCard);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

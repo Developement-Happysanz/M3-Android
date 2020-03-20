@@ -256,7 +256,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public long store_prospect_data_insert(String val1, String val2, String val3, String val4, String val5, String val6, String val7, String val8, String val9,
                                            String val10, String val11, String val12, String val13, String val14, String val15, String val16, String val17, String val18, String val19,
                                            String val20, String val21, String val22, String val23, String val24, String val25, String val26, String val27, String val28, String val29,
-                                           String val30, String val31, String val32, String val33) {
+                                           String val30, String val31, String val32, String val33, String val34, String val35, String val36, String val37, String val38, String val39,
+                                           String val40, String val41, String val42, String val43, String val44, String val45, String val46) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues initialValues = new ContentValues();
         initialValues.put("aadhar_status", val1);
@@ -292,10 +293,24 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         initialValues.put("created_at", val31);
         initialValues.put("pia_id", val32);
         initialValues.put("prospect_image", val33);
+        initialValues.put("qualification_details", val34);
+        initialValues.put("year_of_edu", val35);
+        initialValues.put("year_of_pass", val36);
+        initialValues.put("identification_mark_one", val37);
+        initialValues.put("identification_mark_two", val38);
+        initialValues.put("languages_know", val39);
+        initialValues.put("mother_mobile", val40);
+        initialValues.put("father_mobile", val41);
+        initialValues.put("head_of_family", val42);
+        initialValues.put("head_of_family_edu", val43);
+        initialValues.put("family_members", val44);
+        initialValues.put("yearly_income", val45);
+        initialValues.put("job_card", val46);
         initialValues.put("server_id", "");
         initialValues.put("sync_status", "N");
 
 
+        String CandidatesJobCard = "";
         long l = db.insert("storeProspectData", null, initialValues);
         db.close();
         return l;

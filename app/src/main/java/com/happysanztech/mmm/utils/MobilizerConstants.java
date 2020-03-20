@@ -10,8 +10,8 @@ public class MobilizerConstants {
     // BASE URL
 //    private static final String BASE_URL = "https://iyerandrao.com/";
 //    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
-//    private static final String BASE_URL = "https://happysanz.in/m3tnsrlm/";
-    private static final String BASE_URL = "https://www.mym3app.com/m3admin/";
+    private static final String BASE_URL = "https://happysanz.in/m3tnsrlm/";
+//    private static final String BASE_URL = "https://www.mym3app.com/m3admin/";
 
     // BUILD URL
 //    public static final String BUILD_URL = BASE_URL + "uitensyfi/";
@@ -150,6 +150,19 @@ public class MobilizerConstants {
     public static final String PARAMS_CREATED_BY = "created_by";
     public static final String PARAMS_CREATED_AT = "created_at";
     public static final String PARAMS_PIA_ID = "pia_id";
+    public static final String PARAMS_FATHER_MOBILE = "father_mobile";
+    public static final String PARAMS_MOTHER_MOBILE = "mother_mobile";
+    public static final String PARAMS_QUALIFICATION_DETAILS = "qualification_details";
+    public static final String PARAMS_YEAR_OF_EDU = "year_of_edu";
+    public static final String PARAMS_YEAR_OF_PASS = "year_of_pass";
+    public static final String PARAMS_IDENTITY_MARK_ONE = "identification_mark_1";
+    public static final String PARAMS_IDENTITY_MARK_TWO = "identification_mark_2";
+    public static final String PARAMS_LANGUAGES_KNOWN = "lang_known";
+    public static final String PARAMS_HEAD_OF_FAMILY = "head_family_name";
+    public static final String PARAMS_EDU_OF_HEAD_OF_FAMILY = "head_family_edu";
+    public static final String PARAMS_NO_OF_FAMILY = "no_family";
+    public static final String PARAMS_YEARLY_INCOME = "yearly_income";
+    public static final String PARAMS_JOB_CARD = "jobcard_type";
 
     //    Center details
     public static final String CENTER_INFO = MOBILIZER_API + "view_centerdetails/";
@@ -222,5 +235,11 @@ public class MobilizerConstants {
     //    Center image list
     public static final String USER_DAILY_ACTIVITY = "apimain/user_activity";
     public static final String DAILY_ACTIVITY = "activity_detail";
+
+    public static final String DOC_MASTER = "apimain/document_master_list";
+
+    public static final String DOC_STATUS = "apimain/prospects_document_status";
+
+    public static final String DOC_UPLOAD = MOBILIZER_API + "document_details_upload/";
 
 }

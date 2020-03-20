@@ -17,6 +17,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.happysanztech.mmm.R;
 import com.happysanztech.mmm.activity.AddCandidateActivity;
+import com.happysanztech.mmm.activity.DocumentUploadActivity;
 import com.happysanztech.mmm.activity.aadhaar.HomeActivity;
 import com.happysanztech.mmm.bean.database.SQLiteHelper;
 import com.happysanztech.mmm.helper.AlertDialogHelper;
@@ -102,8 +103,13 @@ public class AddCandidateFragment extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         if (v == btnAddCandidate) {
-            Intent myIntent = new Intent(this, AddCandidateActivity.class);
-            this.startActivity(myIntent);
+            if (PreferenceStorage.getAdmissionId(this).equalsIgnoreCase("")) {
+                Intent myIntent = new Intent(this, AddCandidateActivity.class);
+                this.startActivity(myIntent);
+            } else {
+                Intent myIntent = new Intent(this, DocumentUploadActivity.class);
+                this.startActivity(myIntent);
+            }
         }
         if (v == btnScanAadhaarCard) {
             //initiating the qr code scan

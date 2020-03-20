@@ -152,6 +152,60 @@ public class PreferenceStorage {
     }
     /*End*/
 
+    // Admission Id
+    public static void saveAdmissionId(Context context, String staffId) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MobilizerConstants.PARAMS_ADMISSION_ID, staffId);
+        editor.apply();
+    }
+
+    public static String getAdmissionId(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String userType;
+        userType = sharedPreferences.getString(MobilizerConstants.PARAMS_ADMISSION_ID, "");
+        return userType;
+    }
+    /*End*/
+
+    // Admission Id
+    public static void saveCaste(Context context, String staffId) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MobilizerConstants.KEY_COMMUNITY_CLASS, staffId);
+        editor.apply();
+    }
+
+    public static String getCaste(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String userType;
+        userType = sharedPreferences.getString(MobilizerConstants.KEY_COMMUNITY_CLASS, "");
+        return userType;
+    }
+    /*End*/
+
+    // Admission Id
+    public static void saveDisability(Context context, String staffId) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MobilizerConstants.PARAMS_DISABILITY, staffId);
+        editor.apply();
+    }
+
+    public static String getDisability(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String userType;
+        userType = sharedPreferences.getString(MobilizerConstants.PARAMS_DISABILITY, "");
+        return userType;
+    }
+    /*End*/
+
     // PIA Id
     public static void savePIAId(Context context, String staffId) {
         SharedPreferences sharedPreferences = PreferenceManager

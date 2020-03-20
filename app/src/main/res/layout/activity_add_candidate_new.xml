@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:minHeight="60dp" />
+
+        <ImageView
+            android:id="@+id/back_tic_his"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:minHeight="60dp"
+            android:paddingStart="13dp"
+            android:paddingEnd="13dp"
+            android:src="@drawable/ic_arrow_back_white_24dp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/back_tic_his"
+            android:gravity="center_vertical|left"
+            android:minHeight="60dp"
+            android:padding="5dp"
+            android:text="Collect Prospect's Details"
+            android:fontFamily="@font/open_sans_semi_bold"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:id="@+id/scrollID"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="vertical">
+
+                <com.happysanztech.mmm.customview.CircleImageView
+                    android:id="@+id/im_candidate_picture"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_profile" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:text="Basic Details"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/open_sans_semi_bold"/>
+
+                <EditText
+                    android:id="@+id/et_candidate_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name*"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:maxLength="40"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_candidate_sex"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:hint="Sex*"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:spinnerMode="dropdown"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_candidate_dob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:hint="Date of Birth*"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_candidate_age"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:digits="0123456789"
+                        android:hint="Age"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:singleLine="true"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_candidate_nationality"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:hint="Nationality*"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:maxLength="20"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_candidate_religion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:hint="Religion*"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:maxLength="20"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_candidate_community_class"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:hint="Communal Category*"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:maxLength="20"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_candidate_community"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:hint="Community*"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:maxLength="20"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_candidate_blood_group"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:hint="Blood Group*"
+                        android:spinnerMode="dropdown"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_candidate_father_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:hint="Father Name*"
+                        android:inputType="text"
+                        android:maxLength="40"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:singleLine="true"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_candidate_mother_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:hint="Mother Name*"
+                        android:inputType="text"
+                        android:maxLength="40"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:singleLine="true"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/et_candidate_mobile_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:hint="Mobile Number*"
+                    android:inputType="number"
+                    android:maxLength="15"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_alternative_mobile_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:hint="Alternative Mobile Number"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:maxLength="15"
+                    android:inputType="number"
+                    android:visibility="gone"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_email_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:hint="Email ID*"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_qualification"
+                    android:layout_width="match_parent"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.60"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:hint="Qualification*"
+                    android:maxLength="40"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_qualification_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.60"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:hint="Qualification Details*"
+                    android:maxLength="40"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_qualified_promotion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Qualified Promotion*"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_last_institute"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Last Institute"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_qualification_year_start"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:hint="Year of Education*"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:spinnerMode="dropdown"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_qualification_year_end"
+                        android:layout_width="match_parent"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:hint="Year of Passing*"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/et_candidate_identity_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Identification Mark (Mark 1)"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_identity_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Identification Mark (Mark 2)"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:text="Personal Details"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/open_sans_semi_bold"/>
+
+                <EditText
+                    android:id="@+id/et_head_of_the_family"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name of head of the family*"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_head_of_the_family_qualification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Head of the family qualification*"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_family_income"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Yearly Income*"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_family_members"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Number of family members*"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_father_mobile_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:hint="Father Mobile Number*"
+                    android:inputType="number"
+                    android:maxLength="15"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_mother_mobile_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:hint="Mother Mobile Number*"
+                    android:inputType="number"
+                    android:maxLength="15"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="State*"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="City*"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_address_line_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Address Line 1*"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:maxLength="40"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_address_line_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Address Line 2"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_mother_tongue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.50"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:hint="Mother Tongue*"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_languages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.50"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:hint="Languages Known*"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_candidate_disability"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:layout_weight="0.50"
+                    android:text="Any Disability ?" />
+
+                <EditText
+                    android:id="@+id/et_candidate_disability_reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Disability"
+                    android:inputType="text"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:singleLine="true"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/et_candidate_preferred_trade"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:hint="Preferred Trade*"
+                    android:spinnerMode="dropdown"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_job_card"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:hint="Job Card*"
+                    android:spinnerMode="dropdown"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_candidate_preferred_timing"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.40"
+                        android:visibility="gone"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:hint="Preferred Timings*"
+                        android:spinnerMode="dropdown"
+                        android:textSize="14sp" />
+
+
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/et_candidate_tc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Transfer Certificate"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:visibility="gone"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_candidate_tc"
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="Have Transfer Certificate ?" />
+
+                <CheckBox
+                    android:id="@+id/cb_candidate_have_aadhaar_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:checked="true"
+                    android:visibility="gone"
+                    android:enabled="false"
+                    android:text="Have Aadhaar Card ?" />
+
+                <EditText
+                    android:id="@+id/et_candidate_aadhaar_card_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:digits="0123456789"
+                    android:hint="Aadhaar Number*"
+                    android:inputType="number"
+                    android:maxLength="20"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/btn_square_login"
+                    android:text="Enter Details"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
