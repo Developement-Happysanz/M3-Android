@@ -32,7 +32,7 @@ import static android.util.Log.d;
 public class UploadDataSyncAdapter extends AbstractThreadedSyncAdapter {
 
     //TODO change this constant SYNC_INTERVAL to change the sync frequency
-    public static final int SYNC_INTERVAL = 60; //60 * 180;       // 60 seconds (1 minute) * 180 = 3 hours
+    public static final int SYNC_INTERVAL = 18; //60 * 180;       // 60 seconds (1 minute) * 180 = 3 hours
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
     ContentResolver contentResolver;
