@@ -70,6 +70,7 @@ public class SyncProspectRecords implements IServiceListener {
     private ProgressDialog dialog;
     private String selectedFilePath = "";
     private String storeDocumentMasterId = "";
+    private String uploadId = "";
 
 
     public SyncProspectRecords(Context context) {
@@ -313,15 +314,7 @@ public class SyncProspectRecords implements IServiceListener {
                 database.updateProspectSyncStatus(_id);
                 senddoc();
             } else if (checkVal.equalsIgnoreCase("adddoc")) {
-                Cursor c = database.getStoredProspectData();
-                if (c.getCount() > 0) {
-                    SyncToServer();
-                } else {
-                    Toast.makeText(context, "All records synced", Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(context, MainActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(i);
-                }
+
             }
         }
     }
@@ -331,80 +324,92 @@ public class SyncProspectRecords implements IServiceListener {
         if (c.getCount() > 0) {
             if (c.moveToFirst()) {
                 do {
+                    uploadId = c.getString(0);
                     storeDocumentMasterId = c.getString(1);
                     mActualFilePath = c.getString(3);
                 }while (c.moveToNext());
             }
-        }
-        try {
-            Document document = new Document();
+            try {
+                Document document = new Document();
 
 //                    String directoryPath = android.os.Environment.getExternalStorageDirectory().toString();
-            File pictureFolder = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS
-            );
-            final File root = new File(pictureFolder, "M3Documents");
+                File pictureFolder = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DOCUMENTS
+                );
+                final File root = new File(pictureFolder, "M3Documents");
 
-            if (!root.exists()) {
-                if (!root.mkdirs()) {
+                if (!root.exists()) {
+                    if (!root.mkdirs()) {
 //                            Log.d(TAG, "Failed to create directory for storing docs");
-                    return;
+                        return;
+                    }
                 }
-            }
-            Calendar newCalendar = Calendar.getInstance();
-            int month = newCalendar.get(Calendar.MONTH) + 1;
-            int day = newCalendar.get(Calendar.DAY_OF_MONTH);
-            int year = newCalendar.get(Calendar.YEAR);
-            int hours = newCalendar.get(Calendar.HOUR_OF_DAY);
-            int minutes = newCalendar.get(Calendar.MINUTE);
-            int seconds = newCalendar.get(Calendar.SECOND);
-            final String fname = PreferenceStorage.getUserId(context) + "_" + day + "_" + month + "_" + year + "_" + hours + "_" + minutes + "_" + seconds + ".pdf";
+                Calendar newCalendar = Calendar.getInstance();
+                int month = newCalendar.get(Calendar.MONTH) + 1;
+                int day = newCalendar.get(Calendar.DAY_OF_MONTH);
+                int year = newCalendar.get(Calendar.YEAR);
+                int hours = newCalendar.get(Calendar.HOUR_OF_DAY);
+                int minutes = newCalendar.get(Calendar.MINUTE);
+                int seconds = newCalendar.get(Calendar.SECOND);
+                final String fname = PreferenceStorage.getUserId(context) + "_" + day + "_" + month + "_" + year + "_" + hours + "_" + minutes + "_" + seconds + ".pdf";
 
-            PdfWriter.getInstance(document, new FileOutputStream(root.getPath() + File.separator + fname)); //  Change pdf's name.
+                PdfWriter.getInstance(document, new FileOutputStream(root.getPath() + File.separator + fname)); //  Change pdf's name.
 
-            document.open();
+                document.open();
 
-            Image image = Image.getInstance(mActualFilePath);  // Change image's name and extension.
+                Image image = Image.getInstance(mActualFilePath);  // Change image's name and extension.
 
-            float scaler = ((document.getPageSize().getWidth() - document.leftMargin()
-                    - document.rightMargin() - 0) / image.getWidth()) * 100; // 0 means you have no indentation. If you have any, change it.
-            image.scalePercent(scaler);
-            image.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
+                float scaler = ((document.getPageSize().getWidth() - document.leftMargin()
+                        - document.rightMargin() - 0) / image.getWidth()) * 100; // 0 means you have no indentation. If you have any, change it.
+                image.scalePercent(scaler);
+                image.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
 
-            document.add(image);
-            document.close();
+                document.add(image);
+                document.close();
 
-            selectedFilePath = root.getPath() + File.separator + fname;
+                selectedFilePath = root.getPath() + File.separator + fname;
 //                    Log.i(TAG, "Selected File Path:" + selectedFilePath);
-            File sizeCge;
+                File sizeCge;
 //                selectedFilePath = mActualFilePath;
-            if (selectedFilePath != null && !selectedFilePath.equals("")) {
-                sizeCge = new File(selectedFilePath);
-                if (sizeCge.length() >= 12000000) {
-                    AlertDialogHelper.showSimpleAlertDialog(context, "File size too large. File should be at least 12MB");
-                    selectedFilePath = null;
-                } else {
-                    Toast.makeText(context, "Uploading...", Toast.LENGTH_SHORT).show();
-                    dialog = ProgressDialog.show(context, "", "Uploading File...", true);
+                if (selectedFilePath != null && !selectedFilePath.equals("")) {
+                    sizeCge = new File(selectedFilePath);
+                    if (sizeCge.length() >= 12000000) {
+                        AlertDialogHelper.showSimpleAlertDialog(context, "File size too large. File should be at least 12MB");
+                        selectedFilePath = null;
+                    } else {
+                        Toast.makeText(context, "Uploading...", Toast.LENGTH_SHORT).show();
+                        dialog = ProgressDialog.show(context, "", "Uploading File...", true);
 
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //creating new thread to handle Http Operations
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //creating new thread to handle Http Operations
 //                        uploadFile(selectedFilePath);
-                            new PostDataAsyncTask().execute();
-                        }
-                    }).start();
+                                new PostDataAsyncTask().execute();
+                            }
+                        }).start();
+                    }
+                } else {
+                    Toast.makeText(context, "Cannot upload file to server", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(context, "Cannot upload file to server", Toast.LENGTH_SHORT).show();
+            } catch (FileNotFoundException | DocumentException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (FileNotFoundException | DocumentException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        } else {
+            Cursor sc = database.getStoredProspectData();
+            if (sc.getCount() > 0) {
+                SyncToServer();
+            } else {
+                Toast.makeText(context, "All records synced", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(context, MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+            }
         }
 
     }
@@ -567,7 +572,11 @@ public class SyncProspectRecords implements IServiceListener {
 
             super.onPostExecute(result);
             if ((result.contains("OK"))) {
-                Toast.makeText(context, "Uploaded successfully!", Toast.LENGTH_SHORT).show();
+
+                database.updateDocSyncStatus(uploadId);
+                senddoc();
+
+//                Toast.makeText(context, "Uploaded successfully!", Toast.LENGTH_SHORT).show();
 //                switch (storeDocumentMasterId) {
 //
 //                    case "1":
