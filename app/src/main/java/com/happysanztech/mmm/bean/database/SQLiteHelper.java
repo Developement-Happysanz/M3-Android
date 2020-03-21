@@ -427,7 +427,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public Cursor getStoredDocData(String val1) throws SQLException {
         SQLiteDatabase db = this.getWritableDatabase();
-        String fetch = "SELECT * FROM storeDocData WHERE stud_id = '' + val1 & sync_status = 'N' ORDER BY _id LIMIT 1;";
+        String fetch = "SELECT * FROM storeDocData WHERE stud_id = " + val1 + " & sync_status = 'N' ORDER BY _id LIMIT 1;";
         Cursor c = db.rawQuery(fetch, null);
         if (c != null) {
             c.moveToFirst();

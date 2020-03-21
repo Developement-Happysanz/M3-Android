@@ -99,7 +99,6 @@ public class SyncRecordsActivity extends AppCompatActivity implements View.OnCli
                 } else {
                     AlertDialogHelper.showSimpleAlertDialog(this, "Nothing to sync");
                 }
-
             }
 
         } else {
