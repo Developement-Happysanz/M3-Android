@@ -517,7 +517,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
                     //writing bytes to data outputstream
                     dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
-                    dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"document_file\";filename=\""
+                    dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"upload_document\";filename=\""
                             + fileName + "\"" + lineEnd);
 //                    outputStream.writeBytes("Content-Disposition: form-data; name=\"" + filefield + "\"; filename=\"" + q[idx] + "\"" + lineEnd);
                     dataOutputStream.writeBytes(lineEnd);
