@@ -1613,8 +1613,14 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     CandidatesJobCard);
 
             System.out.println("Stored Id : " + x);
-            Toast.makeText(this, "Prospect details stored. Sync later when network is available", Toast.LENGTH_SHORT).show();
+            String dbId = String.valueOf(x);
+            PreferenceStorage.saveDbID(getApplicationContext(), dbId);
+            Intent i = new Intent(getApplicationContext(), DocumentUploadActivity.class);
+//            i.putExtra("job_card", jobCard.getText().toString());
+            startActivity(i);
             finish();
+//            Toast.makeText(this, "Prospect details stored. Sync later when network is available", Toast.LENGTH_SHORT).show();
+//            finish();
         } else {
             JSONObject jsonObject = new JSONObject();
             try {

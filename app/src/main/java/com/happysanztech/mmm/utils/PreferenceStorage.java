@@ -206,6 +206,24 @@ public class PreferenceStorage {
     }
     /*End*/
 
+    // Admission Id
+    public static void saveDbID(Context context, String staffId) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MobilizerConstants.KEY_DB_ID, staffId);
+        editor.apply();
+    }
+
+    public static String getDbID(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String userType;
+        userType = sharedPreferences.getString(MobilizerConstants.KEY_DB_ID, "");
+        return userType;
+    }
+    /*End*/
+
     // PIA Id
     public static void savePIAId(Context context, String staffId) {
         SharedPreferences sharedPreferences = PreferenceManager

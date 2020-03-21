@@ -19,7 +19,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String TAG = "SQLiteHelper.java";
 
     private static final String DATABASE_NAME = "MMM.db";
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
 
     private static final String table_create_current_best_location = "Create table IF NOT EXISTS currentBestLocation(_id integer primary key autoincrement,"
             + "latitude text,"
@@ -81,8 +81,26 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + "created_at text,"
             + "pia_id text,"
             + "prospect_image text,"
+            + "qualification_details text,"
+            + "year_of_edu text,"
+            + "year_of_pass text,"
+            + "identification_mark_one text,"
+            + "identification_mark_two text,"
+            + "languages_know text,"
+            + "mother_mobile text,"
+            + "father_mobile text,"
+            + "head_of_family text,"
+            + "head_of_family_edu text,"
+            + "family_members text,"
+            + "yearly_income text,"
+            + "job_card text,"
             + "server_id text,"
             + "sync_status text);";
+
+    private static final String table_store_docs = "Create table IF NOT EXISTS storeDocData(_id integer primary key autoincrement,"
+            + "doc_id text,"
+            + "stud_id text,"
+            + "doc_loc text);";
 
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -101,6 +119,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(table_create_prospect_data);
         //Store trade details
         db.execSQL(table_store_trades);
+        //Store doc details
+        db.execSQL(table_store_docs);
     }
 
     @Override
@@ -118,6 +138,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS storeProspectData");
         //Store trade data
         db.execSQL("DROP TABLE IF EXISTS storeTradeData");
+        //Store doc data
+        db.execSQL("DROP TABLE IF EXISTS storeDocData");
     }
 
     public void open() throws SQLException {
@@ -309,8 +331,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         initialValues.put("server_id", "");
         initialValues.put("sync_status", "N");
 
-
-        String CandidatesJobCard = "";
         long l = db.insert("storeProspectData", null, initialValues);
         db.close();
         return l;
@@ -382,6 +402,48 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     public void deleteAllStoredTradeData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("storeTradeData", null, null);
+    }
+    /*
+     *   End
+     */
+
+    /*
+     *   Store doc data functionality
+     */
+    public long store_doc_data_insert(String val1, String val2, String val3) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues initialValues = new ContentValues();
+        initialValues.put("doc_id", val1);
+        initialValues.put("stud_id", val2);
+        initialValues.put("doc_loc", val3);
+        initialValues.put("server_id", "");
+        initialValues.put("sync_status", "N");
+        long l = db.insert("storeDocData", null, initialValues);
+        db.close();
+        return l;
+    }
+
+    public Cursor getStoredDocData(String val1) throws SQLException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String fetch = "SELECT * FROM storeDocData WHERE stud_id = '' + val1 ORDER BY _id LIMIT 1;";
+        Cursor c = db.rawQuery(fetch, null);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
+
+    public void updateDocSyncStatus(String val1) {
+        SQLiteDatabase sqdb = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("sync_status", "S");
+        System.out.print(val1);
+        sqdb.update("storeDocData", values, "_id=" + val1, null);
+    }
+
+    public void deleteAllStoredDocData() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("storeTradeData", null, null);
     }

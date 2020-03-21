@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -28,6 +29,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.happysanztech.mmm.R;
+import com.happysanztech.mmm.bean.database.SQLiteHelper;
 import com.happysanztech.mmm.helper.AlertDialogHelper;
 import com.happysanztech.mmm.helper.ProgressDialogHelper;
 import com.happysanztech.mmm.interfaces.DialogClickListener;
@@ -71,6 +73,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
     private ImageView ivBack;
     private LinearLayout cast, disab;
     private TextView aadhaar, transferCertificate, communityCertificate, disability, rationCard, voterId, jobCard, passBook;
+    SQLiteHelper database;
 
     private Uri outputFileUri;
     static final int REQUEST_IMAGE_GET = 1;
@@ -111,6 +114,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         ivBack = findViewById(R.id.back_tic_his);
         ivBack.setOnClickListener(this);
 
+        database = new SQLiteHelper(getApplicationContext());
         prospectID = PreferenceStorage.getAdmissionId(this);
         cast = findViewById(R.id.commi);
         String caste = PreferenceStorage.getCaste(this);
@@ -153,6 +157,25 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     }
 
+    private void showAlerrry() {
+        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Go back");
+        alertDialogBuilder.setMessage("If you choose to go back you will lose the prospect data. Are you sure");
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                finish();
+            }
+        });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialogBuilder.show();
+    }
+
     @Override
     public void onClick(View v) {
         if (v == aadhaar) {
@@ -180,10 +203,17 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             storeDocumentMasterId = "8";
             openImageIntent();
         } else if (v == done) {
-            if (docOne&&docTwo&&docThree&&docFour&&docFive&&docSix&&docSeven&&docEight) {
+            if (docOne && docTwo && docThree && docFour && docFive && docSix && docSeven && docEight) {
+                PreferenceStorage.saveAdmissionId(this, "");
                 finish();
             } else {
                 AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), "Upload all necessary documents");
+            }
+        } else if (v == ivBack) {
+            if (!CommonUtils.isNetworkAvailableNew(this)) {
+                showAlerrry();
+            } else {
+                finish();
             }
         }
     }
@@ -363,78 +393,86 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                     d(TAG, "image URI is" + selectedImageUri);
 //                    setPic(selectedImageUri);
                 }
-                try {
-                    Document document = new Document();
+
+                if (!CommonUtils.isNetworkAvailableNew(this)) {
+                    String studeID = PreferenceStorage.getDbID(this);
+                    long x = database.store_doc_data_insert(storeDocumentMasterId, studeID, mActualFilePath);
+                    System.out.println("Stored Id : " + x);
+                    PreferenceStorage.saveAdmissionId(getApplicationContext(), "");
+                    Toast.makeText(this, "Prospect details stored. Sync later when network is available", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    try {
+                        Document document = new Document();
 
 //                    String directoryPath = android.os.Environment.getExternalStorageDirectory().toString();
-                    File pictureFolder = Environment.getExternalStoragePublicDirectory(
-                            Environment.DIRECTORY_DOCUMENTS
-                    );
-                    final File root = new File(pictureFolder, "M3Documents");
+                        File pictureFolder = Environment.getExternalStoragePublicDirectory(
+                                Environment.DIRECTORY_DOCUMENTS
+                        );
+                        final File root = new File(pictureFolder, "M3Documents");
 
-                    if (!root.exists()) {
-                        if (!root.mkdirs()) {
-                            Log.d(TAG, "Failed to create directory for storing docs");
-                            return;
-                        }
-                    }
-                    Calendar newCalendar = Calendar.getInstance();
-                    int month = newCalendar.get(Calendar.MONTH) + 1;
-                    int day = newCalendar.get(Calendar.DAY_OF_MONTH);
-                    int year = newCalendar.get(Calendar.YEAR);
-                    int hours = newCalendar.get(Calendar.HOUR_OF_DAY);
-                    int minutes = newCalendar.get(Calendar.MINUTE);
-                    int seconds = newCalendar.get(Calendar.SECOND);
-                    final String fname = PreferenceStorage.getUserId(this) + "_" + day + "_" + month + "_" + year + "_" + hours + "_" + minutes + "_" + seconds + ".pdf";
-
-                    PdfWriter.getInstance(document, new FileOutputStream(root.getPath() + File.separator + fname)); //  Change pdf's name.
-
-                    document.open();
-
-                    Image image = Image.getInstance(mActualFilePath);  // Change image's name and extension.
-
-                    float scaler = ((document.getPageSize().getWidth() - document.leftMargin()
-                            - document.rightMargin() - 0) / image.getWidth()) * 100; // 0 means you have no indentation. If you have any, change it.
-                    image.scalePercent(scaler);
-                    image.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
-
-                    document.add(image);
-                    document.close();
-
-                    selectedFilePath = root.getPath() + File.separator + fname;
-                    Log.i(TAG, "Selected File Path:" + selectedFilePath);
-                File sizeCge;
-//                selectedFilePath = mActualFilePath;
-                if (selectedFilePath != null && !selectedFilePath.equals("")) {
-                    sizeCge = new File(selectedFilePath);
-                    if (sizeCge.length() >= 12000000) {
-                        AlertDialogHelper.showSimpleAlertDialog(this, "File size too large. File should be at least 12MB");
-                        selectedFilePath = null;
-                    } else {
-                        Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show();
-                        dialog = ProgressDialog.show(DocumentUploadActivity.this, "", "Uploading File...", true);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //creating new thread to handle Http Operations
-//                        uploadFile(selectedFilePath);
-                                new PostDataAsyncTask().execute();
+                        if (!root.exists()) {
+                            if (!root.mkdirs()) {
+                                Log.d(TAG, "Failed to create directory for storing docs");
+                                return;
                             }
-                        }).start();
+                        }
+                        Calendar newCalendar = Calendar.getInstance();
+                        int month = newCalendar.get(Calendar.MONTH) + 1;
+                        int day = newCalendar.get(Calendar.DAY_OF_MONTH);
+                        int year = newCalendar.get(Calendar.YEAR);
+                        int hours = newCalendar.get(Calendar.HOUR_OF_DAY);
+                        int minutes = newCalendar.get(Calendar.MINUTE);
+                        int seconds = newCalendar.get(Calendar.SECOND);
+                        final String fname = PreferenceStorage.getUserId(this) + "_" + day + "_" + month + "_" + year + "_" + hours + "_" + minutes + "_" + seconds + ".pdf";
+
+                        PdfWriter.getInstance(document, new FileOutputStream(root.getPath() + File.separator + fname)); //  Change pdf's name.
+
+                        document.open();
+
+                        Image image = Image.getInstance(mActualFilePath);  // Change image's name and extension.
+
+                        float scaler = ((document.getPageSize().getWidth() - document.leftMargin()
+                                - document.rightMargin() - 0) / image.getWidth()) * 100; // 0 means you have no indentation. If you have any, change it.
+                        image.scalePercent(scaler);
+                        image.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
+
+                        document.add(image);
+                        document.close();
+
+                        selectedFilePath = root.getPath() + File.separator + fname;
+                        Log.i(TAG, "Selected File Path:" + selectedFilePath);
+                        File sizeCge;
+//                selectedFilePath = mActualFilePath;
+                        if (selectedFilePath != null && !selectedFilePath.equals("")) {
+                            sizeCge = new File(selectedFilePath);
+                            if (sizeCge.length() >= 12000000) {
+                                AlertDialogHelper.showSimpleAlertDialog(this, "File size too large. File should be at least 12MB");
+                                selectedFilePath = null;
+                            } else {
+                                Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show();
+                                dialog = ProgressDialog.show(DocumentUploadActivity.this, "", "Uploading File...", true);
+
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //creating new thread to handle Http Operations
+//                        uploadFile(selectedFilePath);
+                                        new PostDataAsyncTask().execute();
+                                    }
+                                }).start();
+                            }
+                        } else {
+                            Toast.makeText(this, "Cannot upload file to server", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (FileNotFoundException | DocumentException e) {
+                        e.printStackTrace();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } else {
-                    Toast.makeText(this, "Cannot upload file to server", Toast.LENGTH_SHORT).show();
                 }
-                } catch (FileNotFoundException | DocumentException e) {
-                    e.printStackTrace();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
             }
         }
     }

@@ -163,6 +163,7 @@ public class MobilizerConstants {
     public static final String PARAMS_NO_OF_FAMILY = "no_family";
     public static final String PARAMS_YEARLY_INCOME = "yearly_income";
     public static final String PARAMS_JOB_CARD = "jobcard_type";
+    public static final String KEY_DB_ID = "idd";
 
     //    Center details
     public static final String CENTER_INFO = MOBILIZER_API + "view_centerdetails/";
