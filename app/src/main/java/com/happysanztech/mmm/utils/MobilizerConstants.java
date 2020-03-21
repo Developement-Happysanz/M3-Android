@@ -10,8 +10,8 @@ public class MobilizerConstants {
     // BASE URL
 //    private static final String BASE_URL = "https://iyerandrao.com/";
 //    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
-    private static final String BASE_URL = "https://happysanz.in/m3tnsrlm/";
-//    private static final String BASE_URL = "https://www.mym3app.com/m3admin/";
+//    private static final String BASE_URL = "https://happysanz.in/m3tnsrlm/";
+    private static final String BASE_URL = "https://www.mym3app.com/m3admin/";
 
     // BUILD URL
 //    public static final String BUILD_URL = BASE_URL + "uitensyfi/";
