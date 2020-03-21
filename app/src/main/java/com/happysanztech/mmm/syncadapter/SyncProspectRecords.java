@@ -305,14 +305,14 @@ public class SyncProspectRecords implements IServiceListener {
                     try {
                         if (!response.getString("admission_id").isEmpty()) {
                             admissionId = response.getString("admission_id");
+                            database.updateProspectSyncStatus(_id);
                             new UploadFileToServer().execute();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                database.updateProspectSyncStatus(_id);
-                senddoc();
+
             } else if (checkVal.equalsIgnoreCase("adddoc")) {
 
             }
@@ -755,8 +755,10 @@ public class SyncProspectRecords implements IServiceListener {
             super.onPostExecute(result);
             if ((result == null) || (result.isEmpty()) || (result.contains("Error"))) {
                 Toast.makeText(context, "Unable to save picture", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Student profile image updated successfully...", Toast.LENGTH_SHORT).show();
+                senddoc();
             }
-            Toast.makeText(context, "Student profile image updated successfully...", Toast.LENGTH_SHORT).show();
 //            saveCandidate();
         }
 

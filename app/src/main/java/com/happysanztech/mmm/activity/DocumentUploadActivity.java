@@ -207,7 +207,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                 PreferenceStorage.saveAdmissionId(this, "");
                 finish();
             } else {
-                AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), "Upload all necessary documents");
+                AlertDialogHelper.showSimpleAlertDialog(this, "Upload all necessary documents");
             }
         } else if (v == ivBack) {
             if (!CommonUtils.isNetworkAvailableNew(this)) {
@@ -398,9 +398,78 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                     String studeID = PreferenceStorage.getDbID(this);
                     long x = database.store_doc_data_insert(storeDocumentMasterId, studeID, mActualFilePath);
                     System.out.println("Stored Id : " + x);
-                    PreferenceStorage.saveAdmissionId(getApplicationContext(), "");
-                    Toast.makeText(this, "Prospect details stored. Sync later when network is available", Toast.LENGTH_SHORT).show();
-                    finish();
+
+                    switch (storeDocumentMasterId) {
+
+                        case "1":
+                            docOne = true;
+                            aadhaar.setEnabled(false);
+                            aadhaar.setFocusable(false);
+                            aadhaar.setClickable(false);
+                            aadhaar.setText("Uploaded");
+                            aadhaar.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                            break;
+                        case "2":
+                            docTwo = true;
+                            transferCertificate.setEnabled(false);
+                            transferCertificate.setFocusable(false);
+                            transferCertificate.setClickable(false);
+                            transferCertificate.setText("Uploaded");
+                            transferCertificate.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                            break;
+                        case "3":
+                            docThree = true;
+                            communityCertificate.setEnabled(false);
+                            communityCertificate.setFocusable(false);
+                            communityCertificate.setClickable(false);
+                            communityCertificate.setText("Uploaded");
+                            communityCertificate.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                            break;
+                        case "4":
+                            docFour = true;
+                            rationCard.setEnabled(false);
+                            rationCard.setFocusable(false);
+                            rationCard.setClickable(false);
+                            rationCard.setText("Uploaded");
+                            rationCard.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                            break;
+                        case "5":
+                            docFive = true;
+                            voterId.setEnabled(false);
+                            voterId.setFocusable(false);
+                            voterId.setClickable(false);
+                            voterId.setText("Uploaded");
+                            voterId.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                            break;
+                        case "6":
+                            docSix = true;
+                            jobCard.setEnabled(false);
+                            jobCard.setFocusable(false);
+                            jobCard.setClickable(false);
+                            jobCard.setText("Uploaded");
+                            jobCard.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                            break;
+                        case "7":
+                            docSeven = true;
+                            disability.setEnabled(false);
+                            disability.setFocusable(false);
+                            disability.setClickable(false);
+                            disability.setText("Uploaded");
+                            disability.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                            break;
+                        case "8":
+                            docEight = true;
+                            passBook.setEnabled(false);
+                            passBook.setFocusable(false);
+                            passBook.setClickable(false);
+                            passBook.setText("Uploaded");
+                            passBook.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                            break;
+                    }
+
+//                    PreferenceStorage.saveAdmissionId(getApplicationContext(), "");
+//                    Toast.makeText(this, "Prospect details stored. Sync later when network is available", Toast.LENGTH_SHORT).show();
+//                    finish();
                 } else {
                     try {
                         Document document = new Document();

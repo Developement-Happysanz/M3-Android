@@ -19,7 +19,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String TAG = "SQLiteHelper.java";
 
     private static final String DATABASE_NAME = "MMM.db";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 12;
 
     private static final String table_create_current_best_location = "Create table IF NOT EXISTS currentBestLocation(_id integer primary key autoincrement,"
             + "latitude text,"
@@ -100,7 +100,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String table_store_docs = "Create table IF NOT EXISTS storeDocData(_id integer primary key autoincrement,"
             + "doc_id text,"
             + "stud_id text,"
-            + "doc_loc text);";
+            + "doc_loc text,"
+            + "server_id text,"
+            + "sync_status text);";
 
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -427,7 +429,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public Cursor getStoredDocData(String val1) throws SQLException {
         SQLiteDatabase db = this.getWritableDatabase();
-        String fetch = "SELECT * FROM storeDocData WHERE stud_id = " + val1 + " & sync_status = 'N' ORDER BY _id LIMIT 1;";
+        String fetch = "SELECT * FROM storeDocData WHERE stud_id = " + val1 + " & sync_status = 'N' ORDER BY _id;";
         Cursor c = db.rawQuery(fetch, null);
         if (c != null) {
             c.moveToFirst();

@@ -172,7 +172,7 @@ public class CenterInfoActivity extends AppCompatActivity implements View.OnClic
     public void onError(String error) {
 
         progressDialogHelper.hideProgressDialog();
-        AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), error);
+        AlertDialogHelper.showSimpleAlertDialog(this, error);
 
     }
 
