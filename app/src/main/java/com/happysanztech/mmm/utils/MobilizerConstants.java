@@ -114,6 +114,7 @@ public class MobilizerConstants {
 
     //    Add candidate params
     public static final String KEY_STUDENT_ID = "student_id";
+    public static final String KEY_PROSPECT_ID = "prospect_id";
     public static final String PARAMS_HAVE_AADHAAR_CARD = "have_aadhaar_card";
     public static final String PARAMS_AADHAAR_CARD_NUMBER = "aadhaar_card_number";
     public static final String PARAMS_NAME = "name";
@@ -242,5 +243,6 @@ public class MobilizerConstants {
     public static final String DOC_STATUS = "apimain/prospects_document_status";
 
     public static final String DOC_UPLOAD = MOBILIZER_API + "document_details_upload/";
+    public static final String DOC_UPLOAD_UPDATE = MOBILIZER_API + "document_details_update/";
 
 }
