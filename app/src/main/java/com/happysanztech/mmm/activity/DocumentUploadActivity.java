@@ -138,7 +138,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         jobCard.setOnClickListener(this);
         passBook.setOnClickListener(this);
         done.setOnClickListener(this);
-
+        database = new SQLiteHelper(this);
         getDocStatus();
 
     }
@@ -169,6 +169,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
 //                database.dele
+                PreferenceStorage.saveAdmissionId(getApplicationContext(), "");
                 finish();
             }
         });

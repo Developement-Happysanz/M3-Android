@@ -495,6 +495,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         database.deleteAllPreviousBestLocation();
         database.deleteAllStoredLocationData();
         database.deleteAllStoredProspectData();
+        database.deleteAllStoredDocData();
 //        deleteTableRecords.deleteAllRecords();
 //        stopService(new Intent(MainActivity.this, GoogleLocationService.class));
 //        stopService(new Intent(MainActivity.this, GPSTracker.class));
