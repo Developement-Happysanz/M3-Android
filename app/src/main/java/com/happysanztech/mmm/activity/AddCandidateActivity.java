@@ -1811,7 +1811,8 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
     private void openImageIntent() {
 
         // Determine Uri of camera image to save.
-        final File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyDir");
+//        final File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyDir");
+        File root = getExternalFilesDir(Environment.DIRECTORY_DCIM);
 
         if (!root.exists()) {
             if (!root.mkdirs()) {
