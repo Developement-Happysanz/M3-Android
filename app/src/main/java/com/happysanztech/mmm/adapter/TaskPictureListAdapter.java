@@ -108,4 +108,16 @@ public class TaskPictureListAdapter extends BaseAdapter {
         public TextView txtId;
         public ImageView imageView;
     }
+    public boolean ismSearching() {
+        return mSearching;
+    }
+
+    public int getActualEventPos(int selectedSearchpos) {
+        if (selectedSearchpos < mValidSearchIndices.size()) {
+            return mValidSearchIndices.get(selectedSearchpos);
+        } else {
+            return 0;
+        }
+    }
+
 }

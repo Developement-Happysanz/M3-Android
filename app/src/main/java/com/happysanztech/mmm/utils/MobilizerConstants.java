@@ -10,7 +10,7 @@ public class MobilizerConstants {
     // BASE URL
 //    private static final String BASE_URL = "https://iyerandrao.com/";
 //    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
-    private static final String BASE_URL = "https://happysanz.in/m3tnsrlm/";
+    private static final String BASE_URL = "https://happysanz.net/M3TNSRLM/";
 //    private static final String BASE_URL = "https://www.mym3app.com/m3admin/";
 
     // BUILD URL
@@ -36,6 +36,12 @@ public class MobilizerConstants {
     // User Login Preferences
     // User data
     public static final String KEY_USER_ID = "user_id";
+    public static final String KEY_MOBILISER_ID = "mobilizer_id";
+    public static final String PARAMS_YEAR_ID = "year_id";
+    public static final String PARAMS_MONTH_ID = "month_id";
+    public static final String PARAMS_ATTEND_ID = "attendance_id";
+    public static final String PARAMS_MOB_COMMENTS = "mobilizer_comments";
+
     public static final String KEY_NAME = "name";
     public static final String KEY_USER_NAME = "user_name";
     public static final String KEY_USER_IMAGE = "user_pic";
@@ -244,5 +250,14 @@ public class MobilizerConstants {
 
     public static final String DOC_UPLOAD = MOBILIZER_API + "document_details_upload/";
     public static final String DOC_UPLOAD_UPDATE = MOBILIZER_API + "document_details_update/";
+
+
+    //    MOBILIZER LIST
+    public static final String GET_WORK_TYPE_MASTER = "apipia/work_type_master";
+    public static final String GET_YEAR_LIST = "apipia/get_year_list_attendance";
+    public static final String GET_MONTH_LIST = "apipia/get_month_list_attendance";
+    public static final String GET_WORK = "apipia/get_month_day_list_attendance";
+    public static final String GET_WORK_DETAIL = "apipia/get_month_day_report_details";
+    public static final String SEND_COMMENTS = "apimobilizer/update_attendance_mobilizer_comment\n";
 
 }

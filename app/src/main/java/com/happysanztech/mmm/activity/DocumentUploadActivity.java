@@ -407,7 +407,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     private void getDocStatus() {
 
-        if (CommonUtils.isNetworkAvailable(getApplicationContext())) {
+        if (!CommonUtils.isNetworkAvailableNew(this)) {
 
             JSONObject jsonObject = new JSONObject();
             try {
