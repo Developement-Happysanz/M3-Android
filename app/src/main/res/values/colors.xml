@@ -19,5 +19,6 @@
     <color name="scanned_data_text_color">#D52736</color>
     <color name="action_save_background">#FAB50F</color>
     <color name="action_cancel_background">#D62736</color>
+    <color name="tab_color">#F1F2F2</color>
     <!--<color name="white">#FFFFFF</color>-->
 </resources>

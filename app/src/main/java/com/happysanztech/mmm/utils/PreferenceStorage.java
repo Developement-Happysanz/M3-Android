@@ -170,6 +170,55 @@ public class PreferenceStorage {
     }
     /*End*/
 
+
+    public static void saveMobId(Context context, String mobID) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MobilizerConstants.KEY_MOBILISER_ID, mobID);
+        editor.apply();
+    }
+
+    public static String getMobId(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String staffQualification;
+        staffQualification = sharedPreferences.getString(MobilizerConstants.KEY_MOBILISER_ID, "");
+        return staffQualification;
+    }
+
+    public static void saveMonthId(Context context, String mobID) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MobilizerConstants.PARAMS_MONTH_ID, mobID);
+        editor.apply();
+    }
+
+    public static String getMonthId(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String staffQualification;
+        staffQualification = sharedPreferences.getString(MobilizerConstants.PARAMS_MONTH_ID, "");
+        return staffQualification;
+    }
+
+    public static void saveYearId(Context context, String mobID) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MobilizerConstants.PARAMS_YEAR_ID, mobID);
+        editor.apply();
+    }
+
+    public static String getYearId(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String staffQualification;
+        staffQualification = sharedPreferences.getString(MobilizerConstants.PARAMS_YEAR_ID, "");
+        return staffQualification;
+    }
+    
     // Admission Id
     public static void saveCaste(Context context, String staffId) {
         SharedPreferences sharedPreferences = PreferenceManager

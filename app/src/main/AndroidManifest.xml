@@ -99,6 +99,24 @@
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
+            android:name=".activity.MobiliserWorkTypeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppThemeNoActionBar" />
+
+        <activity
+            android:name=".activity.MobiliserWorkComment"
+            android:label="@string/app_name"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppThemeNoActionBar" />
+
+        <activity
+            android:name=".activity.MobiliserWorkTypeDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppThemeNoActionBar" />
+
+        <activity
             android:name=".activity.AboutUsActivity"
             android:label="@string/app_name"
             android:screenOrientation="unspecified"
