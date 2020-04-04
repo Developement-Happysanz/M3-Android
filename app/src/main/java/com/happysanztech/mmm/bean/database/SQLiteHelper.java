@@ -19,7 +19,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String TAG = "SQLiteHelper.java";
 
     private static final String DATABASE_NAME = "MMM.db";
-    private static final int DATABASE_VERSION = 15;
+    private static final int DATABASE_VERSION = 16;
 
     private static final String table_create_current_best_location = "Create table IF NOT EXISTS currentBestLocation(_id integer primary key autoincrement,"
             + "latitude text,"
@@ -44,6 +44,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + "distance text,"
             + "pia_id text,"
             + "gps_status text,"
+            + "track_status text,"
             + "server_id text,"
             + "sync_status text);";
 
@@ -215,7 +216,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     /*
      *   Store location data functionality
      */
-    public long store_location_data_insert(String val1, String val2, String val3, String val4, String val5, String val6, String val7, String val8) {
+    public long store_location_data_insert(String val1, String val2, String val3, String val4, String val5, String val6, String val7, String val8, String val9) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues initialValues = new ContentValues();
         initialValues.put("user_id", val1);
@@ -226,6 +227,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         initialValues.put("distance", val6);
         initialValues.put("pia_id", val7);
         initialValues.put("gps_status", val8);
+        initialValues.put("track_status", val9);
         initialValues.put("server_id", "");
         initialValues.put("sync_status", "N");
         long l = db.insert("storeLocationData", null, initialValues);
@@ -429,7 +431,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public Cursor getStoredDocData(String val1) throws SQLException {
         SQLiteDatabase db = this.getWritableDatabase();
-        String fetch = "SELECT * FROM storeDocData WHERE stud_id = " + val1 + " AND sync_status = 'N' ORDER BY _id;";
+        String fetch = "SELECT * FROM storeDocData WHERE stud_id = " + val1 + " AND sync_status = 'N' ORDER BY _id LIMIT 1;";
 //        String fetch = "Select _id, " +
 //                "doc_id," +
 //                "stud_id, " +

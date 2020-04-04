@@ -67,6 +67,9 @@ public class MobilizerConstants {
     // Aadhaar action
     public static final String KEY_CENTER_ID = "center_id";
 
+    //
+    public static final String KEY_TRACK_STATUS = "track_status";
+
 
     // PARAMETERS
     //Service Params

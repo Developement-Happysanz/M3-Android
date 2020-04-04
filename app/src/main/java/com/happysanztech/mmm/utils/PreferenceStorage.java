@@ -525,6 +525,24 @@ public class PreferenceStorage {
     }
     /*End*/
 
+    // Track Status
+    public static void saveTrackStatus(Context context, String staffQualification) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MobilizerConstants.KEY_TRACK_STATUS, staffQualification);
+        editor.apply();
+    }
+
+    public static String getTrackStatus(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String staffQualification;
+        staffQualification = sharedPreferences.getString(MobilizerConstants.KEY_TRACK_STATUS, "");
+        return staffQualification;
+    }
+    /*End*/
+
     // Center Id
     public static void saveLocationCheck(Context context, Boolean check) {
         SharedPreferences sharedPreferences = PreferenceManager

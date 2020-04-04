@@ -18,6 +18,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -97,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
     File image = null;
-
 
     // Used in checking for runtime permissions.
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
@@ -576,6 +576,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     requestPermissions();
                 } else {
                     mService.requestLocationUpdates();
+                    PreferenceStorage.saveTrackStatus(getApplicationContext(),"Start");
                 }
             }
         });
@@ -583,7 +584,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mRemoveLocationUpdatesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                PreferenceStorage.saveTrackStatus(getApplicationContext(),"Stop");
                 mService.removeLocationUpdates();
+
             }
         });
 
