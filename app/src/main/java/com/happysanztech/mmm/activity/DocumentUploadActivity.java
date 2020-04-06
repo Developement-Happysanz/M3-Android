@@ -139,6 +139,10 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         passBook.setOnClickListener(this);
         done.setOnClickListener(this);
         database = new SQLiteHelper(this);
+
+        docFive = true;
+        docEight = true;
+
         getDocStatus();
 
     }
