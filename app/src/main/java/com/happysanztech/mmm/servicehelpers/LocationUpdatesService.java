@@ -20,9 +20,11 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -46,11 +48,11 @@ import java.util.Locale;
 /**
  * A bound and started service that is promoted to a foreground service when location updates have
  * been requested and all clients unbind.
- *
+ * <p>
  * For apps running in the background on "O" devices, location is computed only once every 10
  * minutes and delivered batched every 30 minutes. This restriction applies even to apps
  * targeting "N" or lower which are run on "O" devices.
- *
+ * <p>
  * This sample show how to use a long-running service for location updates. When an activity is
  * bound to this service, frequent location updates are permitted. When the activity is removed
  * from the foreground, the service promotes itself to a foreground service, and location updates
@@ -139,6 +141,8 @@ public class LocationUpdatesService extends Service {
     double latitude, longitude;
     LocationManager locationManager;
     Location location;
+    double globeDistance = 0.00;
+    Location globeCurrentBestlocation;
 
 
     @Override
@@ -260,6 +264,7 @@ public class LocationUpdatesService extends Service {
      */
     public void removeLocationUpdates() {
         Log.i(TAG, "Removing location updates");
+        callService(globeDistance,globeCurrentBestlocation);
         try {
             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
             Utils.setRequestingLocationUpdates(this, false);
@@ -453,6 +458,8 @@ public class LocationUpdatesService extends Service {
                         long l = database.previous_best_location_insert("" + currentBestlocation.getLatitude(), "" + currentBestlocation.getLongitude());
                         previousBestLoc = currentBestlocation;
                         callService(distance, currentBestlocation);
+                        globeDistance = distance;
+                        globeCurrentBestlocation = currentBestlocation;
                     }
                 } else {
 //                    if (distance == 0.00) {
@@ -464,6 +471,8 @@ public class LocationUpdatesService extends Service {
                             long l = database.previous_best_location_insert("" + currentBestlocation.getLatitude(), "" + currentBestlocation.getLongitude());
 //                            previousBestLoc = currentBestlocation;
                             callService(distance, currentBestlocation);
+                            globeDistance = distance;
+                            globeCurrentBestlocation = currentBestlocation;
                         }
 //                        }
                     }
@@ -483,6 +492,8 @@ public class LocationUpdatesService extends Service {
                         long l = database.previous_best_location_insert("" + currentBestlocation.getLatitude(), "" + currentBestlocation.getLongitude());
                         previousBestLoc = currentBestlocation;
                         callService(distance, currentBestlocation);
+                        globeDistance = distance;
+                        globeCurrentBestlocation = currentBestlocation;
                     }
 //                    }
                 }
@@ -561,11 +572,13 @@ public class LocationUpdatesService extends Service {
         String currentDateandTime = sdf.format(new Date());
         String locationAddress = getCompleteAddressString(currentLatitude, currentLongitude);
         String dist = Double.toString(distance);
+        String TrackingStatus = PreferenceStorage.getTrackStatus(getApplicationContext());
 
         long x = database.store_location_data_insert(PreferenceStorage.getUserId(getApplicationContext()), lat, lon, locationAddress,
-                currentDateandTime, dist, PreferenceStorage.getPIAId(getApplicationContext()), gpsStatus);
+                currentDateandTime, dist, PreferenceStorage.getPIAId(getApplicationContext()), gpsStatus, TrackingStatus);
 
         System.out.println("Stored Id : " + x);
+        PreferenceStorage.saveTrackStatus(getApplicationContext(), "");
     }
 
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {

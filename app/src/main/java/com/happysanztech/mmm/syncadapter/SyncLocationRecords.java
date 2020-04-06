@@ -48,6 +48,7 @@ public class SyncLocationRecords implements IServiceListener {
         String locationAddress = "";
         String dist = "";
         String piaId = "";
+        String trackStatus = "";
 
         Cursor c = database.getStoredLocationData();
         if (c.getCount() > 0) {
@@ -61,6 +62,7 @@ public class SyncLocationRecords implements IServiceListener {
                     currentDateAndTime = c.getString(5);
                     dist = c.getString(6);
                     piaId = c.getString(7);
+                    trackStatus = c.getString(9);
 
                     JSONObject jsonObject = new JSONObject();
                     try {
@@ -71,6 +73,7 @@ public class SyncLocationRecords implements IServiceListener {
                         jsonObject.put(MobilizerConstants.PARAMS_LOCATION, locationAddress);
                         jsonObject.put(MobilizerConstants.PARAMS_DISTANCE, dist);
                         jsonObject.put(MobilizerConstants.PARAMS_PIA_ID, piaId);
+                        jsonObject.put(MobilizerConstants.KEY_TRACK_STATUS, trackStatus);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
