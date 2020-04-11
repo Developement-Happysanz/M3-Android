@@ -43,7 +43,7 @@ public class MobiliserWorkComment extends AppCompatActivity implements IServiceL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mobiliser_work_type);
+        setContentView(R.layout.activity_mobiliser_work_comments);
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
@@ -59,7 +59,7 @@ public class MobiliserWorkComment extends AppCompatActivity implements IServiceL
         pia = (WorkDetails) intent.getSerializableExtra("taskObj");
 
         commet = findViewById(R.id.mob_comments);
-        done = findViewById(R.id.btn_done);
+        done = findViewById(R.id.done);
         done.setOnClickListener(this);
     }
 

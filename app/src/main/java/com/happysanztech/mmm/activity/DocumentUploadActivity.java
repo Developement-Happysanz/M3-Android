@@ -140,8 +140,8 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         done.setOnClickListener(this);
         database = new SQLiteHelper(this);
 
-        docFive = true;
-        docEight = true;
+//        docFive = true;
+//        docEight = true;
 
         getDocStatus();
 
@@ -253,7 +253,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             storeDocumentMasterId = "8";
             openImageIntent();
         } else if (v == done) {
-            if (docOne && docTwo && docThree && docFour && docFive && docSix && docSeven && docEight) {
+            if (docOne && docTwo && docThree && docFour && docSix && docSeven) {
                 PreferenceStorage.saveAdmissionId(this, "");
                 finish();
             } else {
@@ -412,6 +412,9 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
     private void getDocStatus() {
 
         if (!CommonUtils.isNetworkAvailableNew(this)) {
+//            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection available");
+
+        } else {
 
             JSONObject jsonObject = new JSONObject();
             try {
@@ -424,8 +427,6 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             String url = MobilizerConstants.BUILD_URL + MobilizerConstants.DOC_STATUS;
             serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
 
-        } else {
-            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection available");
         }
     }
 

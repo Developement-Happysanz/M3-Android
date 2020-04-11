@@ -415,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 //            ft.replace(R.id.flContent, fragment);
 //            ft.commit();
-            Intent navigationIntent = new Intent(this, TaskActivity.class);
+            Intent navigationIntent = new Intent(this, MobiliserWorkTypeActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         } else if (id == R.id.nav_sync) {

@@ -44,6 +44,7 @@
     <com.happysanztech.mmm.customview.TouchImageView
         android:id="@+id/zoom_image"
         android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
 

@@ -85,7 +85,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 //            fragmentTransaction.replace(R.id.flContent, fragment);
 //            fragmentTransaction.addToBackStack(null);
 //            fragmentTransaction.commit();
-            Intent navigationIntent = new Intent(this, TaskActivity.class);
+            Intent navigationIntent = new Intent(this, MobiliserWorkTypeActivity.class);
             navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(navigationIntent);
         }

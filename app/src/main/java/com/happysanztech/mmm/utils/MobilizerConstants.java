@@ -10,7 +10,8 @@ public class MobilizerConstants {
     // BASE URL
 //    private static final String BASE_URL = "https://iyerandrao.com/";
 //    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
-    private static final String BASE_URL = "https://happysanz.net/M3TNSRLM/";
+//    private static final String BASE_URL = "https://happysanz.net/M3TNSRLM/";
+    private static final String BASE_URL = "https://happysanz.in/m3tnsrlm/";
 //    private static final String BASE_URL = "https://www.mym3app.com/m3admin/";
 
     // BUILD URL
@@ -68,7 +69,7 @@ public class MobilizerConstants {
     public static final String KEY_CENTER_ID = "center_id";
 
     //
-    public static final String KEY_TRACK_STATUS = "track_status";
+    public static final String KEY_TRACK_STATUS = "tracking_status";
 
 
     // PARAMETERS
@@ -261,6 +262,6 @@ public class MobilizerConstants {
     public static final String GET_MONTH_LIST = "apipia/get_month_list_attendance";
     public static final String GET_WORK = "apipia/get_month_day_list_attendance";
     public static final String GET_WORK_DETAIL = "apipia/get_month_day_report_details";
-    public static final String SEND_COMMENTS = "apimobilizer/update_attendance_mobilizer_comment\n";
+    public static final String SEND_COMMENTS = "apimobilizer/update_attendance_mobilizer_comment";
 
 }

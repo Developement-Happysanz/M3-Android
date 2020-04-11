@@ -69,10 +69,13 @@ public class CommonUtils {
             else {
 
                 try {
-                    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-                    if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
-                        Log.i("update_statut", "Network is available : true");
-                        return true;
+                    Network[] networks = connectivityManager.getAllNetworks();
+                    NetworkInfo networkInfo;
+                    for (Network mNetwork : networks) {
+                        networkInfo = connectivityManager.getNetworkInfo(mNetwork);
+                        if (networkInfo.getState().equals(NetworkInfo.State.CONNECTED)) {
+                            return true;
+                        }
                     }
                 } catch (Exception e) {
                     Log.i("update_statut", "" + e.getMessage());

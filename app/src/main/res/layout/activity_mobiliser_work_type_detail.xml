@@ -148,10 +148,11 @@
                 <EditText
                     android:id="@+id/task_link"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:enabled="false"
                     android:clickable="false"
+                    android:minHeight="50dp"
                     android:focusable="false"
                     android:layout_marginRight="10dp"
                     android:hint="Comments" />

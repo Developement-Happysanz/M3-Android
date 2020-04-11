@@ -537,6 +537,7 @@ public class ViewTaskPhotosActivity extends AppCompatActivity implements View.On
         }
         Intent intent = new Intent(getApplicationContext(), ZoomImageActivity.class);
         intent.putExtra("eventObj", taskData);
+        intent.putExtra("page", "task");
         startActivity(intent);
     }
 

@@ -134,6 +134,7 @@ public class MobiliserWorkTypeActivity extends AppCompatActivity implements ISer
                         String strName = yearList.get(which).toString();
                         yearSelect.setText(strName);
                         storeClassId = strName;
+                        PreferenceStorage.saveYearId(getApplicationContext(), storeClassId);
                         loadMonth();
                     }
                 });

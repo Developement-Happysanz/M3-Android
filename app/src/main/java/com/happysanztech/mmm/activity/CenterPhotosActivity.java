@@ -180,6 +180,7 @@ public class CenterPhotosActivity extends AppCompatActivity implements View.OnCl
         }
         Intent intent = new Intent(getApplicationContext(), ZoomImageActivity.class);
         intent.putExtra("eventObj", taskData);
+        intent.putExtra("page", "center");
         startActivity(intent);
     }
 }
