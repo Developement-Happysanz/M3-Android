@@ -100,6 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:paddingLeft="10dp"
+                android:visibility="gone"
                 android:paddingRight="10dp">
 
                 <EditText
@@ -163,6 +164,7 @@
                 android:id="@+id/ti_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_below="@+id/ti_qualification"
                 android:layout_marginTop="10dp">
 
@@ -175,6 +177,25 @@
                     android:clickable="false"
                     android:focusable="false"
                     android:hint="Status"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_km"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ti_qualification"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/km"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="Distance Travelled"
                     android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>

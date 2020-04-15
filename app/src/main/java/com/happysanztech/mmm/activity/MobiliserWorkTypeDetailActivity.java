@@ -51,7 +51,7 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
 //    ViewPager viewPager;
     private String storeClassId = "";
 
-    EditText txtTitle, txtDetails, txtDate, txtStatus, txtType;
+    EditText txtTitle, txtDetails, txtDate, txtStatus, txtType, txtDist;
     Button viewPhotos;
     ImageView EditTask;
 
@@ -75,6 +75,7 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
         txtDate = findViewById(R.id.task_date);
         txtStatus = findViewById(R.id.status);
         txtType = findViewById(R.id.task_type);
+        txtDist = findViewById(R.id.km);
 
         txtTitle.setClickable(false);
         txtTitle.setFocusable(false);
@@ -90,6 +91,9 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
 
         txtType.setClickable(false);
         txtType.setFocusable(false);
+
+        txtDist.setClickable(false);
+        txtDist.setFocusable(false);
 
         viewPhotos = findViewById(R.id.btn_view_photos);
         viewPhotos.setOnClickListener(this);
@@ -201,13 +205,16 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
         if (validateSignInResponse(response)) {
             try {
                 JSONObject getData = response.getJSONObject("attedance_details");
+                JSONObject getkmData = response.getJSONObject("km_data_details");
                 JSONObject getDataResult = getData.getJSONObject("result");
                 txtTitle.setText(getDataResult.getString("title"));
                 txtDate.setText(getDataResult.getString("attendance_date"));
                 txtStatus.setText(getDataResult.getString("status"));
                 txtDetails.setText(getDataResult.getString("comments"));
                 txtType.setText(getDataResult.getString("work_type"));
-
+                if (getkmData.getString("status").equalsIgnoreCase("success")) {
+                    txtDist.setText(getkmData.getJSONObject("km_data").getString("km"));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
