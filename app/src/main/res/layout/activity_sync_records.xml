@@ -103,7 +103,7 @@
                 android:layout_centerInParent="true"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="Sync stored location records"
+                android:text="Sync my location records"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -243,7 +243,7 @@
                 android:layout_centerInParent="true"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="Sync stored prospect records"
+                android:text="Sync candidate profile details"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />

@@ -109,7 +109,7 @@
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:fontFamily="@font/open_sans_bold"
-                            android:text="Prospects"
+                            android:text="Candidates"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -169,7 +169,7 @@
                                 android:gravity="center"
                                 android:textColor="@color/black"
                                 android:fontFamily="@font/open_sans_bold"
-                                android:text="Center Informations"
+                                android:text="Training Center"
                                 android:textSize="18sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -203,7 +203,7 @@
                                 android:gravity="center"
                                 android:textColor="@color/black"
                                 android:fontFamily="@font/open_sans_bold"
-                                android:text="Trades"
+                                android:text="Courses"
                                 android:textSize="18sp" />
                         </LinearLayout>
 

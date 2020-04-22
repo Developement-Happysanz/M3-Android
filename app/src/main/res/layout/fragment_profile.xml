@@ -157,7 +157,7 @@
                     android:layout_marginRight="30dp"
                     android:clickable="false"
                     android:focusable="false"
-                    android:hint="Phone"
+                    android:hint="Username"
                     android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>

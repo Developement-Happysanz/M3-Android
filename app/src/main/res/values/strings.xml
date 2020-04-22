@@ -4,8 +4,8 @@
     <string name="empty" />
 
     <!--Sign In -->
-    <string name="err_username">Enter valid username</string>
-    <string name="err_empty_password">Enter valid password</string>
+    <string name="err_username">Enter your username</string>
+    <string name="err_empty_password">Enter your password</string>
     <string name="err_min_pass_length">Short passwords are easy to guess! Try one with at least 6 characters&#8230;</string>
 
     <!--General-->
@@ -66,7 +66,7 @@ M3 comes as web and mobile application which operates independently but in a syn
 
 M3 is optimized in a way that this application can be deployed for any kind of initiatives that involves field work.
 </string>
-    <string name="about">About</string>
+    <string name="about">About M3</string>
 
     <!--Youtube-->
     <!---->
@@ -83,8 +83,8 @@ M3 is optimized in a way that this application can be deployed for any kind of i
     <string name="permission_denied_explanation">Permission was denied, but is needed for core functionality.</string>
     <string name="settings">Settings</string>
     <string name="ok">OK</string>
-    <string name="request_location_updates">Start Tracking</string>
-    <string name="remove_location_updates">Stop Tracking</string>
+    <string name="request_location_updates">Turn locator ON</string>
+    <string name="remove_location_updates">Turn locator OFF</string>
 
     <string name="location_updated">Location Updated: %1$s</string>
 </resources>

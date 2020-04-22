@@ -149,7 +149,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         progressDialogHelper.hideProgressDialog();
 
         if (validateSignInResponse(response)) {
-            Toast.makeText(ForgotPasswordActivity.this, "Password reset successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "We've sent our reset password to your email ID. Please check it.", Toast.LENGTH_SHORT).show();
             try {
                 JSONObject userData = response.getJSONObject("userData");
 
