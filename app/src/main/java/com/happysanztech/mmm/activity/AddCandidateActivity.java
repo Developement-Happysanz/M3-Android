@@ -656,7 +656,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         mProgressDialog.show();
                         saveUserImage();
                     } else {
-                        Toast.makeText(getApplicationContext(), "Student profile update successfully...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Changes made to candidate profile are saved.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), DocumentUploadActivity.class);
                         startActivity(intent);
                         finish();
