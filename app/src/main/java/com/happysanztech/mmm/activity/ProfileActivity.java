@@ -546,7 +546,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     userIdSend = dataa.getString("id");
                     saveUserData(dataa);
                 } else {
-                    Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Changes to your profile are saved.", Toast.LENGTH_SHORT).show();
 //                    Fragment fragment = new DashboardActivity();
 //                    FragmentManager fragmentManager = this.getSupportFragmentManager();
 //                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

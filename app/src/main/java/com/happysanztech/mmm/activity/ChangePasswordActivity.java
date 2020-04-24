@@ -105,7 +105,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
             AlertDialogHelper.showSimpleAlertDialog(this, "Please confirm the new password by re-tying it.");
             return false;
         } else if (!this.etNewPassword.getText().toString().trim().equalsIgnoreCase(this.etNewPassword.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Thsi doesn't match with your new password.");
+            AlertDialogHelper.showSimpleAlertDialog(this, "This doesn't match with your new password!");
             return false;
         } else {
             return true;
@@ -153,7 +153,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
         progressDialogHelper.hideProgressDialog();
 
         if (validateSignInResponse(response)) {
-            Toast.makeText(this, "Password changed successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Your password has been reset.", Toast.LENGTH_SHORT).show();
 //            Intent navigationIntent = new Intent(this, DashboardActivity.class);
 //            navigationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            startActivity(navigationIntent);

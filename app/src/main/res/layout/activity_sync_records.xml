@@ -34,7 +34,7 @@
             android:gravity="center_vertical|left"
             android:minHeight="60dp"
             android:padding="5dp"
-            android:text="Sync"
+            android:text="Sync Data"
             android:fontFamily="@font/open_sans_semi_bold"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -86,7 +86,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center"
-                        android:text="Sync  "
+                        android:text="Sync your location records"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 
@@ -103,7 +103,7 @@
                 android:layout_centerInParent="true"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="Sync my location records"
+                android:text="Location records"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -226,7 +226,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center"
-                        android:text="Sync  "
+                        android:text="Sync candidate profile details"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 
@@ -243,7 +243,7 @@
                 android:layout_centerInParent="true"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="Sync candidate profile details"
+                android:text="Candidate profile records"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />

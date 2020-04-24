@@ -1375,100 +1375,103 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
     private boolean validateFields() {
 
         if (!AppValidator.checkNullString(this.etCandidateName.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid name");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's name");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateSex.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Select valid gender");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select candidate's gender");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateDOB.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid DOB");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's date of birth");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateNationality.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid nationality");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's nationality");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateReligion.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid religion");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's religion");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateCommunityClass.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid community class");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's community class");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateCommunity.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid community");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's community");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateBloodGroup.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Select valid blood group");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select candidate's blood group");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateFatherName.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid father name");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's father's name");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateMotherName.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid mother name");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's mother's name");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateMobileNo.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid mobile number");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's mobile number");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateState.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid state");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's state");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateCity.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid city");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's city");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateAddressLine1.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid address");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's address");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidateMotherTongue.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid mother tongue");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's mother tongue");
             return false;
         } else if (!AppValidator.checkNullString(this.etCandidatesPreferredTrade.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid trade");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's course");
             return false;
         } /*else if (!AppValidator.checkNullString(this.etCandidatesPreferredTiming.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid trade timings");
             return false;
         }*/ else if (!AppValidator.checkNullString(this.etCandidatesAadhaarNo.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid aadhaar card number");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's aadhaar card number");
             return false;
-        } else if (!AppValidator.checkNullString(this.etCandidatesQualification.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Select valid qualification");
+        }else if (!AppValidator.checkNullString(this.etCandidatesQualification.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select candidate's qualification");
             return false;
         }else if (!AppValidator.checkNullString(this.qualificationDetails.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid qualification detail");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's qualification detail");
             return false;
         }else if (!AppValidator.checkNullString(this.yearOfEdu.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Select valid year");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select candidate's year of admission");
             return false;
         }else if (!AppValidator.checkNullString(this.yearOfPass.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Select valid year");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select candidate's year of graduation");
             return false;
         }else if (!AppValidator.checkNullString(this.iMarkOne.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid identification mark");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's identification mark");
             return false;
         }else if (!AppValidator.checkNullString(this.iMarkTwo.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid identification mark");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's identification mark");
             return false;
         }else if (!AppValidator.checkNullString(this.langKnown.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid language");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's known languages");
             return false;
         }else if (!AppValidator.checkNullString(this.motherMob.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid mobile number");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter mother's mobile number");
             return false;
         }else if (!AppValidator.checkNullString(this.fatherMob.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid mobile number");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter father's mobile number");
             return false;
         }else if (!AppValidator.checkNullString(this.headFamilyName.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid name");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter family head name");
             return false;
         }else if (!AppValidator.checkNullString(this.eduHeadOfFamily.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid education");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter family head education");
             return false;
         }else if (!AppValidator.checkNullString(this.familyMembers.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid count");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter number of family member");
             return false;
         }else if (!AppValidator.checkNullString(this.yearlyIncome.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid salary");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter annual salary");
             return false;
         } else if (!imgurl) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Add student image");
+            return false;
+        } else if (Integer.parseInt(yearOfEdu.getText().toString().trim()) > Integer.parseInt(yearOfPass.getText().toString().trim()) ) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select Proper Year Of Education and Year of Passing");
             return false;
         } else {
             return true;
