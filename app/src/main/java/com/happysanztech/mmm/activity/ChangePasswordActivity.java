@@ -104,7 +104,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
         } else if (!AppValidator.checkNullString(this.etConfirmPassword.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Please confirm the new password by re-tying it.");
             return false;
-        } else if (!this.etNewPassword.getText().toString().trim().equalsIgnoreCase(this.etNewPassword.getText().toString().trim())) {
+        } else if (!this.etNewPassword.getText().toString().trim().equalsIgnoreCase(this.etConfirmPassword.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "This doesn't match with your new password!");
             return false;
         } else {

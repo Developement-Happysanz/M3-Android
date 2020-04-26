@@ -19,7 +19,7 @@ public class AppValidator {
         return value.trim().length() >= minValue;
     }
 
-    public static String checkEditTextValid100AndA(String value,int totalMark) {
+    public static String checkEditTextValid100AndA(String value, int totalMark) {
         boolean check = value.matches("\\d+");
         String EditTextValid;
         if (check) {
@@ -80,5 +80,13 @@ public class AppValidator {
             }
         }
         return EditTextValid;
+    }
+
+    public static boolean checkAadhaarNumLength(String mobile) {
+        if (mobile.length() == 12) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

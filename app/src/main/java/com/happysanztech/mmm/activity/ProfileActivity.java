@@ -451,7 +451,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             if ((result == null) || (result.isEmpty()) || (result.contains("Error"))) {
                 Toast.makeText(getApplicationContext(), "Unable to save profile picture", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(), "User profile image successfully...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Changes to your profile are saved.", Toast.LENGTH_LONG).show();
 //                if (mUpdatedImageUrl != null) {
 //                    PreferenceStorage.saveUserPicture(getApplicationContext(), mUpdatedImageUrl);
 //                }
@@ -546,7 +546,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     userIdSend = dataa.getString("id");
                     saveUserData(dataa);
                 } else {
-                    Toast.makeText(this, "Changes to your profile are saved.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Changes to your profile are saved.", Toast.LENGTH_LONG).show();
 //                    Fragment fragment = new DashboardActivity();
 //                    FragmentManager fragmentManager = this.getSupportFragmentManager();
 //                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
