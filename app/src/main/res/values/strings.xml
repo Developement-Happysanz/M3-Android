@@ -6,7 +6,7 @@
     <!--Sign In -->
     <string name="err_username">Enter your username</string>
     <string name="err_empty_password">Enter your password</string>
-    <string name="err_min_pass_length">Invalid username/passsword. Kindly ensure they are correct.</string>
+    <string name="err_min_pass_length">Invalid username/password. Kindly ensure they are correct.</string>
 
     <!--General-->
     <string name="progress_loading">Loading&#8230;</string>
