@@ -656,7 +656,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         mProgressDialog.show();
                         saveUserImage();
                     } else {
-                        Toast.makeText(getApplicationContext(), "Student profile update successfully...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Changes made to candidate profile are saved.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), DocumentUploadActivity.class);
                         startActivity(intent);
                         finish();
@@ -1428,17 +1428,29 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         }*/ else if (!AppValidator.checkNullString(this.etCandidatesAadhaarNo.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's aadhaar card number");
             return false;
+        }else if (!AppValidator.checkAadhaarNumLength(this.etCandidatesAadhaarNo.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Aadhar number not valid!");
+            return false;
         }else if (!AppValidator.checkNullString(this.etCandidatesQualification.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Select candidate's qualification");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select the educational level");
             return false;
         }else if (!AppValidator.checkNullString(this.qualificationDetails.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's qualification detail");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's qualification");
+            return false;
+        }else if (!AppValidator.checkNullString(this.etCandidatesQualifiedPromotion.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Choose the education status");
+            return false;
+        }else if (!AppValidator.checkNullString(this.etCandidatesLastInstitute.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter school/college studied");
             return false;
         }else if (!AppValidator.checkNullString(this.yearOfEdu.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Select candidate's year of admission");
+            AlertDialogHelper.showSimpleAlertDialog(this, " Choose the duration of study");
             return false;
         }else if (!AppValidator.checkNullString(this.yearOfPass.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Select candidate's year of graduation");
+            AlertDialogHelper.showSimpleAlertDialog(this, " Choose the duration of study");
+            return false;
+        }else if (Integer.parseInt(yearOfEdu.getText().toString().trim()) > Integer.parseInt(yearOfPass.getText().toString().trim()) ) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select Proper Year Of Education and Year of Passing");
             return false;
         }else if (!AppValidator.checkNullString(this.iMarkOne.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's identification mark");
@@ -1469,9 +1481,6 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             return false;
         } else if (!imgurl) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Add student image");
-            return false;
-        } else if (Integer.parseInt(yearOfEdu.getText().toString().trim()) > Integer.parseInt(yearOfPass.getText().toString().trim()) ) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Select Proper Year Of Education and Year of Passing");
             return false;
         } else {
             return true;
