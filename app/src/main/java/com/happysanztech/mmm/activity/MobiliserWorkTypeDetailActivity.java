@@ -110,10 +110,14 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
             callGetClassTestService();
         }
 
-        if (pia.getwork_type_id().equalsIgnoreCase("1")) {
+        if (pia.getwork_type_id().equalsIgnoreCase("3")||pia.getwork_type_id().equalsIgnoreCase("4")) {
             viewPhotos.setVisibility(View.GONE);
+            findViewById(R.id.ti_task_title).setVisibility(View.GONE);
+            findViewById(R.id.ti_km).setVisibility(View.GONE);
         }
-
+        if (pia.getwork_type_id().equalsIgnoreCase("1")) {
+            findViewById(R.id.ti_km).setVisibility(View.GONE);
+        }
 
     }
 
