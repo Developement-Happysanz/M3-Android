@@ -11,8 +11,8 @@ public class MobilizerConstants {
 //    private static final String BASE_URL = "https://iyerandrao.com/";
 //    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
 //    private static final String BASE_URL = "https://happysanz.net/M3TNSRLM/";
-    private static final String BASE_URL = "https://happysanz.in/m3tnsrlm/";
-//    private static final String BASE_URL = "https://www.mym3app.com/m3admin/";
+//    private static final String BASE_URL = "https://happysanz.in/m3tnsrlm/";
+    private static final String BASE_URL = "https://www.mym3app.com/m3admin/";
 
     // BUILD URL
 //    public static final String BUILD_URL = BASE_URL + "uitensyfi/";
@@ -48,6 +48,7 @@ public class MobilizerConstants {
     public static final String KEY_USER_IMAGE = "user_pic";
     public static final String KEY_USER_TYPE = "user_type";
     public static final String KEY_USER_TYPE_NAME = "user_type_name";
+
     // Staff profile
     public static final String KEY_STAFF_ID = "staff_id";
     public static final String KEY_PIA_ID = "pia_id";
