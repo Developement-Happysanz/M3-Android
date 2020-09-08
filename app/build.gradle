@@ -18,9 +18,9 @@ android {
     defaultConfig {
         applicationId "com.happysanztech.mmm"
         minSdkVersion 21
-        versionCode 22
+        versionCode 23
         targetSdkVersion 29
-        versionName "1.0.1815"
+        versionName "1.0.1816"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -147,7 +147,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.1.0'
     implementation 'com.github.yalantis:ucrop:2.2.2'
     implementation 'com.itextpdf:itextg:5.5.10'
-    implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    implementation 'androidx.preference:preference:1.1.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

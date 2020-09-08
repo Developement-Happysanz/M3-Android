@@ -19,7 +19,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String TAG = "SQLiteHelper.java";
 
     private static final String DATABASE_NAME = "MMM.db";
-    private static final int DATABASE_VERSION = 16;
+    private static final int DATABASE_VERSION = 17;
 
     private static final String table_create_current_best_location = "Create table IF NOT EXISTS currentBestLocation(_id integer primary key autoincrement,"
             + "latitude text,"
@@ -36,17 +36,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + "status text);";
 
     private static final String table_create_store_location_data = "Create table IF NOT EXISTS storeLocationData(_id integer primary key autoincrement,"
-            + "user_id text,"
-            + "lat text,"
-            + "lon text,"
-            + "location text,"
-            + "dateandtime text,"
-            + "distance text,"
-            + "pia_id text,"
-            + "gps_status text,"
-            + "track_status text,"
-            + "server_id text,"
-            + "sync_status text);";
+            + "user_id text," /*1*/
+            + "lat text," /*2*/
+            + "lon text," /*3*/
+            + "location text," /*4*/
+            + "dateandtime text," /*5*/
+            + "distance text," /*6*/
+            + "pia_id text," /*7*/
+            + "gps_status text," /*8*/
+            + "track_status text," /*9*/
+            + "server_id text," /*10*/
+            + "sync_status text);"; /*11*/
 
     private static final String table_create_prospect_data = "Create table IF NOT EXISTS storeProspectData(_id integer primary key autoincrement,"
             + "aadhar_status text,"
