@@ -183,6 +183,17 @@
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
+            android:name=".activity.YoutubeActivity"
+            android:label="Youtube Player">
+
+        </activity>
+        <activity
+            android:name=".activity.StandaloneActivity"
+            android:label="Standalone Activity">
+
+        </activity>
+
+        <activity
             android:name=".activity.CenterVideos"
             android:label="@string/app_name"
             android:screenOrientation="unspecified"

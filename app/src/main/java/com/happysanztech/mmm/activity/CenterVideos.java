@@ -46,7 +46,7 @@ public class CenterVideos extends AppCompatActivity implements YouTubeThumbnailV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.center_videos);
         thumbnailViews = new ArrayList<>();
-        VideoList = (RecyclerView) findViewById(R.id.VideoList);
+//        VideoList = (RecyclerView) findViewById(R.id.VideoList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         VideoList.setLayoutManager(layoutManager);
         adapter = new VideoListAdapter();
@@ -54,7 +54,7 @@ public class CenterVideos extends AppCompatActivity implements YouTubeThumbnailV
         VideoId = new ArrayList<>();
         thumbnailView = new YouTubeThumbnailView(this);
         thumbnailView.initialize("AIzaSyCXfjl783QE_I5uqzot4fJXHc3dUO_Z2mc", this);
-        playerFragment = (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.VideoFragment);
+//        playerFragment = (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.VideoFragment);
         playerFragment.initialize("AIzaSyCXfjl783QE_I5uqzot4fJXHc3dUO_Z2mc", this);
         findViewById(R.id.back_tic_his).setOnClickListener(new View.OnClickListener() {
             @Override
