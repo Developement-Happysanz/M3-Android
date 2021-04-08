@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by Admin on 01-01-2018.
@@ -64,3 +66,4 @@ public class SplashScreenActivity extends AppCompatActivity {
         }, SPLASH_TIME_OUT);
     }
 }
+
