@@ -12,15 +12,15 @@ android {
         }
     }
 
-    compileSdkVersion 29
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 30
+    buildToolsVersion '29.0.2'
 
     defaultConfig {
         applicationId "com.happysanztech.mmm"
         minSdkVersion 21
-        versionCode 23
-        targetSdkVersion 29
-        versionName "1.0.1816"
+        versionCode 24
+        targetSdkVersion 30
+        versionName "1.0.1817"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
