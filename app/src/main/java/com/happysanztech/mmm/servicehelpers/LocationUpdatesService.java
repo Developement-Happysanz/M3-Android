@@ -264,7 +264,7 @@ public class LocationUpdatesService extends Service {
      */
     public void removeLocationUpdates() {
         Log.i(TAG, "Removing location updates");
-        callService(globeDistance,globeCurrentBestlocation);
+        callService(globeDistance, globeCurrentBestlocation);
         try {
             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
             Utils.setRequestingLocationUpdates(this, false);
@@ -564,21 +564,23 @@ public class LocationUpdatesService extends Service {
     }
 
     private void callService(double distance, Location location) {
-        double currentLatitude = location.getLatitude();
-        String lat = Double.toString(currentLatitude);
-        double currentLongitude = location.getLongitude();
-        String lon = Double.toString(currentLongitude);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentDateandTime = sdf.format(new Date());
-        String locationAddress = getCompleteAddressString(currentLatitude, currentLongitude);
-        String dist = Double.toString(distance);
-        String TrackingStatus = PreferenceStorage.getTrackStatus(getApplicationContext());
+        if (location != null) {
+            double currentLatitude = location.getLatitude();
+            String lat = Double.toString(currentLatitude);
+            double currentLongitude = location.getLongitude();
+            String lon = Double.toString(currentLongitude);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentDateandTime = sdf.format(new Date());
+            String locationAddress = getCompleteAddressString(currentLatitude, currentLongitude);
+            String dist = Double.toString(distance);
+            String TrackingStatus = PreferenceStorage.getTrackStatus(getApplicationContext());
 
-        long x = database.store_location_data_insert(PreferenceStorage.getUserId(getApplicationContext()), lat, lon, locationAddress,
-                currentDateandTime, dist, PreferenceStorage.getPIAId(getApplicationContext()), gpsStatus, TrackingStatus);
+            long x = database.store_location_data_insert(PreferenceStorage.getUserId(getApplicationContext()), lat, lon, locationAddress,
+                    currentDateandTime, dist, PreferenceStorage.getPIAId(getApplicationContext()), gpsStatus, TrackingStatus);
 
-        System.out.println("Stored Id : " + x);
-        PreferenceStorage.saveTrackStatus(getApplicationContext(), "");
+            System.out.println("Stored Id : " + x);
+            PreferenceStorage.saveTrackStatus(getApplicationContext(), "");
+        }
     }
 
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
